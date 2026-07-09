@@ -1,0 +1,29 @@
+import mysql from 'mysql2/promise';
+import 'dotenv/config';
+
+// Railway (y otros PaaS) exponen la base MySQL como una URL de conexion.
+// En local seguimos usando las variables DB_* de siempre.
+const connectionUri = process.env.MYSQL_URL || process.env.DATABASE_URL;
+
+export const pool = connectionUri
+  ? mysql.createPool({
+      uri: connectionUri,
+      waitForConnections: true,
+      connectionLimit: 10,
+      namedPlaceholders: true,
+    })
+  : mysql.createPool({
+      host: process.env.DB_HOST || process.env.MYSQLHOST || '127.0.0.1',
+      port: Number(process.env.DB_PORT || process.env.MYSQLPORT || 3306),
+      user: process.env.DB_USER || process.env.MYSQLUSER || 'root',
+      password: process.env.DB_PASSWORD || process.env.MYSQLPASSWORD || '',
+      database: process.env.DB_NAME || process.env.MYSQLDATABASE || 'pineda_dash',
+      waitForConnections: true,
+      connectionLimit: 10,
+      namedPlaceholders: true,
+    });
+
+export async function query(sql, params = {}) {
+  const [rows] = await pool.execute(sql, params);
+  return rows;
+}
