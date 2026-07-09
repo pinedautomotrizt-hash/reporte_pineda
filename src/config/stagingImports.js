@@ -75,6 +75,9 @@ export const stagingImports = {
     label: "Órdenes de Trabajo",
     table: "orden_trabajo",
     skipLines: 5,
+    // Si vuelves a subir un CSV que se solapa con uno ya cargado (mismo
+    // nro_orden + actividad), actualiza esa fila en vez de duplicarla.
+    upsert: true,
     columns: [
       "local_nombre",
       "nro_orden",
@@ -134,6 +137,11 @@ export const stagingImports = {
     label: "Registro de Venta por Local",
     table: "registro_venta",
     skipLines: 5,
+    // Igual que ordenes_trabajo: al resubir un CSV del mismo periodo (tu
+    // costumbre de cargar desde enero hasta hoy cada vez), actualiza los
+    // documentos que ya existen (mismo nro_documento + local) en vez de
+    // duplicarlos.
+    upsert: true,
     columns: [
       "fec_documento",
       "tipo_documento",

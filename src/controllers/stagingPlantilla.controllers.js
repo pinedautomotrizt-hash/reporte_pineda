@@ -20,7 +20,10 @@ const createPlantillaStaging = async (req, res, next) => {
         .json({ message: "Tipo de importacion no valido." });
     }
 
-    const text = await readFile(file.path, "utf8");
+    // Los reportes que exporta el sistema de origen vienen en Windows-1252/
+    // ISO-8859-1 (asi los guarda Excel en español), no en UTF-8. Leerlos como
+    // UTF-8 corrompe las tildes y la Ñ.
+    const text = await readFile(file.path, "latin1");
     const rows = parseSemicolonCsv(text, config.skipLines)
       .map((cols) => config.columns.map((_, index) => cols[index] ?? null))
       .filter((cols) =>
@@ -36,7 +39,9 @@ const createPlantillaStaging = async (req, res, next) => {
     const connection = await pool.getConnection();
     try {
       await connection.beginTransaction();
-      await bulkInsert(config.table, config.columns, rows, connection);
+      await bulkInsert(config.table, config.columns, rows, connection, {
+        upsert: Boolean(config.upsert),
+      });
       await connection.commit();
     } catch (error) {
       await connection.rollback();
