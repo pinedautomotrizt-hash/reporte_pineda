@@ -23,6 +23,17 @@ export const pool = connectionUri
       namedPlaceholders: true,
     });
 
+// Algunos proveedores (Railway) activan ONLY_FULL_GROUP_BY por defecto en MySQL 8.
+// Las consultas del dashboard agrupan por expresiones de fecha (STR_TO_DATE(...))
+// en vez de columnas simples, algo que ese modo estricto rechaza aunque el
+// resultado sea correcto. Se desactiva por conexion para igualar el comportamiento
+// del MySQL local en el que se probaron estas consultas.
+pool.on('connection', (connection) => {
+  connection.query(
+    "SET SESSION sql_mode = (SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''))",
+  );
+});
+
 export async function query(sql, params = {}) {
   const [rows] = await pool.execute(sql, params);
   return rows;
