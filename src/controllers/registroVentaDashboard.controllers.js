@@ -30,8 +30,23 @@ const validDocument =
 // avance diario de los asesores ni del total principal de facturación.
 const advisorSalesOnly =
   "COALESCE(UPPER(TRIM(clase_venta)), '') <> 'MOSTRADOR'";
+const counterSalesOnly =
+  "COALESCE(UPPER(TRIM(clase_venta)), '') = 'MOSTRADOR'";
 
-const dedupedDocuments = (period) => `
+/*
+ * REGLAS DEL REPORTE DE FACTURACIÓN (conciliadas con el avance contable):
+ * 1. Cada comprobante se cuenta una sola vez, aunque el archivo sea reimportado.
+ * 2. El avance sin IGV usa gravado + exonerado + inafecto.
+ * 3. Las notas de crédito siempre restan una sola vez.
+ * 4. Los comprobantes anulados no suman; al reimportar el acumulado actualizado,
+ *    también se corrige su fecha original aunque la anulación sea posterior.
+ * 5. Clase Venta = MOSTRADOR se excluye del avance y total principal porque es
+ *    venta directa de repuestos, no producción de los asesores de servicio.
+ *
+ * Esta consulta base alimenta todos los bloques del dashboard, por lo que las
+ * reglas se aplican igual al resumen, días, locales, asesores y comparativos.
+ */
+const dedupedDocuments = (period, salesScope = advisorSalesOnly) => `
   SELECT
     nro_documento,
     local_nombre,
@@ -47,7 +62,7 @@ const dedupedDocuments = (period) => `
     MAX(${accountingAmount(amount("moneda_usd"))}) AS moneda_usd
   FROM registro_venta
   WHERE ${period}
-    AND ${advisorSalesOnly}
+    AND ${salesScope}
   GROUP BY
     nro_documento,
     local_nombre,
@@ -75,7 +90,7 @@ const getRegistroVentaDashboard = async (req, res, next) => {
       ${whereLocal}
     `;
 
-    const [porMoneda, porDia, porLocal, porDocumento, porPago, porAsesor, porMonedaAnterior] =
+    const [porMoneda, porDia, porLocal, porDocumento, porPago, porAsesor, porMonedaAnterior, mostrador] =
       await Promise.all([
         query(
           `
@@ -183,6 +198,22 @@ const getRegistroVentaDashboard = async (req, res, next) => {
           `,
           params,
         ),
+        query(
+          `
+            /*
+             * MOSTRADOR se consulta por separado: no participa en el avance,
+             * meta ni ranking de asesores, pero se devuelve para mostrarlo en
+             * una card informativa. sin_igv ya está expresado en soles incluso
+             * cuando la moneda original del comprobante fue dólares.
+             */
+            SELECT
+              COALESCE(SUM(sin_igv), 0) AS sin_igv,
+              COALESCE(SUM(con_igv), 0) AS con_igv,
+              COUNT(DISTINCT nro_documento) AS comprobantes
+            FROM (${dedupedDocuments(period, counterSalesOnly)}) documentos
+          `,
+          params,
+        ),
       ]);
 
     const buildComparativo = (moneda) => {
@@ -204,9 +235,37 @@ const getRegistroVentaDashboard = async (req, res, next) => {
     };
     const comparativoMesAnterior = [buildComparativo("SOLES"), buildComparativo("DOLARES")];
 
-    const soles = porMoneda.find((row) => row.moneda === "SOLES") || {};
-    const facturadoSoles = Number(soles.sin_igv || 0);
-    const fechaCorte = soles.fecha_corte || start;
+    // Las columnas de importes del Registro de Venta ya vienen expresadas en
+    // soles. Por ello el total principal suma también los documentos cuya
+    // moneda original fue dólares, sin sumar directamente el campo Moneda US$.
+    const facturadoSoles = porMoneda.reduce(
+      (sum, row) => sum + Number(row.sin_igv || 0),
+      0,
+    );
+    const facturadoSolesConIgv = porMoneda.reduce(
+      (sum, row) => sum + Number(row.con_igv || 0),
+      0,
+    );
+    const impuestoSoles = porMoneda.reduce(
+      (sum, row) => sum + Number(row.impuesto || 0),
+      0,
+    );
+    const comprobantesSoles = porMoneda.reduce(
+      (sum, row) => sum + Number(row.comprobantes || 0),
+      0,
+    );
+    const clientesSoles = porMoneda.reduce(
+      (sum, row) => sum + Number(row.clientes || 0),
+      0,
+    );
+    const fechaCorte = porMoneda.reduce(
+      (latest, row) => (
+        row.fecha_corte && new Date(row.fecha_corte).getTime() > new Date(latest).getTime()
+          ? row.fecha_corte
+          : latest
+      ),
+      start,
+    );
     const day = Math.max(1, new Date(fechaCorte).getUTCDate());
     const daysInMonth = new Date(
       Number(month.slice(0, 4)),
@@ -221,16 +280,16 @@ const getRegistroVentaDashboard = async (req, res, next) => {
         local: local || "Todos",
         meta,
         facturadoSoles,
-        facturadoSolesConIgv: Number(soles.con_igv || 0),
-        impuestoSoles: Number(soles.impuesto || 0),
-        comprobantesSoles: Number(soles.comprobantes || 0),
-        clientesSoles: Number(soles.clientes || 0),
+        facturadoSolesConIgv,
+        impuestoSoles,
+        comprobantesSoles,
+        clientesSoles,
         avanceMeta: meta > 0 ? (facturadoSoles / meta) * 100 : 0,
         proyeccionSoles,
         brecha: facturadoSoles - meta,
         faltante: Math.max(meta - facturadoSoles, 0),
-        ticket: Number(soles.comprobantes || 0)
-          ? facturadoSoles / Number(soles.comprobantes)
+        ticket: comprobantesSoles
+          ? facturadoSoles / comprobantesSoles
           : 0,
         fechaCorte,
         diasTranscurridos: day,
@@ -242,6 +301,7 @@ const getRegistroVentaDashboard = async (req, res, next) => {
       porDocumento,
       porPago,
       porAsesor,
+      mostrador: mostrador[0] || { sin_igv: 0, con_igv: 0, comprobantes: 0 },
       comparativoMesAnterior,
     });
   } catch (error) {
@@ -260,8 +320,8 @@ const getRegistroVentaAsesores = async (req, res, next) => {
       AND ${validDocument}
       ${whereLocal}
     `;
-    const rows = await query(
-      `
+    const [rows, mostrador] = await Promise.all([
+      query(`
         SELECT
           DATE_FORMAT(fecha_documento, '%Y-%m-%d') AS fecha,
           asesor,
@@ -275,9 +335,31 @@ const getRegistroVentaAsesores = async (req, res, next) => {
         ORDER BY fecha_documento, asesor, moneda
       `,
       params,
-    );
+      ),
+      query(
+        `
+          /* Venta directa de repuestos: visible como dato informativo, pero
+             excluida de las columnas y del total principal de asesores. */
+          SELECT
+            DATE_FORMAT(fecha_documento, '%Y-%m-%d') AS fecha,
+            SUM(sin_igv) AS sin_igv,
+            COUNT(DISTINCT nro_documento) AS comprobantes
+          FROM (${dedupedDocuments(period, counterSalesOnly)}) documentos
+          GROUP BY fecha_documento
+          ORDER BY fecha_documento
+        `,
+        params,
+      ),
+    ]);
 
-    res.json({ rows });
+    res.json({
+      rows,
+      mostrador: {
+        rows: mostrador,
+        sin_igv: mostrador.reduce((sum, row) => sum + Number(row.sin_igv || 0), 0),
+        comprobantes: mostrador.reduce((sum, row) => sum + Number(row.comprobantes || 0), 0),
+      },
+    });
   } catch (error) {
     next(error);
   }
