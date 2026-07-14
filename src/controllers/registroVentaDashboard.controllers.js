@@ -5,10 +5,31 @@ const saleDate =
   "STR_TO_DATE(NULLIF(TRIM(fec_documento), ''), '%Y-%m-%d')";
 const amount = (column) =>
   `COALESCE(CAST(NULLIF(REPLACE(TRIM(${column}), ',', ''), '') AS DECIMAL(14,2)), 0)`;
-const sign =
-  "CASE WHEN UPPER(TRIM(tipo_documento)) IN ('NC', 'NOTA DE CREDITO', 'NOTA DE CRÉDITO') THEN -1 ELSE 1 END";
+const isCreditNote =
+  "UPPER(TRIM(tipo_documento)) IN ('NC', 'NOTA DE CREDITO', 'NOTA DE CRÉDITO')";
+
+// El avance contable se muestra sin IGV. Se suman los tres componentes de la
+// base imponible porque una venta también puede ser exonerada o inafecta.
+const netSaleAmount = `
+  ${amount("valor_gravado")}
+  + ${amount("valor_exonerado")}
+  + ${amount("valor_inafecto")}
+`;
+
+// Algunas exportaciones ya traen las notas de crédito con signo negativo y
+// otras pueden traerlas positivas. -ABS(...) garantiza que siempre descuenten
+// exactamente una vez; los demás comprobantes conservan el valor exportado.
+const accountingAmount = (expression) =>
+  `CASE WHEN ${isCreditNote} THEN -ABS(${expression}) ELSE ${expression} END`;
+// El archivo acumulado refleja el estado vigente del comprobante. Al excluir
+// ANULADO, una anulación hecha días después también deja de sumar en la fecha
+// original del documento cuando se vuelve a importar el reporte actualizado.
 const validDocument =
   "COALESCE(UPPER(TRIM(estado)), '') <> 'ANULADO' AND UPPER(TRIM(estado_sunat)) = 'APROBADO'";
+// MOSTRADOR corresponde a venta directa de repuestos. No forma parte del
+// avance diario de los asesores ni del total principal de facturación.
+const advisorSalesOnly =
+  "COALESCE(UPPER(TRIM(clase_venta)), '') <> 'MOSTRADOR'";
 
 const dedupedDocuments = (period) => `
   SELECT
@@ -20,12 +41,13 @@ const dedupedDocuments = (period) => `
     COALESCE(NULLIF(UPPER(TRIM(moneda)), ''), 'SIN MONEDA') AS moneda,
     MAX(NULLIF(TRIM(cliente_documento), '')) AS cliente_documento,
     MAX(${saleDate}) AS fecha_documento,
-    MAX(${sign} * ${amount("valor_gravado")}) AS sin_igv,
-    MAX(${sign} * ${amount("impuesto")}) AS impuesto,
-    MAX(${sign} * ${amount("precio_venta")}) AS con_igv,
-    MAX(${sign} * ${amount("moneda_usd")}) AS moneda_usd
+    MAX(${accountingAmount(netSaleAmount)}) AS sin_igv,
+    MAX(${accountingAmount(amount("impuesto"))}) AS impuesto,
+    MAX(${accountingAmount(amount("precio_venta"))}) AS con_igv,
+    MAX(${accountingAmount(amount("moneda_usd"))}) AS moneda_usd
   FROM registro_venta
   WHERE ${period}
+    AND ${advisorSalesOnly}
   GROUP BY
     nro_documento,
     local_nombre,
