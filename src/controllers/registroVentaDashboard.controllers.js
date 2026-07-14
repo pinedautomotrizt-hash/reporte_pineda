@@ -24,8 +24,15 @@ const accountingAmount = (expression) =>
 // El archivo acumulado refleja el estado vigente del comprobante. Al excluir
 // ANULADO, una anulación hecha días después también deja de sumar en la fecha
 // original del documento cuando se vuelve a importar el reporte actualizado.
-const validDocument =
-  "COALESCE(UPPER(TRIM(estado)), '') <> 'ANULADO' AND UPPER(TRIM(estado_sunat)) = 'APROBADO'";
+// Las notas de crédito no anuladas se incluyen aunque SUNAT figure RECHAZADO,
+// porque el Registro de Venta usado por contabilidad sí aplica ese descuento.
+const validDocument = `
+  COALESCE(UPPER(TRIM(estado)), '') <> 'ANULADO'
+  AND (
+    UPPER(TRIM(estado_sunat)) = 'APROBADO'
+    OR ${isCreditNote}
+  )
+`;
 // MOSTRADOR corresponde a venta directa de repuestos. No forma parte del
 // avance diario de los asesores ni del total principal de facturación.
 const advisorSalesOnly =
