@@ -1,7 +1,9 @@
 import { query } from "../db.js";
 
+
 const localesofFactura = async (req, res, next) => {
   try {
+    // Lista de sedes distintas que aparecen en Registro de Venta u Ordenes de Trabajo, para el selector de filtros.
     const rows = await query(`
       SELECT local_nombre
       FROM (

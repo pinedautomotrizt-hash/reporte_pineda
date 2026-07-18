@@ -1,83 +1,27 @@
 
 export const stagingImports = {
-  //Stragin Clientes
-  clientes: {
-    label: "Clientes",
-    table: "stg_clientes_csv",
-    skipLines: 5,
-    columns: [
-      "cliente_documento",
-      "tipo_documento",
-      "tipo_cliente",
-      "cliente_nombre",
-      "apellido_contacto",
-      "nombre_contacto",
-      "direccion",
-      "departamento",
-      "provincia",
-      "distrito",
-      "telefono_fijo",
-      "celular",
-      "telefono_oficina",
-      "red_privada",
-      "email_personal",
-      "email_trabajo",
-      "email_see",
-      "genero",
-      "estado_civil",
-      "fecha_nacimiento",
-      "grupo_cliente",
-      "forma_pago",
-      "acepta_tratamiento",
-    ],
+  detalle_factura_ot: {
+    label: "Detalle de Facturas por OT",
+    table: "detalle_factura_ot",
+    format: "csv_or_xlsx",
+    parser: "detalle_factura_ot",
+    upsert: true,
+    replacePeriod: true,
+    replacePeriodColumn: "fec_emision",
   },
-
-  //Stagin Cliente Servicios
-  clientes_servicio: {
-    label: "Clientes de Servicio",
-    table: "stg_clientes_servicio_csv",
-    skipLines: 5,
-    columns: [
-      "concesionario",
-      "local_nombre",
-      "cliente_nombre",
-      "contacto",
-      "tipo_cliente",
-      "telefono_fijo",
-      "celular",
-      "oficina",
-      "correo",
-      "asesor",
-      "dni",
-      "fecha_apertura",
-      "placa",
-      "grupo_servicio",
-      "clase_ot",
-      "tipo_ot",
-      "kilometraje",
-      "anio_fabricacion",
-      "tratamiento_datos",
-      "fecha_entrega",
-      "grupo_cliente",
-      "nro_ot",
-      "subtipo_ot",
-      "campania_externa",
-      "marca",
-      "modelo",
-      "version",
-      "color",
-    ],
-  },
-
-  //Stagin Ordenes de Trabajo
 
   ordenes_trabajo: {
     label: "Órdenes de Trabajo",
     table: "orden_trabajo",
+    format: "csv_or_xlsx",
     skipLines: 5,
     // Si vuelves a subir un CSV que se solapa con uno ya cargado (mismo
     // nro_orden + actividad), actualiza esa fila en vez de duplicarla.
     upsert: true,
+    // El reporte de OT representa el estado vigente. Se reemplaza la sede y
+    // rango importados para retirar OT que ya no aparecen (por ejemplo anuladas).
+    replacePeriod: true,
+    replacePeriodColumn: "fec_apertura",
     columns: [
       "local_nombre",
       "nro_orden",
@@ -112,6 +56,8 @@ export const stagingImports = {
       "valor_venta",
       "precio_venta",
       "utilidad",
+      "valor_venta_repuestos",
+      "valor_venta_servicios",
       "tecnico_actividad",
       "total_min_pla",
       "total_min_con",
@@ -136,12 +82,17 @@ export const stagingImports = {
   registro_venta: {
     label: "Registro de Venta por Local",
     table: "registro_venta",
+    format: "csv_or_xlsx",
     skipLines: 5,
     // Igual que ordenes_trabajo: al resubir un CSV del mismo periodo (tu
     // costumbre de cargar desde enero hasta hoy cada vez), actualiza los
     // documentos que ya existen (mismo nro_documento + local) en vez de
     // duplicarlos.
     upsert: true,
+    // El registro vigente reemplaza la sede y rango importados para no conservar
+    // documentos que desaparecieron del reporte actualizado.
+    replacePeriod: true,
+    replacePeriodColumn: "fec_documento",
     columns: [
       "fec_documento",
       "tipo_documento",

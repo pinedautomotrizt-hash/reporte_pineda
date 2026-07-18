@@ -1,0 +1,42 @@
+/*
+  Relacion factura - OT por sede. registro_venta conserva el importe contable
+  oficial; esta tabla aporta el reparto real por OT, asesor y tipo de trabajo.
+*/
+CREATE TABLE IF NOT EXISTS detalle_factura_ot (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  local_nombre VARCHAR(100) NOT NULL,
+  fec_emision DATE NOT NULL,
+  nro_documento VARCHAR(60) NOT NULL,
+  nro_ot VARCHAR(50) NOT NULL,
+  fec_apertura DATE NULL,
+  placa VARCHAR(20) NULL,
+  marca VARCHAR(80) NULL,
+  modelo VARCHAR(100) NULL,
+  version VARCHAR(150) NULL,
+  grupo_servicio VARCHAR(150) NULL,
+  clase_ot VARCHAR(150) NULL,
+  tipo_ot VARCHAR(150) NULL,
+  origen VARCHAR(20) NULL,
+  codigo VARCHAR(80) NULL,
+  descripcion VARCHAR(255) NULL,
+  tipo_danio VARCHAR(150) NULL,
+  nro_panos DECIMAL(12,2) NOT NULL DEFAULT 0,
+  horas_hombre DECIMAL(12,2) NOT NULL DEFAULT 0,
+  cantidad DECIMAL(14,4) NOT NULL DEFAULT 0,
+  total_con_igv DECIMAL(15,2) NOT NULL DEFAULT 0,
+  asesor VARCHAR(150) NULL,
+  tecnico_asignado VARCHAR(150) NULL,
+  departamento VARCHAR(100) NULL,
+  provincia VARCHAR(100) NULL,
+  distrito VARCHAR(100) NULL,
+  huella_detalle CHAR(64) NOT NULL,
+  ocurrencia SMALLINT UNSIGNED NOT NULL DEFAULT 1,
+  creado_en DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  actualizado_en DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY ux_detalle_factura_ot_linea (local_nombre,nro_documento,nro_ot,huella_detalle,ocurrencia),
+  KEY ix_detalle_factura_ot_documento (local_nombre,nro_documento),
+  KEY ix_detalle_factura_ot_fecha (local_nombre,fec_emision),
+  KEY ix_detalle_factura_ot_ot (local_nombre,nro_ot),
+  KEY ix_detalle_factura_ot_asesor (local_nombre,asesor)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

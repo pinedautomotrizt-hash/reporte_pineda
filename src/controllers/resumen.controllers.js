@@ -7,12 +7,22 @@ const otPriceExpr =
   "CAST(NULLIF(TRIM(precio_venta), '') AS DECIMAL(14,2))";
 const saleDateExpr =
   "STR_TO_DATE(NULLIF(TRIM(fec_documento), ''), '%Y-%m-%d')";
-const saleAmountExpr =
-  "COALESCE(CAST(NULLIF(REPLACE(TRIM(valor_gravado), ',', ''), '') AS DECIMAL(14,2)), 0)";
-const saleSignExpr =
-  "CASE WHEN UPPER(TRIM(tipo_documento)) IN ('NC', 'NOTA DE CREDITO', 'NOTA DE CRÉDITO') THEN -1 ELSE 1 END";
-const validSaleDocument =
-  "COALESCE(UPPER(TRIM(estado)), '') <> 'ANULADO' AND UPPER(TRIM(estado_sunat)) = 'APROBADO'";
+const saleDecimal = (column) =>
+  `COALESCE(CAST(NULLIF(REPLACE(TRIM(${column}), ',', ''), '') AS DECIMAL(14,2)), 0)`;
+const isCreditNote =
+  "UPPER(TRIM(tipo_documento)) IN ('NC', 'NOTA DE CREDITO', 'NOTA DE CRÉDITO')";
+const saleAmountExpr = `
+  ${saleDecimal("valor_gravado")}
+  + ${saleDecimal("valor_exonerado")}
+  + ${saleDecimal("valor_inafecto")}
+`;
+const accountingSaleAmount =
+  `CASE WHEN ${isCreditNote} THEN -ABS(${saleAmountExpr}) ELSE ${saleAmountExpr} END`;
+const validSaleDocument = `
+  COALESCE(UPPER(TRIM(estado)), '') <> 'ANULADO'
+  AND UPPER(TRIM(estado_sunat)) = 'APROBADO'
+  AND COALESCE(UPPER(TRIM(clase_venta)), '') <> 'MOSTRADOR'
+`;
 
 const getDashboardResumen = async (req, res, next) => {
   try {
@@ -20,16 +30,14 @@ const getDashboardResumen = async (req, res, next) => {
     const params = { start, local, tipoCambio };
     const whereLocal = localClause(local);
 
+    // Facturación consolidada del mes (deduplicada por documento) desde Registro de Venta.
     const [summary] = await query(
       `
         SELECT
           COALESCE(SUM(total_documento), 0) AS facturado,
-          COALESCE(SUM(
-            CASE WHEN moneda = 'DOLARES'
-              THEN total_documento * :tipoCambio
-              ELSE total_documento
-            END
-          ), 0) AS facturado_convertido,
+          /* Los campos gravado/exonerado/inafecto ya están expresados en soles,
+             incluso cuando la moneda original del documento fue dólares. */
+          COALESCE(SUM(total_documento), 0) AS facturado_convertido,
           COALESCE(SUM(CASE WHEN moneda = 'SOLES' THEN total_documento ELSE 0 END), 0) AS facturado_soles,
           COALESCE(SUM(CASE WHEN moneda = 'DOLARES' THEN total_documento ELSE 0 END), 0) AS facturado_dolares,
           COUNT(*) AS comprobantes,
@@ -42,7 +50,7 @@ const getDashboardResumen = async (req, res, next) => {
             COALESCE(NULLIF(UPPER(TRIM(moneda)), ''), 'SIN MONEDA') AS moneda,
             MAX(NULLIF(TRIM(cliente_documento), '')) AS cliente_documento,
             MAX(${saleDateExpr}) AS fecha_documento,
-            MAX(${saleSignExpr} * ${saleAmountExpr}) AS total_documento
+            MAX(${accountingSaleAmount}) AS total_documento
           FROM registro_venta
           WHERE ${saleDateExpr} >= :start
             AND ${saleDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
@@ -57,6 +65,7 @@ const getDashboardResumen = async (req, res, next) => {
       params,
     );
 
+    // Volumen operativo del mes (todas las OT abiertas, sin importar su estado).
     const [otSummary] = await query(
       `
         SELECT
@@ -71,6 +80,7 @@ const getDashboardResumen = async (req, res, next) => {
       params,
     );
 
+    // Solo las OT en estado FACTURADO, con el monto en dólares convertido a soles con el tipo de cambio del filtro.
     const [otFacturadoSummary] = await query(
       `
         SELECT
@@ -108,8 +118,11 @@ const getDashboardResumen = async (req, res, next) => {
     const comprobantes = Number(summary.comprobantes || 0);
     const ots = Number(otSummary.ots || 0);
     const otsFacturadas = Number(otFacturadoSummary.ots_facturadas || 0);
+    // La proyección de facturación debe usar la última fecha del Registro de
+    // Venta. La fecha de apertura de una OT puede ser mucho más antigua y
+    // producir una proyección artificialmente alta.
     const fechaCorte =
-      otFacturadoSummary.fecha_corte || summary.fecha_corte || start;
+      summary.fecha_corte || otFacturadoSummary.fecha_corte || start;
     const day = Math.max(1, new Date(fechaCorte).getUTCDate());
     const daysInMonth = new Date(
       Number(month.slice(0, 4)),

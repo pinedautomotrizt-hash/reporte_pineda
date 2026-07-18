@@ -17,20 +17,31 @@ const isManoObra =
   "UPPER(TRIM(origen_codigo)) IN ('SERVICIO', 'SERVICIOS', 'MANO DE OBRA', 'MO')";
 const saleDateExpr =
   "STR_TO_DATE(NULLIF(TRIM(fec_documento), ''), '%Y-%m-%d')";
-const saleAmountExpr =
-  "COALESCE(CAST(NULLIF(REPLACE(TRIM(valor_gravado), ',', ''), '') AS DECIMAL(14,2)), 0)";
-const saleSignExpr =
-  "CASE WHEN UPPER(TRIM(tipo_documento)) IN ('NC', 'NOTA DE CREDITO', 'NOTA DE CRÉDITO') THEN -1 ELSE 1 END";
-const validSaleDocument =
-  "COALESCE(UPPER(TRIM(estado)), '') <> 'ANULADO' AND UPPER(TRIM(estado_sunat)) = 'APROBADO'";
+const saleDecimal = (column) =>
+  `COALESCE(CAST(NULLIF(REPLACE(TRIM(${column}), ',', ''), '') AS DECIMAL(14,2)), 0)`;
+const isCreditNote =
+  "UPPER(TRIM(tipo_documento)) IN ('NC', 'NOTA DE CREDITO', 'NOTA DE CRÉDITO')";
+const saleAmountExpr = `
+  ${saleDecimal("valor_gravado")}
+  + ${saleDecimal("valor_exonerado")}
+  + ${saleDecimal("valor_inafecto")}
+`;
+const accountingSaleAmount =
+  `CASE WHEN ${isCreditNote} THEN -ABS(${saleAmountExpr}) ELSE ${saleAmountExpr} END`;
+const validSaleDocument = `
+  COALESCE(UPPER(TRIM(estado)), '') <> 'ANULADO'
+  AND UPPER(TRIM(estado_sunat)) = 'APROBADO'
+  AND COALESCE(UPPER(TRIM(clase_venta)), '') <> 'MOSTRADOR'
+`;
+// Un documento por fila (deduplicado), con su tipo, forma de pago y asesor, para armar los desgloses del mes.
 const dedupedSales = (whereLocal) => `
   SELECT
     nro_documento,
     local_nombre,
     COALESCE(NULLIF(TRIM(tipo_documento), ''), 'Sin tipo') AS tipo_documento,
     COALESCE(NULLIF(TRIM(forma_pago), ''), 'Sin forma') AS forma_pago,
-    COALESCE(NULLIF(TRIM(asesor), ''), 'Sin asesor') AS asesor,
-    MAX(${saleSignExpr} * ${saleAmountExpr}) AS total
+    COALESCE(NULLIF(TRIM(asesor_operacion), ''), 'Sin asesor') AS asesor,
+    MAX(${accountingSaleAmount}) AS total
   FROM registro_venta
   WHERE ${saleDateExpr} >= :start
     AND ${saleDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
@@ -41,7 +52,7 @@ const dedupedSales = (whereLocal) => `
     local_nombre,
     COALESCE(NULLIF(TRIM(tipo_documento), ''), 'Sin tipo'),
     COALESCE(NULLIF(TRIM(forma_pago), ''), 'Sin forma'),
-    COALESCE(NULLIF(TRIM(asesor), ''), 'Sin asesor')
+    COALESCE(NULLIF(TRIM(asesor_operacion), ''), 'Sin asesor')
 `;
 
 const getDashboardSeries = async (req, res, next) => {
@@ -52,6 +63,7 @@ const getDashboardSeries = async (req, res, next) => {
 
     const [
       porDia,
+      otPorDepartamento,
       porLocal,
       porTipo,
       topClientes,
@@ -64,6 +76,7 @@ const getDashboardSeries = async (req, res, next) => {
       porFormaPago,
       porRegistrador,
     ] = await Promise.all([
+      // Venta de OT facturadas del mes, por dia de apertura, para la curva del avance diario.
       query(
         `
           SELECT
@@ -82,6 +95,25 @@ const getDashboardSeries = async (req, res, next) => {
       ),
       query(
         `
+          /* Distribución geográfica operativa. Se cuentan OT únicas para no
+             multiplicarlas por cada línea de repuesto o servicio. */
+          SELECT
+            COALESCE(NULLIF(UPPER(TRIM(departamento)), ''), 'SIN DEPARTAMENTO') AS departamento,
+            COUNT(DISTINCT nro_orden) AS ots,
+            COUNT(DISTINCT NULLIF(TRIM(placa), '')) AS vehiculos,
+            COALESCE(SUM(${otPriceExpr}), 0) AS valor_operativo
+          FROM orden_trabajo
+          WHERE ${otDateExpr} >= :start
+            AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
+            ${whereLocal}
+          GROUP BY COALESCE(NULLIF(UPPER(TRIM(departamento)), ''), 'SIN DEPARTAMENTO')
+          ORDER BY ots DESC, valor_operativo DESC
+        `,
+        params,
+      ),
+      // Venta de OT facturadas del mes agrupada por sede.
+      query(
+        `
           SELECT
             local_nombre AS nombre,
             SUM(${otPriceExpr}) AS total,
@@ -96,6 +128,7 @@ const getDashboardSeries = async (req, res, next) => {
         `,
         params,
       ),
+      // Ventas del mes agrupadas por tipo de documento (factura, boleta, nota de credito).
       query(
         `
           SELECT tipo_documento AS nombre, SUM(total) AS total, COUNT(*) AS comprobantes
@@ -105,6 +138,7 @@ const getDashboardSeries = async (req, res, next) => {
         `,
         params,
       ),
+      // Top 10 clientes del mes por venta de OT.
       query(
         `
           SELECT
@@ -121,6 +155,10 @@ const getDashboardSeries = async (req, res, next) => {
         `,
         params,
       ),
+      // Top 10 clientes RECURRENTES (3+ OT en el mes) por ticket promedio (venta / OT).
+      // El minimo de 3 evita que un cliente de una sola OT grande (caso aislado, no
+      // representativo) desplace a clientes de flota que sí compran seguido pero
+      // en tickets mas chicos por visita.
       query(
         `
           SELECT
@@ -133,12 +171,13 @@ const getDashboardSeries = async (req, res, next) => {
             AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
             ${whereLocal}
           GROUP BY COALESCE(NULLIF(TRIM(cliente_nombre), ''), 'Sin cliente')
-          HAVING comprobantes > 0
+          HAVING comprobantes >= 3
           ORDER BY ticket_promedio DESC
           LIMIT 10
         `,
         params,
       ),
+      // Venta y ticket promedio del mes agrupados por tipo de OT.
       query(
         `
           SELECT
@@ -155,6 +194,7 @@ const getDashboardSeries = async (req, res, next) => {
         `,
         params,
       ),
+      // OT del mes agrupadas por estado (Facturado, Cerrado, Aperturado, etc), en el orden del flujo de trabajo.
       query(
         `
           SELECT
@@ -171,6 +211,7 @@ const getDashboardSeries = async (req, res, next) => {
         `,
         params,
       ),
+      // Detalle de las 50 OT de mayor venta que siguen abiertas (no facturadas), para seguimiento de pendientes.
       query(
         `
           SELECT
@@ -192,6 +233,7 @@ const getDashboardSeries = async (req, res, next) => {
         `,
         params,
       ),
+      // Top 10 combinaciones marca/modelo más atendidas del mes, por cantidad de OT.
       query(
         `
           SELECT
@@ -211,6 +253,7 @@ const getDashboardSeries = async (req, res, next) => {
         `,
         params,
       ),
+      // Rendimiento del mes por asesor y sede: venta, repuestos vs mano de obra, costo y margen de repuestos.
       query(
         `
           SELECT
@@ -254,6 +297,7 @@ const getDashboardSeries = async (req, res, next) => {
         `,
         params,
       ),
+      // Ventas del mes agrupadas por forma de pago (efectivo, tarjeta, transferencia, etc).
       query(
         `
           SELECT forma_pago AS nombre, SUM(total) AS total, COUNT(*) AS comprobantes
@@ -263,6 +307,7 @@ const getDashboardSeries = async (req, res, next) => {
         `,
         params,
       ),
+      // Top 8 asesores del mes por venta registrada en Registro de Venta (distinto del reparto por OT de arriba).
       query(
         `
           SELECT asesor AS nombre, SUM(total) AS total, COUNT(*) AS comprobantes
@@ -285,6 +330,7 @@ const getDashboardSeries = async (req, res, next) => {
       otPorEstado,
       otPendientesDetalle,
       modelosFrecuentes,
+      otPorDepartamento,
       asesoresPorSede,
       porFormaPago,
       porRegistrador,

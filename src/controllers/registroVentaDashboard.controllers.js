@@ -1,6 +1,8 @@
 import { query } from "../db.js";
 import { localClause, parseFilters } from "../utils/expresiones.js";
 
+
+
 const saleDate =
   "STR_TO_DATE(NULLIF(TRIM(fec_documento), ''), '%Y-%m-%d')";
 const amount = (column) =>
@@ -24,14 +26,11 @@ const accountingAmount = (expression) =>
 // El archivo acumulado refleja el estado vigente del comprobante. Al excluir
 // ANULADO, una anulación hecha días después también deja de sumar en la fecha
 // original del documento cuando se vuelve a importar el reporte actualizado.
-// Las notas de crédito no anuladas se incluyen aunque SUNAT figure RECHAZADO,
-// porque el Registro de Venta usado por contabilidad sí aplica ese descuento.
+// Tanto las ventas como las notas de crédito solo afectan el avance cuando
+// SUNAT las aprobó. Una NC RECHAZADA no se descuenta del reporte contable.
 const validDocument = `
   COALESCE(UPPER(TRIM(estado)), '') <> 'ANULADO'
-  AND (
-    UPPER(TRIM(estado_sunat)) = 'APROBADO'
-    OR ${isCreditNote}
-  )
+  AND UPPER(TRIM(estado_sunat)) = 'APROBADO'
 `;
 // MOSTRADOR corresponde a venta directa de repuestos. No forma parte del
 // avance diario de los asesores ni del total principal de facturación.
@@ -44,7 +43,8 @@ const counterSalesOnly =
  * REGLAS DEL REPORTE DE FACTURACIÓN (conciliadas con el avance contable):
  * 1. Cada comprobante se cuenta una sola vez, aunque el archivo sea reimportado.
  * 2. El avance sin IGV usa gravado + exonerado + inafecto.
- * 3. Las notas de crédito siempre restan una sola vez.
+ * 3. Las notas de crédito APROBADAS restan una sola vez; las RECHAZADAS no
+ *    afectan el avance.
  * 4. Los comprobantes anulados no suman; al reimportar el acumulado actualizado,
  *    también se corrige su fecha original aunque la anulación sea posterior.
  * 5. Clase Venta = MOSTRADOR se excluye del avance y total principal porque es
@@ -62,6 +62,7 @@ const dedupedDocuments = (period, salesScope = advisorSalesOnly) => `
     COALESCE(NULLIF(TRIM(asesor_operacion), ''), 'Sin asesor') AS asesor,
     COALESCE(NULLIF(UPPER(TRIM(moneda)), ''), 'SIN MONEDA') AS moneda,
     MAX(NULLIF(TRIM(cliente_documento), '')) AS cliente_documento,
+    MAX(NULLIF(TRIM(operacion_relacionada), '')) AS operacion_relacionada,
     MAX(${saleDate}) AS fecha_documento,
     MAX(${accountingAmount(netSaleAmount)}) AS sin_igv,
     MAX(${accountingAmount(amount("impuesto"))}) AS impuesto,
@@ -77,6 +78,90 @@ const dedupedDocuments = (period, salesScope = advisorSalesOnly) => `
     COALESCE(NULLIF(TRIM(forma_pago), ''), 'Sin forma'),
     COALESCE(NULLIF(TRIM(asesor_operacion), ''), 'Sin asesor'),
     COALESCE(NULLIF(UPPER(TRIM(moneda)), ''), 'SIN MONEDA')
+`;
+
+/*
+ * DISTRIBUCIÓN CONTABLE POR FACTURA Y OT Gerson ----------
+ *
+ * registro_venta continúa siendo la única fuente del importe oficial sin IGV.
+ * detalle_factura_ot solamente aporta el peso de cada OT y su asesor. De esta
+ * manera una factura con varias OT se reparte sin modificar el total contable.
+ *
+ * Si el comprobante es una nota de crédito, se busca el detalle de la factura
+ * indicada en operacion_relacionada para descontar a las mismas áreas. Cuando
+ * no existe detalle, se conserva asesor_operacion y el documento queda visible
+ * como Sin asesor/Sin clasificar en vez de asignarlo arbitrariamente.
+ */
+const allocatedAdvisorDocuments = (period) => `
+  WITH documentos AS (
+    ${dedupedDocuments(period)}
+  ),
+  documentos_referencia AS (
+    SELECT
+      d.*,
+      CASE
+        WHEN UPPER(d.tipo_documento) IN ('NC', 'NOTA DE CREDITO', 'NOTA DE CRÉDITO')
+          THEN COALESCE(
+            (
+              SELECT MIN(ref.nro_documento)
+              FROM detalle_factura_ot ref
+              WHERE ref.local_nombre = d.local_nombre
+                AND (
+                  ref.nro_documento = d.operacion_relacionada
+                  OR ref.nro_ot = REPLACE(UPPER(d.operacion_relacionada), 'OT-', '')
+                )
+            ),
+            d.nro_documento
+          )
+        ELSE d.nro_documento
+      END AS detalle_documento
+    FROM documentos d
+  ),
+  detalle_por_asesor AS (
+    SELECT
+      local_nombre,
+      nro_documento,
+      COALESCE(NULLIF(TRIM(asesor), ''), 'Sin asesor') AS asesor,
+      SUM(ABS(total_con_igv)) AS peso_asesor
+    FROM detalle_factura_ot
+    GROUP BY
+      local_nombre,
+      nro_documento,
+      COALESCE(NULLIF(TRIM(asesor), ''), 'Sin asesor')
+  ),
+  detalle_total AS (
+    SELECT
+      local_nombre,
+      nro_documento,
+      SUM(ABS(total_con_igv)) AS peso_total
+    FROM detalle_factura_ot
+    GROUP BY local_nombre, nro_documento
+  )
+  SELECT
+    d.nro_documento,
+    d.local_nombre,
+    d.fecha_documento,
+    d.moneda,
+    COALESCE(da.asesor, d.asesor) AS asesor,
+    d.sin_igv *
+      CASE
+        WHEN COALESCE(dt.peso_total, 0) > 0
+          THEN da.peso_asesor / dt.peso_total
+        ELSE 1
+      END AS sin_igv,
+    d.con_igv *
+      CASE
+        WHEN COALESCE(dt.peso_total, 0) > 0
+          THEN da.peso_asesor / dt.peso_total
+        ELSE 1
+      END AS con_igv
+  FROM documentos_referencia d
+  LEFT JOIN detalle_total dt
+    ON dt.local_nombre = d.local_nombre
+    AND dt.nro_documento = d.detalle_documento
+  LEFT JOIN detalle_por_asesor da
+    ON da.local_nombre = dt.local_nombre
+    AND da.nro_documento = dt.nro_documento
 `;
 
 const getRegistroVentaDashboard = async (req, res, next) => {
@@ -99,6 +184,7 @@ const getRegistroVentaDashboard = async (req, res, next) => {
 
     const [porMoneda, porDia, porLocal, porDocumento, porPago, porAsesor, porMonedaAnterior, mostrador] =
       await Promise.all([
+        // Totales del mes por moneda: base para el resumen principal y la comparativa mensual.
         query(
           `
             SELECT
@@ -116,7 +202,7 @@ const getRegistroVentaDashboard = async (req, res, next) => {
           `,
           params,
         ),
-        
+        // Avance diario del mes (por fecha y moneda), para la curva de facturacion.
         query(
           `
             SELECT
@@ -131,7 +217,7 @@ const getRegistroVentaDashboard = async (req, res, next) => {
           params,
         ),
 
-        
+        // Facturacion del mes por sede, con ticket promedio.
         query(
           `
             SELECT
@@ -150,6 +236,7 @@ const getRegistroVentaDashboard = async (req, res, next) => {
           params,
         ),
 
+        // Facturacion del mes por tipo de documento (factura, boleta, nota de credito).
         query(
           `
             SELECT
@@ -164,7 +251,7 @@ const getRegistroVentaDashboard = async (req, res, next) => {
           params,
         ),
 
-
+        // Facturacion del mes por forma de pago.
         query(
           `
             SELECT
@@ -177,6 +264,7 @@ const getRegistroVentaDashboard = async (req, res, next) => {
           `,
           params,
         ),
+        // Facturacion del mes por asesor y sede, con el reparto de facturas/NC por OT ya aplicado.
         query(
           `
             SELECT
@@ -186,13 +274,14 @@ const getRegistroVentaDashboard = async (req, res, next) => {
               SUM(sin_igv) AS sin_igv,
               SUM(con_igv) AS con_igv,
               COUNT(DISTINCT nro_documento) AS comprobantes
-            FROM (${dedupedDocuments(period)}) documentos
+            FROM (${allocatedAdvisorDocuments(period)}) documentos
             GROUP BY asesor, local_nombre, moneda
             ORDER BY moneda, sin_igv DESC
           `,
           params,
         ),
 
+        // Mismo total por moneda pero del mes anterior, para calcular la variacion porcentual.
         query(
           `
             SELECT
@@ -328,6 +417,7 @@ const getRegistroVentaAsesores = async (req, res, next) => {
       ${whereLocal}
     `;
     const [rows, mostrador] = await Promise.all([
+      // Facturacion diaria por asesor, sede y moneda: alimenta la tabla "Avance diario" del resumen mensual.
       query(`
         SELECT
           DATE_FORMAT(fecha_documento, '%Y-%m-%d') AS fecha,
@@ -337,7 +427,7 @@ const getRegistroVentaAsesores = async (req, res, next) => {
           SUM(sin_igv) AS sin_igv,
           SUM(con_igv) AS con_igv,
           COUNT(DISTINCT nro_documento) AS comprobantes
-        FROM (${dedupedDocuments(period)}) documentos
+        FROM (${allocatedAdvisorDocuments(period)}) documentos
         GROUP BY fecha_documento, asesor, local_nombre, moneda
         ORDER BY fecha_documento, asesor, moneda
       `,
@@ -372,4 +462,81 @@ const getRegistroVentaAsesores = async (req, res, next) => {
   }
 };
 
-export { getRegistroVentaDashboard, getRegistroVentaAsesores };
+const getRegistroVentaResumenMensual = async (req, res, next) => {
+  try {
+    const { start, local } = parseFilters(req);
+    const params = { start, local };
+    const whereLocal = localClause(local);
+    const period = `
+      ${saleDate} >= :start
+      AND ${saleDate} < DATE_ADD(:start, INTERVAL 1 MONTH)
+      AND ${validDocument}
+      ${whereLocal}
+    `;
+
+    /* La tabla asesor resuelve sede, área y vigencia sin nombres fijos. */
+    const area = `
+      COALESCE(
+        (
+          SELECT configuracion.as_area_codigo
+          FROM asesor configuracion
+          WHERE UPPER(TRIM(configuracion.as_nombre_origen)) = UPPER(TRIM(asesor))
+            AND UPPER(TRIM(configuracion.as_local_nombre)) = UPPER(TRIM(local_nombre))
+            AND configuracion.as_fecha_inicio <= fecha_documento
+            AND (configuracion.as_fecha_fin IS NULL OR configuracion.as_fecha_fin >= fecha_documento)
+          ORDER BY configuracion.as_fecha_inicio DESC
+          LIMIT 1
+        ),
+        'SIN CLASIFICAR'
+      )
+    `;
+
+    const [rows, mostrador] = await Promise.all([
+      // Facturacion diaria agrupada por area comercial (resuelta via la tabla asesor), para el resumen mensual por sede.
+      query(
+        `
+          SELECT
+            DATE_FORMAT(fecha_documento, '%Y-%m-%d') AS fecha,
+            ${area} AS area,
+            MAX(local_nombre) AS local_nombre,
+            SUM(sin_igv) AS sin_igv,
+            COUNT(DISTINCT nro_documento) AS comprobantes
+          FROM (${allocatedAdvisorDocuments(period)}) documentos
+          GROUP BY fecha_documento, ${area}
+          ORDER BY fecha_documento, area
+        `,
+        params,
+      ),
+      // Venta diaria de Mostrador (repuestos), aparte porque no participa del resumen por area.
+      query(
+        `
+          SELECT
+            DATE_FORMAT(fecha_documento, '%Y-%m-%d') AS fecha,
+            SUM(sin_igv) AS sin_igv,
+            COUNT(DISTINCT nro_documento) AS comprobantes
+          FROM (${dedupedDocuments(period, counterSalesOnly)}) documentos
+          GROUP BY fecha_documento
+          ORDER BY fecha_documento
+        `,
+        params,
+      ),
+    ]);
+
+    res.json({
+      rows,
+      mostrador: {
+        rows: mostrador,
+        sin_igv: mostrador.reduce((sum, row) => sum + Number(row.sin_igv || 0), 0),
+        comprobantes: mostrador.reduce((sum, row) => sum + Number(row.comprobantes || 0), 0),
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export {
+  getRegistroVentaDashboard,
+  getRegistroVentaAsesores,
+  getRegistroVentaResumenMensual,
+};

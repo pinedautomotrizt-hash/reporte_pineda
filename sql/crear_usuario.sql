@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS usuario (
+  us_id INT AUTO_INCREMENT PRIMARY KEY,
+  us_nombre VARCHAR(120) NOT NULL,
+  us_email VARCHAR(150) NOT NULL,
+  us_password_hash VARCHAR(255) NOT NULL,
+  us_rol ENUM('ADMIN', 'ASESOR') NOT NULL DEFAULT 'ASESOR',
+  us_activo TINYINT(1) NOT NULL DEFAULT 1,
+  us_creado_en DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY ux_usuario_email (us_email)
+);
