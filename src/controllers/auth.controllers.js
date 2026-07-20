@@ -6,6 +6,7 @@ import {
   verifyToken,
   accessTokenCookieOptions,
   refreshTokenCookieOptions,
+  baseCookieOptions,
 } from "../utils/auth.js";
 
 function toUsuarioPublico(row) {
@@ -109,9 +110,14 @@ async function me(req, res, next) {
   }
 }
 
+// clearCookie solo borra la cookie si sus opciones (secure, sameSite, path)
+// son identicas a las usadas al crearla, si no el navegador la ignora. En
+// produccion (https) esas cookies llevan secure+sameSite=none, así que hay
+// que pasar las mismas opciones aca, no solo el path.
 function logout(req, res) {
-  res.clearCookie("access_token", { path: "/" });
-  res.clearCookie("refresh_token", { path: "/" });
+  const options = baseCookieOptions(req);
+  res.clearCookie("access_token", options);
+  res.clearCookie("refresh_token", options);
   res.json({ message: "Sesion cerrada." });
 }
 

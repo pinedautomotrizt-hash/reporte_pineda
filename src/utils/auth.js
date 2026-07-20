@@ -43,7 +43,7 @@ export function verifyToken(token) {
 // None+Secure para que la cookie viaje entre el front y el backend en Railway.
 // server.js activa "trust proxy" para que req.secure refleje bien el HTTPS real
 // aunque Railway termine el TLS antes de reenviar la peticion.
-function baseCookieOptions(req) {
+export function baseCookieOptions(req) {
   const isHttps = req.secure;
   return {
     httpOnly: true,
