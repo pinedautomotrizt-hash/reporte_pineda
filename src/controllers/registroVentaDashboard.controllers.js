@@ -154,7 +154,16 @@ const allocatedAdvisorDocuments = (period) => `
         WHEN COALESCE(dt.peso_total, 0) > 0
           THEN da.peso_asesor / dt.peso_total
         ELSE 1
-      END AS con_igv
+      END AS con_igv,
+    -- Una factura repartida entre varios asesores (varias OT) genera varias
+    -- filas para el mismo nro_documento. El monto sí se prorratea entre todas,
+    -- pero el comprobante como tal es 1 solo: se marca 1 sola fila (la del
+    -- asesor con mayor peso) para que COUNT(DISTINCT nro_documento) aguas
+    -- abajo no lo cuente una vez por cada asesor y cuadre con el resumen.
+    ROW_NUMBER() OVER (
+      PARTITION BY d.local_nombre, d.nro_documento
+      ORDER BY COALESCE(da.peso_asesor, 0) DESC, COALESCE(da.asesor, d.asesor)
+    ) = 1 AS es_comprobante_principal
   FROM documentos_referencia d
   LEFT JOIN detalle_total dt
     ON dt.local_nombre = d.local_nombre
@@ -273,7 +282,7 @@ const getRegistroVentaDashboard = async (req, res, next) => {
               moneda,
               SUM(sin_igv) AS sin_igv,
               SUM(con_igv) AS con_igv,
-              COUNT(DISTINCT nro_documento) AS comprobantes
+              COUNT(DISTINCT CASE WHEN es_comprobante_principal THEN nro_documento END) AS comprobantes
             FROM (${allocatedAdvisorDocuments(period)}) documentos
             GROUP BY asesor, local_nombre, moneda
             ORDER BY moneda, sin_igv DESC
@@ -426,7 +435,7 @@ const getRegistroVentaAsesores = async (req, res, next) => {
           moneda,
           SUM(sin_igv) AS sin_igv,
           SUM(con_igv) AS con_igv,
-          COUNT(DISTINCT nro_documento) AS comprobantes
+          COUNT(DISTINCT CASE WHEN es_comprobante_principal THEN nro_documento END) AS comprobantes
         FROM (${allocatedAdvisorDocuments(period)}) documentos
         GROUP BY fecha_documento, asesor, local_nombre, moneda
         ORDER BY fecha_documento, asesor, moneda
@@ -500,7 +509,7 @@ const getRegistroVentaResumenMensual = async (req, res, next) => {
             ${area} AS area,
             MAX(local_nombre) AS local_nombre,
             SUM(sin_igv) AS sin_igv,
-            COUNT(DISTINCT nro_documento) AS comprobantes
+            COUNT(DISTINCT CASE WHEN es_comprobante_principal THEN nro_documento END) AS comprobantes
           FROM (${allocatedAdvisorDocuments(period)}) documentos
           GROUP BY fecha_documento, ${area}
           ORDER BY fecha_documento, area

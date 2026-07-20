@@ -254,6 +254,7 @@ const getDashboardSeries = async (req, res, next) => {
         params,
       ),
       // Rendimiento del mes por asesor y sede: venta, repuestos vs mano de obra, costo y margen de repuestos.
+      // Usa fec_cierre (no fec_apertura) para acercarse al mes en que se facturo; aun asi no cuadra exacto con Monto oficial (no descuenta NC ni filtra por SUNAT).
       query(
         `
           SELECT
@@ -285,8 +286,8 @@ const getDashboardSeries = async (req, res, next) => {
               0
             ) AS margen_repuestos_pct
           FROM orden_trabajo
-          WHERE ${otDateExpr} >= :start
-            AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
+          WHERE ${otCloseDateExpr} >= :start
+            AND ${otCloseDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
             AND UPPER(TRIM(estado)) = 'FACTURADO'
             ${whereLocal}
           GROUP BY

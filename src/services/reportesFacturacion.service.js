@@ -220,6 +220,331 @@ function agregarPendientesAperturados(libro, filas) {
   XLSX.utils.book_append_sheet(libro, hoja, "Pendientes");
 }
 
+// OT del mes: a diferencia de "Pendientes" (que arrastra TODO lo que sigue
+// aperturado sin importar cuándo abrió), esta hoja solo mira las OT cuya
+// fecha de apertura cae dentro del mes elegido, y muestra si a hoy siguen
+// aperturadas o ya se cerraron. Así el ticket promedio de un mes nunca se
+// mezcla con OT que abrieron en otro mes.
+function agregarOtDelMes(libro, filas, { month, local }) {
+  const esAperturada = (fila) => String(fila.Estado || "").toUpperCase() === "APERTURADO";
+  // Explícito y no "todo lo que no es aperturada": FACTURADO/LIQUIDADO/etc. ya
+  // se filtraron desde la query y no deben contarse como "cerrada" aquí.
+  const esCerrada = (fila) => String(fila.Estado || "").toUpperCase() === "CERRADO";
+  const ticketPromedio = (registros) =>
+    registros.length
+      ? registros.reduce((total, fila) => total + Number(fila.Ticket || 0), 0) / registros.length
+      : 0;
+  // Suma el valor de las OT ya CERRADAS (no las aperturadas): es lo que se
+  // ganaría en cuanto se facturen, no lo ya facturado oficialmente.
+  const totalDineroCerradas = (registros) =>
+    registros
+      .filter((fila) => esCerrada(fila))
+      .reduce((total, fila) => total + Number(fila.Ticket || 0), 0);
+  // Suma el valor de las OT que SIGUEN aperturadas: a diferencia de las
+  // cerradas, este monto es relativo/estimado porque la OT puede seguir
+  // sumando repuestos o servicios antes de cerrarse.
+  const totalDineroAperturadas = (registros) =>
+    registros
+      .filter((fila) => esAperturada(fila))
+      .reduce((total, fila) => total + Number(fila.Ticket || 0), 0);
+
+  const aperturadas = filas.filter(esAperturada);
+  const cerradas = filas.filter((fila) => esCerrada(fila));
+
+  const sedes = [...new Set(filas.map((fila) => fila.Local || "Sin sede"))].sort((a, b) =>
+    a.localeCompare(b, "es"),
+  );
+  const asesores = [...new Set(filas.map((fila) => fila.Asesor || "Sin asesor"))];
+
+  const filasPorSede = sedes.map((sede) => {
+    const registros = filas.filter((fila) => (fila.Local || "Sin sede") === sede);
+    return [
+      sede,
+      registros.filter(esAperturada).length,
+      registros.filter((fila) => esCerrada(fila)).length,
+      registros.length,
+      ticketPromedio(registros),
+      totalDineroCerradas(registros),
+      totalDineroAperturadas(registros),
+    ];
+  });
+
+  const filasPorAsesor = asesores
+    .map((asesor) => {
+      const registros = filas.filter((fila) => (fila.Asesor || "Sin asesor") === asesor);
+      return {
+        asesor,
+        sede: registros[0]?.Local || "-",
+        aperturadas: registros.filter(esAperturada).length,
+        cerradas: registros.filter((fila) => esCerrada(fila)).length,
+        total: registros.length,
+        ticket: ticketPromedio(registros),
+        dineroCerradas: totalDineroCerradas(registros),
+        dineroAperturadas: totalDineroAperturadas(registros),
+      };
+    })
+    .sort((a, b) => b.total - a.total)
+    .map((fila) => [
+      fila.asesor,
+      fila.sede,
+      fila.aperturadas,
+      fila.cerradas,
+      fila.total,
+      fila.ticket,
+      fila.dineroCerradas,
+      fila.dineroAperturadas,
+    ]);
+
+  // Por cliente se arma aparte por cada sede (una empresa puede tener OT en
+  // ambas sedes, y se quiere ver el desglose de cada una por separado).
+  const construirFilasPorCliente = (registrosSede) => {
+    const clientesSede = [...new Set(registrosSede.map((fila) => fila.Cliente || "Sin cliente"))];
+    return clientesSede
+      .map((cliente) => {
+        const registros = registrosSede.filter((fila) => (fila.Cliente || "Sin cliente") === cliente);
+        const dineroCerradas = totalDineroCerradas(registros);
+        return {
+          cliente,
+          aperturadas: registros.filter(esAperturada).length,
+          cerradas: registros.filter((fila) => esCerrada(fila)).length,
+          total: registros.length,
+          ticket: ticketPromedio(registros),
+          dineroCerradas,
+          // Solo interesa ver el monto aperturado cuando el cliente todavia no
+          // tiene NADA cerrado este mes (100% pendiente); si ya tiene algo
+          // cerrado, no se resalta lo aperturado en esta columna.
+          dineroAperturadas: dineroCerradas === 0 ? totalDineroAperturadas(registros) : 0,
+        };
+      })
+      .sort((a, b) => b.total - a.total)
+      .map((fila) => [
+        fila.cliente,
+        fila.aperturadas,
+        fila.cerradas,
+        fila.total,
+        fila.ticket,
+        fila.dineroCerradas,
+        fila.dineroAperturadas,
+      ]);
+  };
+  // Mismo criterio que arriba (solo clientes 100% pendientes), pero sumado
+  // para la fila TOTAL de la sede: no es el total aperturado de TODOS los
+  // clientes, solo el de los que no tienen nada cerrado todavia.
+  const totalDineroAperturadasClientesPendientes = (registrosSede) => {
+    const clientesSede = [...new Set(registrosSede.map((fila) => fila.Cliente || "Sin cliente"))];
+    return clientesSede.reduce((total, cliente) => {
+      const registros = registrosSede.filter((fila) => (fila.Cliente || "Sin cliente") === cliente);
+      return totalDineroCerradas(registros) === 0 ? total + totalDineroAperturadas(registros) : total;
+    }, 0);
+  };
+
+  // Semáforo del ticket promedio: se compara contra el promedio de la MISMA
+  // sede ese mes (no un monto fijo), así se autoajusta si cambian los precios.
+  // Verde = igual o por encima del promedio; amarillo = hasta 15% por debajo;
+  // rojo = más de 15% por debajo; gris = sin dato (OT sin precio_venta cargado).
+  const promedioGeneral = ticketPromedio(filas);
+  const promedioPorSede = new Map(
+    sedes.map((sede) => [sede, ticketPromedio(filas.filter((fila) => (fila.Local || "Sin sede") === sede))]),
+  );
+  const colorSemaforo = (valor, referencia) => {
+    if (!valor) return { fill: "E2E8F0", texto: "475569", italic: true }; // sin dato
+    if (!referencia) return null;
+    if (valor >= referencia) return { fill: "BBF7D0", texto: "166534" }; // bueno
+    if (valor >= referencia * 0.85) return { fill: "FEF3C7", texto: "92400E" }; // regular
+    return { fill: "FECACA", texto: "991B1B" }; // bajo
+  };
+
+  // Guarda en qué fila empieza cada bloque para saber, al pintar, cuál es la
+  // columna de "Ticket promedio" de esa tabla (cada bloque tiene distinto
+  // numero de columnas) y contra qué promedio comparar cada ticket.
+  const bloques = [];
+  const salida = [];
+  const agregarFila = (fila) => salida.push(fila) - 1;
+  const marcarBloque = (nombre, columnaTicket, referencia) => {
+    bloques.push({ nombre, desdeFila: salida.length, columnaTicket, referencia });
+  };
+
+  agregarFila(["OT DEL MES · APERTURADAS Y CERRADAS"]);
+  agregarFila([
+    `Periodo: ${month} · Sede: ${local || "Todos los locales"} · Se cuenta por fecha de apertura de la OT (no arrastra otros meses) · Solo estado Aperturado/Cerrado, no incluye Facturado/Liquidado`,
+  ]);
+  agregarFila([]);
+  const filaLeyenda = agregarFila([
+    "Bueno (≥ promedio de su sede)",
+    "Regular (hasta 15% debajo)",
+    "Bajo (más de 15% debajo)",
+    "Sin dato (sin precio_venta)",
+  ]);
+  agregarFila([]);
+
+  agregarFila(["RESUMEN GENERAL"]);
+  agregarFila(["Indicador", "Valor"]);
+  agregarFila(["OT aperturadas este mes (total)", filas.length]);
+  agregarFila(["Siguen aperturadas", aperturadas.length]);
+  agregarFila(["Ya cerradas (listas para facturar)", cerradas.length]);
+  const filaTicketGeneral = agregarFila(["Ticket promedio general", promedioGeneral]);
+  const filaDineroGeneral = agregarFila([
+    "Total en dinero de las cerradas (por facturar)",
+    totalDineroCerradas(filas),
+  ]);
+  const filaDineroGeneralAperturadas = agregarFila([
+    "Total en dinero de las aperturadas (estimado, aún puede subir)",
+    totalDineroAperturadas(filas),
+  ]);
+  agregarFila([]);
+
+  agregarFila(["POR SEDE"]);
+  agregarFila([
+    "Sede",
+    "Aperturadas",
+    "Cerradas",
+    "Total",
+    "Ticket promedio",
+    "Total en dinero (cerradas)",
+    "Total en dinero (Aperturadas · estimado)",
+  ]);
+  marcarBloque("sede", 4, { tipo: "fijo", valor: promedioGeneral });
+  filasPorSede.forEach((fila) => agregarFila(fila));
+  agregarFila([]);
+
+  agregarFila(["POR ASESOR"]);
+  agregarFila([
+    "Asesor",
+    "Sede",
+    "Aperturadas",
+    "Cerradas",
+    "Total",
+    "Ticket promedio",
+    "Total en dinero (cerradas)",
+    "Total en dinero (Aperturadas · estimado)",
+  ]);
+  marcarBloque("asesor", 5, { tipo: "porSedeEnFila", columnaSede: 1 });
+  filasPorAsesor.forEach((fila) => agregarFila(fila));
+  agregarFila([]);
+
+  sedes.forEach((sede) => {
+    const registrosSede = filas.filter((fila) => (fila.Local || "Sin sede") === sede);
+    agregarFila([`POR CLIENTE / EMPRESA — ${sede.toUpperCase()}`]);
+    agregarFila([
+      "Cliente",
+      "Aperturadas",
+      "Cerradas",
+      "Total",
+      "Ticket promedio",
+      "Total en dinero (cerradas)",
+      "Total en dinero (Aperturadas · estimado)",
+    ]);
+    marcarBloque(`cliente-${sede}`, 4, { tipo: "fijo", valor: promedioPorSede.get(sede) });
+    construirFilasPorCliente(registrosSede).forEach((fila) => agregarFila(fila));
+    agregarFila([
+      `TOTAL ${sede.toUpperCase()}`,
+      registrosSede.filter(esAperturada).length,
+      registrosSede.filter((fila) => esCerrada(fila)).length,
+      registrosSede.length,
+      ticketPromedio(registrosSede),
+      totalDineroCerradas(registrosSede),
+      totalDineroAperturadasClientesPendientes(registrosSede),
+    ]);
+    agregarFila([]);
+  });
+
+  if (!filas.length) agregarFila(["Sin órdenes aperturadas en el periodo seleccionado"]);
+
+  const hoja = XLSX.utils.aoa_to_sheet(salida);
+  const anchoColumnas = 8;
+  hoja["!cols"] = [30, 20, 14, 14, 14, 18, 22, 24].map((wch) => ({ wch }));
+  hoja["!merges"] = [];
+  const borde = {
+    top: { style: "thin", color: { rgb: "CBD5E1" } },
+    bottom: { style: "thin", color: { rgb: "CBD5E1" } },
+    left: { style: "thin", color: { rgb: "CBD5E1" } },
+    right: { style: "thin", color: { rgb: "CBD5E1" } },
+  };
+  const titulos = ["OT DEL MES", "RESUMEN GENERAL", "POR SEDE", "POR ASESOR", "POR CLIENTE"];
+  const cabeceras = ["Indicador", "Sede", "Asesor", "Cliente"];
+
+  salida.forEach((fila, indiceFila) => {
+    const titulo = titulos.some((prefijo) => String(fila[0] || "").startsWith(prefijo));
+    const subtitulo = String(fila[0] || "").startsWith("Periodo:");
+    const cabecera = cabeceras.includes(fila[0]);
+    const totalDeSede = String(fila[0] || "").startsWith("TOTAL ");
+    const esLeyenda = indiceFila === filaLeyenda;
+    if (titulo || subtitulo)
+      hoja["!merges"].push({
+        s: { r: indiceFila, c: 0 },
+        e: { r: indiceFila, c: anchoColumnas - 1 },
+      });
+    // Bloque activo en esta fila (si ya se pasó su fila de inicio de datos).
+    const bloqueActivo = [...bloques].reverse().find((bloque) => indiceFila >= bloque.desdeFila);
+    const coloresLeyenda = ["BBF7D0", "FEF3C7", "FECACA", "E2E8F0"];
+    const textosLeyenda = ["166534", "92400E", "991B1B", "475569"];
+    fila.forEach((_, indiceColumna) => {
+      const celda = hoja[XLSX.utils.encode_cell({ r: indiceFila, c: indiceColumna })];
+      if (!celda) return;
+      celda.s = titulo
+        ? {
+            font: { bold: true, color: { rgb: "FFFFFF" }, sz: 13 },
+            fill: { fgColor: { rgb: "991B1B" } },
+            alignment: { horizontal: "center" },
+          }
+        : subtitulo
+          ? { font: { italic: true, color: { rgb: "475569" } }, alignment: { horizontal: "center" } }
+          : esLeyenda
+            ? {
+                font: { bold: true, color: { rgb: textosLeyenda[indiceColumna] }, sz: 10 },
+                fill: { fgColor: { rgb: coloresLeyenda[indiceColumna] } },
+                alignment: { horizontal: "center", wrapText: true },
+                border: borde,
+              }
+            : cabecera
+              ? {
+                  font: { bold: true, color: { rgb: "FFFFFF" } },
+                  fill: { fgColor: { rgb: "B91C1C" } },
+                  alignment: { horizontal: "center", wrapText: true },
+                  border: borde,
+                }
+              : totalDeSede
+                ? {
+                    font: { bold: true, color: { rgb: "1E293B" } },
+                    fill: { fgColor: { rgb: "FDE68A" } },
+                    border: borde,
+                    alignment: { horizontal: indiceColumna === 0 ? "left" : "right" },
+                  }
+                : {
+                    fill: { fgColor: { rgb: indiceFila % 2 ? "FFFFFF" : "F8FAFC" } },
+                    border: borde,
+                    alignment: { horizontal: indiceColumna === 0 ? "left" : "right" },
+                  };
+      const esTicketGeneral = indiceFila === filaTicketGeneral && indiceColumna === 1;
+      const esDineroGeneral =
+        (indiceFila === filaDineroGeneral || indiceFila === filaDineroGeneralAperturadas) && indiceColumna === 1;
+      const esTicketDeBloque =
+        !titulo && !subtitulo && !cabecera && !totalDeSede && bloqueActivo && indiceColumna === bloqueActivo.columnaTicket;
+      // "Total en dinero (cerradas)" y "Total en dinero (Aperturadas)" van
+      // siempre justo despues de "Ticket promedio" en cada bloque, en ese orden.
+      const esDineroDeBloque =
+        bloqueActivo &&
+        (indiceColumna === bloqueActivo.columnaTicket + 1 || indiceColumna === bloqueActivo.columnaTicket + 2);
+      if (esTicketGeneral || esDineroGeneral || esTicketDeBloque || esDineroDeBloque) celda.z = "#,##0.00";
+      if (esTicketDeBloque) {
+        const referenciaBloque = bloqueActivo.referencia;
+        const referencia =
+          referenciaBloque.tipo === "fijo"
+            ? referenciaBloque.valor
+            : promedioPorSede.get(fila[referenciaBloque.columnaSede]) ?? promedioGeneral;
+        const semaforo = colorSemaforo(Number(celda.v || 0), referencia);
+        if (semaforo)
+          celda.s = {
+            ...celda.s,
+            font: { ...celda.s.font, bold: true, color: { rgb: semaforo.texto }, italic: Boolean(semaforo.italic) },
+            fill: { fgColor: { rgb: semaforo.fill } },
+          };
+      }
+    });
+  });
+  XLSX.utils.book_append_sheet(libro, hoja, "OT del Mes");
+}
+
 // Consolida hojas analíticas y aplica logo, título y fecha a todo el libro.
 async function aplicarPresentacionCorporativa(buffer) {
   const workbook = new ExcelJS.Workbook();
@@ -1212,6 +1537,7 @@ export async function generarReporteFacturacion({
     areasDiarias,
     comparacionAnual,
     aperturadas,
+    otDelMes,
   ] = await Promise.all([
     query(
       `
@@ -1462,6 +1788,29 @@ export async function generarReporteFacturacion({
     `,
       params,
     ),
+    // OT del mes: solo las que ABRIERON dentro del mes elegido (sin importar
+    // el mes en que se cierren), para que el ticket promedio nunca arrastre OT
+    // de otro mes. Y solo estado APERTURADO/CERRADO: FACTURADO, LIQUIDADO y
+    // "FACTURADO INT" ya pasaron por facturación y no son "pendiente" para
+    // este reporte (eso ya se ve en Registro de Venta).
+    query(
+      `
+      SELECT
+        local_nombre AS Local,
+        nro_orden AS OT,
+        COALESCE(NULLIF(TRIM(MAX(asesor)), ''), 'Sin asesor') AS Asesor,
+        COALESCE(NULLIF(TRIM(MAX(cliente_nombre)), ''), 'Sin cliente') AS Cliente,
+        UPPER(TRIM(MAX(estado))) AS Estado,
+        SUM(${numero("precio_venta")}) AS Ticket
+      FROM orden_trabajo
+      WHERE STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d') >= :start
+        AND STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d') < DATE_ADD(:start, INTERVAL 1 MONTH)
+        AND UPPER(TRIM(estado)) IN ('APERTURADO', 'CERRADO')
+        ${local ? "AND local_nombre = :local" : ""}
+      GROUP BY local_nombre, nro_orden
+    `,
+      params,
+    ),
   ]);
 
   const libro = XLSX.utils.book_new();
@@ -1493,6 +1842,7 @@ export async function generarReporteFacturacion({
   agregarHoja(libro, "Documentos", documentos);
   agregarHoja(libro, "NC y anulaciones", incidencias);
   agregarPendientesAperturados(libro, aperturadas);
+  agregarOtDelMes(libro, otDelMes, { month, local });
 
   const baseBuffer = XLSX.write(libro, {
     type: "buffer",
