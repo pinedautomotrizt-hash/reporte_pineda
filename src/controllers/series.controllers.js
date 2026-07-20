@@ -73,8 +73,6 @@ const getDashboardSeries = async (req, res, next) => {
       otPendientesDetalle,
       modelosFrecuentes,
       asesoresPorSede,
-      porFormaPago,
-      porRegistrador,
     ] = await Promise.all([
       // Venta de OT facturadas del mes, por dia de apertura, para la curva del avance diario.
       query(
@@ -96,17 +94,21 @@ const getDashboardSeries = async (req, res, next) => {
       query(
         `
           /* Distribución geográfica operativa. Se cuentan OT únicas para no
-             multiplicarlas por cada línea de repuesto o servicio. */
+             multiplicarlas por cada línea de repuesto o servicio. Solo Lima
+             (incluye Callao, sede del taller de Lima), Callao y La Libertad
+             (Trujillo): el resto son casos aislados de clientes de paso, no
+             representan cobertura real del negocio. */
           SELECT
-            COALESCE(NULLIF(UPPER(TRIM(departamento)), ''), 'SIN DEPARTAMENTO') AS departamento,
+            UPPER(TRIM(departamento)) AS departamento,
             COUNT(DISTINCT nro_orden) AS ots,
             COUNT(DISTINCT NULLIF(TRIM(placa), '')) AS vehiculos,
             COALESCE(SUM(${otPriceExpr}), 0) AS valor_operativo
           FROM orden_trabajo
           WHERE ${otDateExpr} >= :start
             AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
+            AND UPPER(TRIM(departamento)) IN ('LIMA', 'CALLAO', 'LA LIBERTAD')
             ${whereLocal}
-          GROUP BY COALESCE(NULLIF(UPPER(TRIM(departamento)), ''), 'SIN DEPARTAMENTO')
+          GROUP BY UPPER(TRIM(departamento))
           ORDER BY ots DESC, valor_operativo DESC
         `,
         params,
@@ -298,27 +300,6 @@ const getDashboardSeries = async (req, res, next) => {
         `,
         params,
       ),
-      // Ventas del mes agrupadas por forma de pago (efectivo, tarjeta, transferencia, etc).
-      query(
-        `
-          SELECT forma_pago AS nombre, SUM(total) AS total, COUNT(*) AS comprobantes
-          FROM (${dedupedSales(whereLocal)}) ventas
-          GROUP BY forma_pago
-          ORDER BY total DESC
-        `,
-        params,
-      ),
-      // Top 8 asesores del mes por venta registrada en Registro de Venta (distinto del reparto por OT de arriba).
-      query(
-        `
-          SELECT asesor AS nombre, SUM(total) AS total, COUNT(*) AS comprobantes
-          FROM (${dedupedSales(whereLocal)}) ventas
-          GROUP BY asesor
-          ORDER BY total DESC
-          LIMIT 8
-        `,
-        params,
-      ),
     ]);
 
     res.json({
@@ -333,8 +314,6 @@ const getDashboardSeries = async (req, res, next) => {
       modelosFrecuentes,
       otPorDepartamento,
       asesoresPorSede,
-      porFormaPago,
-      porRegistrador,
     });
   } catch (error) {
     next(error);
