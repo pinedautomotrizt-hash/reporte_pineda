@@ -545,6 +545,145 @@ function agregarOtDelMes(libro, filas, { month, local }) {
   XLSX.utils.book_append_sheet(libro, hoja, "OT del Mes");
 }
 
+// Unidades Atendidas: a diferencia de "OT del mes" (que cuenta ORDENES de
+// trabajo), esta hoja cuenta VEHICULOS distintos (por placa) atendidos en el
+// mes, con su ticket promedio y cuantos de esos vehiculos todavia siguen con
+// una OT sin cerrar ("pendientes por atender").
+function agregarUnidadesAtendidas(libro, filas, { month, local }) {
+  const esPendiente = (fila) => Number(fila.Pendiente) === 1;
+  const ticketPromedio = (registros) =>
+    registros.length
+      ? registros.reduce((total, fila) => total + Number(fila.Ticket || 0), 0) / registros.length
+      : 0;
+
+  const sedes = [...new Set(filas.map((fila) => fila.Local || "Sin sede"))].sort((a, b) =>
+    a.localeCompare(b, "es"),
+  );
+
+  const filasPorSede = sedes.map((sede) => {
+    const registros = filas.filter((fila) => (fila.Local || "Sin sede") === sede);
+    return [sede, registros.length, ticketPromedio(registros), registros.filter(esPendiente).length];
+  });
+
+  // Por empresa se arma aparte por cada sede (una empresa puede tener
+  // vehiculos atendidos en ambas sedes, y se quiere ver cada una por separado).
+  const construirFilasPorEmpresa = (registrosSede) => {
+    const clientesSede = [...new Set(registrosSede.map((fila) => fila.Cliente || "Sin cliente"))];
+    return clientesSede
+      .map((cliente) => {
+        const registros = registrosSede.filter((fila) => (fila.Cliente || "Sin cliente") === cliente);
+        return {
+          cliente,
+          unidades: registros.length,
+          ticket: ticketPromedio(registros),
+          pendientes: registros.filter(esPendiente).length,
+        };
+      })
+      .sort((a, b) => b.unidades - a.unidades)
+      .map((fila) => [fila.cliente, fila.unidades, fila.ticket, fila.pendientes]);
+  };
+
+  const salida = [];
+  const agregarFila = (fila) => salida.push(fila) - 1;
+
+  agregarFila(["UNIDADES ATENDIDAS POR SEDE"]);
+  agregarFila([
+    `Periodo: ${month} · Sede: ${local || "Todos los locales"} · Una unidad = un vehículo (placa) distinto con al menos una OT abierta este mes · "Pendientes" son las que todavía tienen alguna OT sin cerrar`,
+  ]);
+  agregarFila([]);
+
+  agregarFila(["RESUMEN GENERAL"]);
+  agregarFila(["Indicador", "Valor"]);
+  agregarFila(["Unidades atendidas este mes (total)", filas.length]);
+  const filaTicketGeneral = agregarFila(["Ticket promedio general", ticketPromedio(filas)]);
+  agregarFila(["Unidades que faltan por atender (con OT aperturada)", filas.filter(esPendiente).length]);
+  agregarFila([]);
+
+  agregarFila(["POR SEDE"]);
+  agregarFila(["Sede", "Unidades atendidas", "Ticket promedio", "Unidades pendientes"]);
+  filasPorSede.forEach((fila) => agregarFila(fila));
+  agregarFila([]);
+
+  sedes.forEach((sede) => {
+    const registrosSede = filas.filter((fila) => (fila.Local || "Sin sede") === sede);
+    agregarFila([`POR EMPRESA — ${sede.toUpperCase()}`]);
+    agregarFila(["Cliente", "Unidades atendidas", "Ticket promedio", "Unidades pendientes"]);
+    construirFilasPorEmpresa(registrosSede).forEach((fila) => agregarFila(fila));
+    agregarFila([
+      `TOTAL ${sede.toUpperCase()}`,
+      registrosSede.length,
+      ticketPromedio(registrosSede),
+      registrosSede.filter(esPendiente).length,
+    ]);
+    agregarFila([]);
+  });
+
+  if (!filas.length) agregarFila(["Sin unidades atendidas en el periodo seleccionado"]);
+
+  const hoja = XLSX.utils.aoa_to_sheet(salida);
+  const anchoColumnas = 4;
+  hoja["!cols"] = [34, 20, 18, 20].map((wch) => ({ wch }));
+  hoja["!merges"] = [];
+  const borde = {
+    top: { style: "thin", color: { rgb: "CBD5E1" } },
+    bottom: { style: "thin", color: { rgb: "CBD5E1" } },
+    left: { style: "thin", color: { rgb: "CBD5E1" } },
+    right: { style: "thin", color: { rgb: "CBD5E1" } },
+  };
+  const titulos = ["UNIDADES ATENDIDAS", "RESUMEN GENERAL", "POR SEDE", "POR EMPRESA"];
+  const cabeceras = ["Indicador", "Sede", "Cliente"];
+
+  salida.forEach((fila, indiceFila) => {
+    const titulo = titulos.some((prefijo) => String(fila[0] || "").startsWith(prefijo));
+    const subtitulo = String(fila[0] || "").startsWith("Periodo:");
+    const cabecera = cabeceras.includes(fila[0]);
+    const totalDeSede = String(fila[0] || "").startsWith("TOTAL ");
+    if (titulo || subtitulo)
+      hoja["!merges"].push({
+        s: { r: indiceFila, c: 0 },
+        e: { r: indiceFila, c: anchoColumnas - 1 },
+      });
+    fila.forEach((_, indiceColumna) => {
+      const celda = hoja[XLSX.utils.encode_cell({ r: indiceFila, c: indiceColumna })];
+      if (!celda) return;
+      celda.s = titulo
+        ? {
+            font: { bold: true, color: { rgb: "FFFFFF" }, sz: 13 },
+            fill: { fgColor: { rgb: "991B1B" } },
+            alignment: { horizontal: "center" },
+          }
+        : subtitulo
+          ? { font: { italic: true, color: { rgb: "475569" } }, alignment: { horizontal: "center" } }
+          : cabecera
+            ? {
+                font: { bold: true, color: { rgb: "FFFFFF" } },
+                fill: { fgColor: { rgb: "B91C1C" } },
+                alignment: { horizontal: "center", wrapText: true },
+                border: borde,
+              }
+            : totalDeSede
+              ? {
+                  font: { bold: true, color: { rgb: "1E293B" } },
+                  fill: { fgColor: { rgb: "FDE68A" } },
+                  border: borde,
+                  alignment: { horizontal: indiceColumna === 0 ? "left" : "right" },
+                }
+              : {
+                  fill: { fgColor: { rgb: indiceFila % 2 ? "FFFFFF" : "F8FAFC" } },
+                  border: borde,
+                  alignment: { horizontal: indiceColumna === 0 ? "left" : "right" },
+                };
+      // "Ticket promedio" cae siempre en la columna 1 del bloque RESUMEN
+      // GENERAL (Indicador/Valor) y en la columna 2 de POR SEDE/POR EMPRESA
+      // (mismo layout de 4 columnas en ambos, incluida la fila TOTAL).
+      const esTicketGeneral = indiceFila === filaTicketGeneral && indiceColumna === 1;
+      const esTicketDeTabla = !titulo && !subtitulo && !cabecera && indiceColumna === 2 && fila.length === 4;
+      if (esTicketGeneral || esTicketDeTabla) celda.z = "#,##0.00";
+    });
+  });
+  XLSX.utils.book_append_sheet(libro, hoja, "Unidades Atendidas");
+}
+
 // Consolida hojas analíticas y aplica logo, título y fecha a todo el libro.
 async function aplicarPresentacionCorporativa(buffer) {
   const workbook = new ExcelJS.Workbook();
@@ -1538,6 +1677,7 @@ export async function generarReporteFacturacion({
     comparacionAnual,
     aperturadas,
     otDelMes,
+    unidadesAtendidas,
   ] = await Promise.all([
     query(
       `
@@ -1811,6 +1951,26 @@ export async function generarReporteFacturacion({
     `,
       params,
     ),
+    // Unidades atendidas: a diferencia de "OT del mes" (que cuenta ORDENES),
+    // esto cuenta VEHICULOS distintos (por placa) con al menos una OT abierta
+    // en el mes, sin importar en que estado terminen. "Pendiente" marca los
+    // que todavia tienen alguna OT sin cerrar (siguen en el taller).
+    query(
+      `
+      SELECT
+        local_nombre AS Local,
+        COALESCE(NULLIF(TRIM(placa), ''), 'Sin placa') AS Placa,
+        COALESCE(NULLIF(TRIM(MAX(cliente_nombre)), ''), 'Sin cliente') AS Cliente,
+        SUM(${numero("precio_venta")}) AS Ticket,
+        MAX(CASE WHEN UPPER(TRIM(estado)) = 'APERTURADO' THEN 1 ELSE 0 END) AS Pendiente
+      FROM orden_trabajo
+      WHERE STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d') >= :start
+        AND STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d') < DATE_ADD(:start, INTERVAL 1 MONTH)
+        ${local ? "AND local_nombre = :local" : ""}
+      GROUP BY local_nombre, COALESCE(NULLIF(TRIM(placa), ''), 'Sin placa')
+    `,
+      params,
+    ),
   ]);
 
   const libro = XLSX.utils.book_new();
@@ -1843,6 +2003,7 @@ export async function generarReporteFacturacion({
   agregarHoja(libro, "NC y anulaciones", incidencias);
   agregarPendientesAperturados(libro, aperturadas);
   agregarOtDelMes(libro, otDelMes, { month, local });
+  agregarUnidadesAtendidas(libro, unidadesAtendidas, { month, local });
 
   const baseBuffer = XLSX.write(libro, {
     type: "buffer",
