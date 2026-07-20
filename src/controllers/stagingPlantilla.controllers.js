@@ -99,6 +99,10 @@ const createPlantillaStaging = async (req, res, next) => {
       }
     }
 
+    const desde = scopes.length ? scopes.map((scope) => scope.desde).sort()[0] : parsed.desde || null;
+    const hasta = scopes.length ? scopes.map((scope) => scope.hasta).sort().at(-1) : parsed.hasta || null;
+    const locales = scopes.length ? scopes.map((scope) => scope.local) : parsed.local ? [parsed.local] : [];
+
     const connection = await pool.getConnection();
     try {
       await connection.beginTransaction();
@@ -109,6 +113,23 @@ const createPlantillaStaging = async (req, res, next) => {
         );
       }
       await bulkInsert(config.table, columns, rows, connection, { upsert: Boolean(config.upsert) });
+      // Queda en la misma transaccion que la data: si algo de arriba falla y
+      // hace rollback, tampoco se registra el import en el historial.
+      await connection.execute(
+        `INSERT INTO importacion_historial
+          (ih_reporte, ih_tabla, ih_filas_importadas, ih_locales, ih_periodo_desde, ih_periodo_hasta, ih_usuario_nombre, ih_usuario_email)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+          config.label,
+          config.table,
+          rows.length,
+          locales.join(", ") || null,
+          desde,
+          hasta,
+          req.user?.nombre || null,
+          req.user?.email || null,
+        ],
+      );
       await connection.commit();
     } catch (error) {
       await connection.rollback();
@@ -117,9 +138,6 @@ const createPlantillaStaging = async (req, res, next) => {
       connection.release();
     }
 
-    const desde = scopes.length ? scopes.map((scope) => scope.desde).sort()[0] : parsed.desde || null;
-    const hasta = scopes.length ? scopes.map((scope) => scope.hasta).sort().at(-1) : parsed.hasta || null;
-    const locales = scopes.length ? scopes.map((scope) => scope.local) : parsed.local ? [parsed.local] : [];
     return res.json({
       message: `${config.label} importado correctamente.`,
       tabla: config.table,

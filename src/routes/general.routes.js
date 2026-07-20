@@ -4,6 +4,7 @@ import getEstado from "../controllers/estado.controllers.js";
 import getLocalesFactura from "../controllers/localesfact.controllers.js";
 import getStagingStatus from "../controllers/staging.controllers.js";
 import createPlantillaStaging from "../controllers/stagingPlantilla.controllers.js";
+import getImportacionHistorial from "../controllers/importacionHistorial.controllers.js";
 import getDashboardResumen from "../controllers/resumen.controllers.js";
 import getDashboardSeries from "../controllers/series.controllers.js";
 import exportarReporteFacturacion from "../controllers/reportesFacturacion.controllers.js";
@@ -39,6 +40,7 @@ router.get("/dashboard/locales", getLocalesFactura);
 
 // Importaciones: solo ADMIN puede ver el estado y subir archivos.
 router.get("/import/status", requireRole("ADMIN"), getStagingStatus);
+router.get("/import/historial", requireRole("ADMIN"), getImportacionHistorial);
 router.post("/import/staging", requireRole("ADMIN"), upload.single("file"), createPlantillaStaging);
 
 router.get("/dashboard/resumen", getDashboardResumen);
