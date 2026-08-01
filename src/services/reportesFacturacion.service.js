@@ -302,18 +302,14 @@ function agregarOtDelMes(libro, filas, { month, local }) {
     return clientesSede
       .map((cliente) => {
         const registros = registrosSede.filter((fila) => (fila.Cliente || "Sin cliente") === cliente);
-        const dineroCerradas = totalDineroCerradas(registros);
         return {
           cliente,
           aperturadas: registros.filter(esAperturada).length,
           cerradas: registros.filter((fila) => esCerrada(fila)).length,
           total: registros.length,
           ticket: ticketPromedio(registros),
-          dineroCerradas,
-          // Solo interesa ver el monto aperturado cuando el cliente todavia no
-          // tiene NADA cerrado este mes (100% pendiente); si ya tiene algo
-          // cerrado, no se resalta lo aperturado en esta columna.
-          dineroAperturadas: dineroCerradas === 0 ? totalDineroAperturadas(registros) : 0,
+          dineroCerradas: totalDineroCerradas(registros),
+          dineroAperturadas: totalDineroAperturadas(registros),
         };
       })
       .sort((a, b) => b.total - a.total)
@@ -326,16 +322,6 @@ function agregarOtDelMes(libro, filas, { month, local }) {
         fila.dineroCerradas,
         fila.dineroAperturadas,
       ]);
-  };
-  // Mismo criterio que arriba (solo clientes 100% pendientes), pero sumado
-  // para la fila TOTAL de la sede: no es el total aperturado de TODOS los
-  // clientes, solo el de los que no tienen nada cerrado todavia.
-  const totalDineroAperturadasClientesPendientes = (registrosSede) => {
-    const clientesSede = [...new Set(registrosSede.map((fila) => fila.Cliente || "Sin cliente"))];
-    return clientesSede.reduce((total, cliente) => {
-      const registros = registrosSede.filter((fila) => (fila.Cliente || "Sin cliente") === cliente);
-      return totalDineroCerradas(registros) === 0 ? total + totalDineroAperturadas(registros) : total;
-    }, 0);
   };
 
   // Semáforo del ticket promedio: se compara contra el promedio de la MISMA
@@ -443,7 +429,7 @@ function agregarOtDelMes(libro, filas, { month, local }) {
       registrosSede.length,
       ticketPromedio(registrosSede),
       totalDineroCerradas(registrosSede),
-      totalDineroAperturadasClientesPendientes(registrosSede),
+      totalDineroAperturadas(registrosSede),
     ]);
     agregarFila([]);
   });
