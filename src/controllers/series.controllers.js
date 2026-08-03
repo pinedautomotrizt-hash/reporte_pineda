@@ -242,7 +242,8 @@ const getDashboardSeries = async (req, res, next) => {
             COALESCE(NULLIF(TRIM(marca), ''), 'Sin marca') AS marca,
             COALESCE(NULLIF(TRIM(modelo), ''), 'Sin modelo') AS modelo,
             COUNT(DISTINCT nro_orden) AS ots,
-            SUM(${otPriceExpr}) AS venta
+            SUM(${otPriceExpr}) AS venta,
+            SUM(${otPriceExpr}) / NULLIF(COUNT(DISTINCT nro_orden), 0) AS ticket_promedio
           FROM orden_trabajo
           WHERE ${otDateExpr} >= :start
             AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
