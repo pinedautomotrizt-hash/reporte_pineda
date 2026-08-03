@@ -6,7 +6,7 @@ import getStagingStatus from "../controllers/staging.controllers.js";
 import createPlantillaStaging from "../controllers/stagingPlantilla.controllers.js";
 import getImportacionHistorial from "../controllers/importacionHistorial.controllers.js";
 import getDashboardResumen from "../controllers/resumen.controllers.js";
-import getDashboardSeries from "../controllers/series.controllers.js";
+import getDashboardSeries, { getModelosPorMarca } from "../controllers/series.controllers.js";
 import exportarReporteFacturacion from "../controllers/reportesFacturacion.controllers.js";
 import { login, refresh, me, logout } from "../controllers/auth.controllers.js";
 import { requireAuth, requireRole } from "../middleware/auth.middleware.js";
@@ -46,6 +46,7 @@ router.post("/import/staging", requireRole("ADMIN"), upload.single("file"), crea
 router.get("/dashboard/resumen", getDashboardResumen);
 
 router.get("/dashboard/series", getDashboardSeries);
+router.get("/dashboard/modelos-marca", getModelosPorMarca);
 router.get("/dashboard/facturacion", getRegistroVentaDashboard);
 router.get("/dashboard/asesores", getRegistroVentaAsesores);
 router.get("/dashboard/resumen-mensual", getRegistroVentaResumenMensual);

@@ -321,4 +321,39 @@ const getDashboardSeries = async (req, res, next) => {
   }
 };
 
+// Todos los modelos de una marca atendidos en el año en curso (enero a hoy),
+// para el modal de "ver en 3D" del ranking de modelos: independiente del mes
+// y la sede que esten filtrados en el dashboard, siempre es el año completo.
+export const getModelosPorMarca = async (req, res, next) => {
+  try {
+    const marca = String(req.query.marca || "").trim();
+    if (!marca) {
+      return res.status(400).json({ message: "Falta indicar la marca." });
+    }
+    const yearStart = `${new Date().getFullYear()}-01-01`;
+
+    const modelos = await query(
+      `
+        SELECT
+          COALESCE(NULLIF(TRIM(modelo), ''), 'Sin modelo') AS modelo,
+          COUNT(DISTINCT nro_orden) AS ots,
+          SUM(${otPriceExpr}) AS venta,
+          SUM(${otPriceExpr}) / NULLIF(COUNT(DISTINCT nro_orden), 0) AS ticket_promedio
+        FROM orden_trabajo
+        WHERE UPPER(TRIM(marca)) = :marca
+          AND ${otDateExpr} >= :yearStart
+          AND ${otDateExpr} < DATE_ADD(:yearStart, INTERVAL 1 YEAR)
+        GROUP BY COALESCE(NULLIF(TRIM(modelo), ''), 'Sin modelo')
+        ORDER BY ots DESC
+      `,
+      { marca: marca.toUpperCase(), yearStart },
+    );
+
+    const totalOts = modelos.reduce((total, fila) => total + Number(fila.ots || 0), 0);
+    res.json({ marca: marca.toUpperCase(), anio: new Date().getFullYear(), modelos, totalOts });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export default getDashboardSeries;
