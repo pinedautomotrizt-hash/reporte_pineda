@@ -7,6 +7,7 @@ import createPlantillaStaging from "../controllers/stagingPlantilla.controllers.
 import getImportacionHistorial from "../controllers/importacionHistorial.controllers.js";
 import getDashboardResumen from "../controllers/resumen.controllers.js";
 import getDashboardSeries, { getModelosPorMarca } from "../controllers/series.controllers.js";
+import getEmpresasResumen from "../controllers/empresas.controllers.js";
 import exportarReporteFacturacion from "../controllers/reportesFacturacion.controllers.js";
 import { login, refresh, me, logout } from "../controllers/auth.controllers.js";
 import { requireAuth, requireRole } from "../middleware/auth.middleware.js";
@@ -50,6 +51,7 @@ router.get("/dashboard/modelos-marca", getModelosPorMarca);
 router.get("/dashboard/facturacion", getRegistroVentaDashboard);
 router.get("/dashboard/asesores", getRegistroVentaAsesores);
 router.get("/dashboard/resumen-mensual", getRegistroVentaResumenMensual);
+router.get("/dashboard/empresas", getEmpresasResumen);
 
 // Catálogo histórico utilizado para clasificar asesores sin reglas fijas en React.
 // La lectura la necesita cualquier usuario autenticado (alimenta el resumen mensual);
