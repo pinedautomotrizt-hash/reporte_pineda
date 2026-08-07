@@ -1438,6 +1438,134 @@ function agregarComparacionAnual(libro, { month, local, datos }) {
   XLSX.utils.book_append_sheet(libro, sheet, "Comparación anual");
 }
 
+// Cruza registro_venta (facturación oficial) y orden_trabajo (unidades
+// atendidas) por cliente y mes del año, mismo criterio de "empresa" que el
+// módulo Empresas del dashboard (grupo_cliente <> NINGUNO en orden_trabajo):
+// clientes particulares no se listan uno por uno aquí. Reusa el estilo visual
+// de agregarComparacionAnual (banner, header azul, filas alternadas, total en rojo).
+function agregarFacturacionPorCliente(
+  libro,
+  { month, local, facturacionPorClienteMes, unidadesPorClienteMes },
+) {
+  const year = month.slice(0, 4);
+  const months = [
+    "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+    "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre",
+  ];
+
+  const facturacionMap = new Map();
+  facturacionPorClienteMes.forEach((row) => {
+    const current = facturacionMap.get(row.cliente) || Array(12).fill(0);
+    current[Number(row.mes) - 1] = Number(row.sin_igv || 0);
+    facturacionMap.set(row.cliente, current);
+  });
+  const unidadesMap = new Map();
+  const clientes = new Set();
+  unidadesPorClienteMes.forEach((row) => {
+    clientes.add(row.cliente);
+    const current = unidadesMap.get(row.cliente) || Array(12).fill(0);
+    current[Number(row.mes) - 1] = Number(row.unidades || 0);
+    unidadesMap.set(row.cliente, current);
+  });
+
+  const rowTotal = (values) =>
+    values.reduce((sum, value) => sum + Number(value || 0), 0);
+  // Mismo orden de cliente en ambas tablas (por facturación anual), para
+  // poder comparar la fila de un cliente contra la misma fila en la otra tabla.
+  const clientesOrdenados = [...clientes].sort(
+    (a, b) => rowTotal(facturacionMap.get(b) || []) - rowTotal(facturacionMap.get(a) || []),
+  );
+
+  const rows = [
+    [`FACTURACIÓN Y UNIDADES ATENDIDAS POR CLIENTE ${year}`],
+    [`Sede: ${local || "Todos los locales"} · Solo clientes empresa (flotas, seguros, transportistas)`],
+    [],
+  ];
+
+  const blocks = [];
+  const addTable = (title, valuesByClient, isMoney) => {
+    const start = rows.length;
+    rows.push([title, ...months, "TOTAL"]);
+    const totalGeneral = Array(12).fill(0);
+    clientesOrdenados.forEach((cliente) => {
+      const values = valuesByClient.get(cliente) || Array(12).fill(0);
+      values.forEach((value, index) => { totalGeneral[index] += value; });
+      rows.push([cliente, ...values, rowTotal(values)]);
+    });
+    const totalRowIndex = rows.length;
+    rows.push(["TOTAL GENERAL", ...totalGeneral, rowTotal(totalGeneral)]);
+    blocks.push({ start, headerRow: start, totalRowIndex, end: rows.length - 1, isMoney });
+    rows.push([]);
+  };
+  addTable("FACTURACIÓN (S/ sin IGV)", facturacionMap, true);
+  addTable("UNIDADES ATENDIDAS", unidadesMap, false);
+
+  const sheet = XLSX.utils.aoa_to_sheet(rows);
+  const lastColumn = XLSX.utils.encode_col(months.length + 1);
+  sheet["!merges"] = [
+    XLSX.utils.decode_range(`A1:${lastColumn}1`),
+    XLSX.utils.decode_range(`A2:${lastColumn}2`),
+  ];
+  sheet["!cols"] = [
+    { wch: 32 },
+    ...months.map(() => ({ wch: 13 })),
+    { wch: 15 },
+  ];
+  const border = {
+    top: { style: "thin", color: { rgb: "94A3B8" } },
+    bottom: { style: "thin", color: { rgb: "94A3B8" } },
+    left: { style: "thin", color: { rgb: "94A3B8" } },
+    right: { style: "thin", color: { rgb: "94A3B8" } },
+  };
+  sheet.A1.s = {
+    font: { bold: true, sz: 16, color: { rgb: "FFFFFF" } },
+    fill: { fgColor: { rgb: "991B1B" } },
+    alignment: { horizontal: "center" },
+  };
+  sheet.A2.s = {
+    font: { italic: true, color: { rgb: "475569" } },
+    alignment: { horizontal: "center" },
+  };
+  const columnCount = months.length + 2;
+  blocks.forEach(({ headerRow, totalRowIndex, end, isMoney }) => {
+    for (let row = headerRow; row <= end; row += 1) {
+      const isHeader = row === headerRow;
+      const isTotal = row === totalRowIndex;
+      for (let column = 0; column < columnCount; column += 1) {
+        const cell = sheet[XLSX.utils.encode_cell({ r: row, c: column })];
+        if (!cell) continue;
+        cell.s = {
+          border,
+          font: {
+            bold: isHeader || isTotal || column === 0,
+            color: { rgb: isHeader || isTotal ? "FFFFFF" : "1E293B" },
+          },
+          fill: {
+            fgColor: {
+              rgb: isHeader
+                ? "1E3A8A"
+                : isTotal
+                  ? "991B1B"
+                  : (row - headerRow) % 2
+                    ? "EFF6FF"
+                    : "FFFFFF",
+            },
+          },
+          alignment: {
+            horizontal: column === 0 ? "left" : "center",
+            wrapText: isHeader,
+          },
+        };
+        if (!isHeader && column > 0 && typeof cell.v === "number") {
+          cell.z = isMoney ? "#,##0.00" : "#,##0";
+        }
+      }
+    }
+  });
+  sheet["!freeze"] = { xSplit: 1, ySplit: 3 };
+  XLSX.utils.book_append_sheet(libro, sheet, "Facturación por cliente");
+}
+
 // Construye un bloque gerencial y otro de auditoría dentro de Avance diario.
 function agregarAvanceDiario(
   libro,
@@ -1664,6 +1792,8 @@ export async function generarReporteFacturacion({
     aperturadas,
     otDelMes,
     unidadesAtendidas,
+    facturacionPorClienteMes,
+    unidadesPorClienteMes,
   ] = await Promise.all([
     query(
       `
@@ -1957,6 +2087,37 @@ export async function generarReporteFacturacion({
     `,
       params,
     ),
+    // Facturación oficial por cliente y mes, todo el año (mismas reglas que
+    // generalAnual/matrizAnual, agregando el cliente al agrupamiento).
+    query(
+      `
+      WITH documentos AS (${annualBase})
+      SELECT
+        COALESCE(NULLIF(TRIM(cliente), ''), 'Sin cliente') AS cliente,
+        MONTH(fecha) AS mes,
+        SUM(CASE WHEN COALESCE(UPPER(TRIM(clase_venta)), '') <> 'MOSTRADOR' AND UPPER(TRIM(estado)) <> 'ANULADO' AND UPPER(TRIM(estado_sunat)) = 'APROBADO' THEN sin_igv ELSE 0 END) AS sin_igv
+      FROM documentos
+      GROUP BY cliente, MONTH(fecha)
+    `,
+      annualParams,
+    ),
+    // Unidades atendidas (OT unicas) por cliente y mes, todo el año. Mismo
+    // criterio de "empresa" que el modulo Empresas: excluye grupo_cliente NINGUNO.
+    query(
+      `
+      SELECT
+        COALESCE(NULLIF(TRIM(cliente_nombre), ''), 'Sin cliente') AS cliente,
+        MONTH(STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d')) AS mes,
+        COUNT(DISTINCT nro_orden) AS unidades
+      FROM orden_trabajo
+      WHERE STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d') >= :yearStart
+        AND STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d') < DATE_ADD(:yearStart, INTERVAL 1 YEAR)
+        AND UPPER(TRIM(grupo_cliente)) <> 'NINGUNO'
+        ${local ? "AND local_nombre = :local" : ""}
+      GROUP BY TRIM(cliente_nombre), MONTH(STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d'))
+    `,
+      annualParams,
+    ),
   ]);
 
   const libro = XLSX.utils.book_new();
@@ -1968,6 +2129,12 @@ export async function generarReporteFacturacion({
     general: generalAnual,
   });
   agregarComparacionAnual(libro, { month, local, datos: comparacionAnual });
+  agregarFacturacionPorCliente(libro, {
+    month,
+    local,
+    facturacionPorClienteMes,
+    unidadesPorClienteMes,
+  });
   agregarResumenEjecutivo(libro, {
     month,
     local,
