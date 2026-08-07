@@ -13,6 +13,24 @@ const isReprocesoOt = `UPPER(TRIM(tipo_ot)) IN (
   'RECLAMOS DE GARANTIA'
 )`;
 
+// Algunos clientes empresa vienen mal etiquetados como grupo_cliente=NINGUNO
+// en el reporte origen de OT (ej. ALD Automotive). Se reclasifican por razon
+// social (S.A., S.A.C., E.I.R.L., etc.) en vez de tratarlos como particulares.
+const esRazonSocialEmpresa = `(
+  CONCAT(' ', REPLACE(REPLACE(UPPER(TRIM(cliente_nombre)), '.', ''), '-', ' '), ' ')
+    REGEXP ' (SAC|SAA|SRL|SCRL|SCS|EIRL|SA) '
+  OR UPPER(cliente_nombre) LIKE '%SOCIEDAD ANONIMA%'
+  OR UPPER(cliente_nombre) LIKE '%EMPRESA INDIVIDUAL DE RESPONSABILIDAD LIMITADA%'
+)`;
+// grupo_cliente "efectivo": respeta la categoria del origen (FLOTAS, COMPAÑIAS
+// DE SEGUROS, etc.) y solo reclasifica los NINGUNO que en realidad son
+// personas juridicas, agrupandolos aparte para no mezclarlos con FLOTAS.
+const grupoClienteEfectivo = `CASE
+  WHEN UPPER(TRIM(grupo_cliente)) <> 'NINGUNO' THEN COALESCE(NULLIF(UPPER(TRIM(grupo_cliente)), ''), 'SIN DATO')
+  WHEN ${esRazonSocialEmpresa} THEN 'OTRAS EMPRESAS'
+  ELSE 'NINGUNO'
+END`;
+
 // Mismas reglas contables que resumen.controllers.js / series.controllers.js:
 // un documento por fila, notas de credito aprobadas restan, ANULADO y no
 // aprobado por SUNAT no cuentan, MOSTRADOR queda fuera del avance oficial.
@@ -85,14 +103,14 @@ export default async function getEmpresasResumen(req, res, next) {
       query(
         `
           SELECT
-            COALESCE(NULLIF(UPPER(TRIM(grupo_cliente)), ''), 'SIN DATO') AS grupo_cliente,
+            ${grupoClienteEfectivo} AS grupo_cliente,
             COUNT(DISTINCT nro_orden) AS unidades,
             COUNT(DISTINCT CASE WHEN ${isReprocesoOt} THEN nro_orden END) AS reprocesos
           FROM orden_trabajo
           WHERE ${otDateExpr} >= :start
             AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
             ${whereLocal}
-          GROUP BY grupo_cliente
+          GROUP BY ${grupoClienteEfectivo}
           ORDER BY unidades DESC
         `,
         params,
@@ -101,15 +119,15 @@ export default async function getEmpresasResumen(req, res, next) {
         `
           SELECT
             TRIM(cliente_nombre) AS empresa,
-            UPPER(TRIM(grupo_cliente)) AS grupo_cliente,
+            ${grupoClienteEfectivo} AS grupo_cliente,
             COUNT(DISTINCT nro_orden) AS unidades,
             COUNT(DISTINCT CASE WHEN ${isReprocesoOt} THEN nro_orden END) AS reprocesos
           FROM orden_trabajo
           WHERE ${otDateExpr} >= :start
             AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
-            AND UPPER(TRIM(grupo_cliente)) <> 'NINGUNO'
+            AND ${grupoClienteEfectivo} <> 'NINGUNO'
             ${whereLocal}
-          GROUP BY TRIM(cliente_nombre), UPPER(TRIM(grupo_cliente))
+          GROUP BY TRIM(cliente_nombre), ${grupoClienteEfectivo}
           ORDER BY unidades DESC
         `,
         params,

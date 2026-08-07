@@ -14,6 +14,17 @@ const importeSinIgv = `${numero("valor_gravado")} + ${numero("valor_exonerado")}
 const importeContable = (expresion) =>
   `CASE WHEN ${esNotaCredito} THEN -ABS(${expresion}) ELSE ${expresion} END`;
 
+// Algunos clientes empresa vienen mal etiquetados como grupo_cliente=NINGUNO
+// en orden_trabajo (ej. ALD Automotive). Se reclasifican por razon social
+// (S.A., S.A.C., E.I.R.L., etc.), mismo criterio que empresas.controllers.js.
+const esClienteEmpresa = `(
+  UPPER(TRIM(grupo_cliente)) <> 'NINGUNO'
+  OR CONCAT(' ', REPLACE(REPLACE(UPPER(TRIM(cliente_nombre)), '.', ''), '-', ' '), ' ')
+    REGEXP ' (SAC|SAA|SRL|SCRL|SCS|EIRL|SA) '
+  OR UPPER(cliente_nombre) LIKE '%SOCIEDAD ANONIMA%'
+  OR UPPER(cliente_nombre) LIKE '%EMPRESA INDIVIDUAL DE RESPONSABILIDAD LIMITADA%'
+)`;
+
 // Construye el filtro mensual y opcional por sede usado en todas las hojas.
 function crearPeriodo({ start, local }, alias = "") {
   const prefijo = alias ? `${alias}.` : "";
@@ -2112,7 +2123,7 @@ export async function generarReporteFacturacion({
       FROM orden_trabajo
       WHERE STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d') >= :yearStart
         AND STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d') < DATE_ADD(:yearStart, INTERVAL 1 YEAR)
-        AND UPPER(TRIM(grupo_cliente)) <> 'NINGUNO'
+        AND ${esClienteEmpresa}
         ${local ? "AND local_nombre = :local" : ""}
       GROUP BY TRIM(cliente_nombre), MONTH(STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d'))
     `,
