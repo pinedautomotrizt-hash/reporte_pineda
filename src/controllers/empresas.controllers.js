@@ -213,12 +213,17 @@ export async function getEmpresaDetalle(req, res, next) {
     const yearStart = `${month.slice(0, 4)}-01-01`;
     const params = { start, local, empresa, yearStart };
     const whereEmpresa = "TRIM(cliente_nombre) = :empresa";
-    // Cada OT colapsada a una fila (dias entre apertura y cierre). Se reusa
-    // para el promedio/min/max y para el histograma, asi ambos salen de la
-    // misma poblacion de OT cerradas (no solo las 15 que se ven en el detalle).
-    const otDiasSubquery = `
+    // Cada OT colapsada a una fila (placa, fechas, estado y dias entre
+    // apertura y cierre). Es la base unica que reusan el promedio/min/max, el
+    // histograma, el detalle de las ultimas OT y las de "mas rapida/mas lenta" —
+    // todas ven exactamente la misma poblacion, no cada una un recorte distinto.
+    const otResumenSubquery = `
       SELECT
         nro_orden,
+        MAX(NULLIF(TRIM(placa), '')) AS placa,
+        DATE_FORMAT(MIN(${otDateExpr}), '%Y-%m-%d') AS fecha_apertura,
+        DATE_FORMAT(MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')), '%Y-%m-%d') AS fecha_cierre,
+        MAX(UPPER(TRIM(estado))) AS estado,
         DATEDIFF(
           MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')),
           MIN(${otDateExpr})
@@ -226,10 +231,12 @@ export async function getEmpresaDetalle(req, res, next) {
       FROM orden_trabajo
       WHERE ${whereEmpresa}
         AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
-        AND NULLIF(TRIM(fec_cierre), '') IS NOT NULL
         ${whereLocal}
       GROUP BY nro_orden
     `;
+    // Mismo subquery pero solo con las que ya cerraron (dias no es NULL), para
+    // los calculos que no tiene sentido que arrastren las OT todavia abiertas.
+    const otCerradasSubquery = `SELECT * FROM (${otResumenSubquery}) t WHERE dias IS NOT NULL`;
 
     const [
       resumenRows,
@@ -237,6 +244,8 @@ export async function getEmpresaDetalle(req, res, next) {
       tiempoPromedioRows,
       tiempoDistribucionRows,
       tiempoDetalle,
+      tiempoMasRapidas,
+      tiempoMasLentas,
       porEstado,
       porServicio,
       porVehiculo,
@@ -277,7 +286,7 @@ export async function getEmpresaDetalle(req, res, next) {
             MIN(dias) AS min_dias,
             MAX(dias) AS max_dias,
             COUNT(*) AS ot_con_cierre
-          FROM (${otDiasSubquery}) ot_dias
+          FROM (${otCerradasSubquery}) t
         `,
         params,
       ),
@@ -292,30 +301,37 @@ export async function getEmpresaDetalle(req, res, next) {
               ELSE '8+'
             END AS rango,
             COUNT(*) AS cantidad
-          FROM (${otDiasSubquery}) ot_dias
+          FROM (${otCerradasSubquery}) t
           GROUP BY rango
         `,
         params,
       ),
       query(
         `
-          SELECT
-            nro_orden,
-            MAX(NULLIF(TRIM(placa), '')) AS placa,
-            DATE_FORMAT(MIN(${otDateExpr}), '%Y-%m-%d') AS fecha_apertura,
-            DATE_FORMAT(MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')), '%Y-%m-%d') AS fecha_cierre,
-            MAX(UPPER(TRIM(estado))) AS estado,
-            DATEDIFF(
-              MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')),
-              MIN(${otDateExpr})
-            ) AS dias
-          FROM orden_trabajo
-          WHERE ${whereEmpresa}
-            AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
-            ${whereLocal}
-          GROUP BY nro_orden
+          SELECT nro_orden, placa, fecha_apertura, fecha_cierre, estado, dias
+          FROM (${otResumenSubquery}) t
           ORDER BY fecha_apertura DESC
           LIMIT 15
+        `,
+        params,
+      ),
+      // OT empatadas en el minimo de dias (puede ser mas de una).
+      query(
+        `
+          SELECT nro_orden, placa, fecha_apertura, fecha_cierre, estado, dias
+          FROM (${otCerradasSubquery}) t
+          WHERE dias = (SELECT MIN(dias) FROM (${otCerradasSubquery}) m)
+          ORDER BY fecha_apertura DESC
+        `,
+        params,
+      ),
+      // OT empatadas en el maximo de dias (puede ser mas de una).
+      query(
+        `
+          SELECT nro_orden, placa, fecha_apertura, fecha_cierre, estado, dias
+          FROM (${otCerradasSubquery}) t
+          WHERE dias = (SELECT MAX(dias) FROM (${otCerradasSubquery}) m)
+          ORDER BY fecha_apertura DESC
         `,
         params,
       ),
@@ -415,6 +431,8 @@ export async function getEmpresaDetalle(req, res, next) {
         otConCierre: Number(tiempoPromedioRows[0]?.ot_con_cierre || 0),
         distribucion,
         detalle: tiempoDetalle,
+        masRapidas: tiempoMasRapidas,
+        masLentas: tiempoMasLentas,
       },
       porEstado,
       porServicio,
