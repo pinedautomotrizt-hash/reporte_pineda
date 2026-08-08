@@ -277,8 +277,8 @@ export async function getEmpresaDetalle(req, res, next) {
           SELECT
             nro_orden,
             MAX(NULLIF(TRIM(placa), '')) AS placa,
-            MIN(${otDateExpr}) AS fecha_apertura,
-            MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')) AS fecha_cierre,
+            DATE_FORMAT(MIN(${otDateExpr}), '%Y-%m-%d') AS fecha_apertura,
+            DATE_FORMAT(MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')), '%Y-%m-%d') AS fecha_cierre,
             MAX(UPPER(TRIM(estado))) AS estado,
             DATEDIFF(
               MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')),
