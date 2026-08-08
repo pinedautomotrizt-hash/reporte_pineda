@@ -202,3 +202,188 @@ export default async function getEmpresasResumen(req, res, next) {
     next(error);
   }
 }
+
+// Reporte operativo de una sola empresa (sin montos): resumen, evolucion
+// mensual, tiempo en taller, estado, composicion del trabajo, flota y sede.
+export async function getEmpresaDetalle(req, res, next) {
+  try {
+    const empresa = String(req.params.empresa || "").trim();
+    const { start, month, local } = parseFilters(req);
+    const whereLocal = localClause(local);
+    const yearStart = `${month.slice(0, 4)}-01-01`;
+    const params = { start, local, empresa, yearStart };
+    const whereEmpresa = "TRIM(cliente_nombre) = :empresa";
+
+    const [
+      resumenRows,
+      evolucionMensualRows,
+      tiempoPromedioRows,
+      tiempoDetalle,
+      porEstado,
+      porServicio,
+      porVehiculo,
+      porSede,
+    ] = await Promise.all([
+      query(
+        `
+          SELECT
+            MAX(${grupoClienteEfectivo}) AS grupo_cliente,
+            COUNT(DISTINCT nro_orden) AS unidades_ot,
+            COUNT(DISTINCT NULLIF(TRIM(placa), '')) AS unidades_vehiculos,
+            COUNT(DISTINCT CASE WHEN ${isReprocesoOt} THEN nro_orden END) AS reprocesos
+          FROM orden_trabajo
+          WHERE ${whereEmpresa}
+            AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
+            ${whereLocal}
+        `,
+        params,
+      ),
+      query(
+        `
+          SELECT
+            MONTH(${otDateExpr}) AS mes,
+            COUNT(DISTINCT nro_orden) AS unidades,
+            COUNT(DISTINCT CASE WHEN ${isReprocesoOt} THEN nro_orden END) AS reprocesos
+          FROM orden_trabajo
+          WHERE ${whereEmpresa}
+            AND ${otDateExpr} >= :yearStart AND ${otDateExpr} < DATE_ADD(:yearStart, INTERVAL 1 YEAR)
+            ${whereLocal}
+          GROUP BY MONTH(${otDateExpr})
+        `,
+        params,
+      ),
+      query(
+        `
+          SELECT ROUND(AVG(dias), 1) AS promedio_dias, COUNT(*) AS ot_con_cierre
+          FROM (
+            SELECT
+              nro_orden,
+              DATEDIFF(
+                MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')),
+                MIN(${otDateExpr})
+              ) AS dias
+            FROM orden_trabajo
+            WHERE ${whereEmpresa}
+              AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
+              AND NULLIF(TRIM(fec_cierre), '') IS NOT NULL
+              ${whereLocal}
+            GROUP BY nro_orden
+          ) ot_dias
+        `,
+        params,
+      ),
+      query(
+        `
+          SELECT
+            nro_orden,
+            MAX(NULLIF(TRIM(placa), '')) AS placa,
+            MIN(${otDateExpr}) AS fecha_apertura,
+            MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')) AS fecha_cierre,
+            MAX(UPPER(TRIM(estado))) AS estado,
+            DATEDIFF(
+              MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')),
+              MIN(${otDateExpr})
+            ) AS dias
+          FROM orden_trabajo
+          WHERE ${whereEmpresa}
+            AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
+            ${whereLocal}
+          GROUP BY nro_orden
+          ORDER BY fecha_apertura DESC
+          LIMIT 15
+        `,
+        params,
+      ),
+      query(
+        `
+          SELECT UPPER(TRIM(estado)) AS estado, COUNT(DISTINCT nro_orden) AS unidades
+          FROM orden_trabajo
+          WHERE ${whereEmpresa}
+            AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
+            ${whereLocal}
+          GROUP BY UPPER(TRIM(estado))
+          ORDER BY unidades DESC
+        `,
+        params,
+      ),
+      query(
+        `
+          SELECT
+            COALESCE(NULLIF(TRIM(grupo_servicio), ''), 'Sin clasificar') AS grupo_servicio,
+            COUNT(DISTINCT nro_orden) AS unidades
+          FROM orden_trabajo
+          WHERE ${whereEmpresa}
+            AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
+            ${whereLocal}
+          GROUP BY COALESCE(NULLIF(TRIM(grupo_servicio), ''), 'Sin clasificar')
+          ORDER BY unidades DESC
+        `,
+        params,
+      ),
+      query(
+        `
+          SELECT
+            COALESCE(NULLIF(TRIM(marca), ''), 'Sin marca') AS marca,
+            COALESCE(NULLIF(TRIM(modelo), ''), 'Sin modelo') AS modelo,
+            COUNT(DISTINCT NULLIF(TRIM(placa), '')) AS vehiculos,
+            COUNT(DISTINCT nro_orden) AS unidades
+          FROM orden_trabajo
+          WHERE ${whereEmpresa}
+            AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
+            ${whereLocal}
+          GROUP BY
+            COALESCE(NULLIF(TRIM(marca), ''), 'Sin marca'),
+            COALESCE(NULLIF(TRIM(modelo), ''), 'Sin modelo')
+          ORDER BY vehiculos DESC
+          LIMIT 15
+        `,
+        params,
+      ),
+      // A proposito sin filtro de sede: sirve justo para ver el reparto entre sedes.
+      query(
+        `
+          SELECT local_nombre, COUNT(DISTINCT nro_orden) AS unidades
+          FROM orden_trabajo
+          WHERE ${whereEmpresa}
+            AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
+          GROUP BY local_nombre
+          ORDER BY unidades DESC
+        `,
+        params,
+      ),
+    ]);
+
+    const evolucionPorMes = new Map(
+      evolucionMensualRows.map((row) => [Number(row.mes), row]),
+    );
+    const evolucionMensual = Array.from({ length: 12 }, (_, index) => {
+      const fila = evolucionPorMes.get(index + 1);
+      return {
+        mes: index + 1,
+        unidades: Number(fila?.unidades || 0),
+        reprocesos: Number(fila?.reprocesos || 0),
+      };
+    });
+
+    res.json({
+      resumen: resumenRows[0] || {
+        grupo_cliente: null,
+        unidades_ot: 0,
+        unidades_vehiculos: 0,
+        reprocesos: 0,
+      },
+      evolucionMensual,
+      tiempoTaller: {
+        promedioDias: tiempoPromedioRows[0]?.promedio_dias ?? null,
+        otConCierre: Number(tiempoPromedioRows[0]?.ot_con_cierre || 0),
+        detalle: tiempoDetalle,
+      },
+      porEstado,
+      porServicio,
+      porVehiculo,
+      porSede,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
