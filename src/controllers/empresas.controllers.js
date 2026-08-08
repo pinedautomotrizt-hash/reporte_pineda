@@ -213,11 +213,29 @@ export async function getEmpresaDetalle(req, res, next) {
     const yearStart = `${month.slice(0, 4)}-01-01`;
     const params = { start, local, empresa, yearStart };
     const whereEmpresa = "TRIM(cliente_nombre) = :empresa";
+    // Cada OT colapsada a una fila (dias entre apertura y cierre). Se reusa
+    // para el promedio/min/max y para el histograma, asi ambos salen de la
+    // misma poblacion de OT cerradas (no solo las 15 que se ven en el detalle).
+    const otDiasSubquery = `
+      SELECT
+        nro_orden,
+        DATEDIFF(
+          MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')),
+          MIN(${otDateExpr})
+        ) AS dias
+      FROM orden_trabajo
+      WHERE ${whereEmpresa}
+        AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
+        AND NULLIF(TRIM(fec_cierre), '') IS NOT NULL
+        ${whereLocal}
+      GROUP BY nro_orden
+    `;
 
     const [
       resumenRows,
       evolucionMensualRows,
       tiempoPromedioRows,
+      tiempoDistribucionRows,
       tiempoDetalle,
       porEstado,
       porServicio,
@@ -254,21 +272,28 @@ export async function getEmpresaDetalle(req, res, next) {
       ),
       query(
         `
-          SELECT ROUND(AVG(dias), 1) AS promedio_dias, COUNT(*) AS ot_con_cierre
-          FROM (
-            SELECT
-              nro_orden,
-              DATEDIFF(
-                MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')),
-                MIN(${otDateExpr})
-              ) AS dias
-            FROM orden_trabajo
-            WHERE ${whereEmpresa}
-              AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
-              AND NULLIF(TRIM(fec_cierre), '') IS NOT NULL
-              ${whereLocal}
-            GROUP BY nro_orden
-          ) ot_dias
+          SELECT
+            ROUND(AVG(dias), 1) AS promedio_dias,
+            MIN(dias) AS min_dias,
+            MAX(dias) AS max_dias,
+            COUNT(*) AS ot_con_cierre
+          FROM (${otDiasSubquery}) ot_dias
+        `,
+        params,
+      ),
+      // Histograma: en cuantos "cubos" de dias cae cada OT cerrada, para ver
+      // que tan pareja (o dispersa) es la atencion, no solo el promedio.
+      query(
+        `
+          SELECT
+            CASE
+              WHEN dias <= 3 THEN CAST(dias AS CHAR)
+              WHEN dias BETWEEN 4 AND 7 THEN '4-7'
+              ELSE '8+'
+            END AS rango,
+            COUNT(*) AS cantidad
+          FROM (${otDiasSubquery}) ot_dias
+          GROUP BY rango
         `,
         params,
       ),
@@ -365,6 +390,16 @@ export async function getEmpresaDetalle(req, res, next) {
       };
     });
 
+    // Orden fijo de los cubos del histograma (la BD los devuelve sin orden util).
+    const ordenRangos = ["0", "1", "2", "3", "4-7", "8+"];
+    const distribucionPorRango = new Map(
+      tiempoDistribucionRows.map((row) => [row.rango, Number(row.cantidad || 0)]),
+    );
+    const distribucion = ordenRangos.map((rango) => ({
+      rango,
+      cantidad: distribucionPorRango.get(rango) || 0,
+    }));
+
     res.json({
       resumen: resumenRows[0] || {
         grupo_cliente: null,
@@ -375,7 +410,10 @@ export async function getEmpresaDetalle(req, res, next) {
       evolucionMensual,
       tiempoTaller: {
         promedioDias: tiempoPromedioRows[0]?.promedio_dias ?? null,
+        minDias: tiempoPromedioRows[0]?.min_dias ?? null,
+        maxDias: tiempoPromedioRows[0]?.max_dias ?? null,
         otConCierre: Number(tiempoPromedioRows[0]?.ot_con_cierre || 0),
+        distribucion,
         detalle: tiempoDetalle,
       },
       porEstado,
