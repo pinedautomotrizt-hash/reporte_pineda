@@ -246,6 +246,7 @@ export async function getEmpresaDetalle(req, res, next) {
       tiempoDetalle,
       tiempoMasRapidas,
       tiempoMasLentas,
+      reprocesosDetalle,
       porEstado,
       porServicio,
       porVehiculo,
@@ -331,6 +332,26 @@ export async function getEmpresaDetalle(req, res, next) {
           SELECT nro_orden, placa, fecha_apertura, fecha_cierre, estado, dias
           FROM (${otCerradasSubquery}) t
           WHERE dias = (SELECT MAX(dias) FROM (${otCerradasSubquery}) m)
+          ORDER BY fecha_apertura DESC
+        `,
+        params,
+      ),
+      // Detalle de cada OT marcada como reproceso/reclamo de garantia, para el
+      // modal de "Reprocesos / garantias" del resumen.
+      query(
+        `
+          SELECT
+            nro_orden,
+            MAX(NULLIF(TRIM(placa), '')) AS placa,
+            DATE_FORMAT(MIN(${otDateExpr}), '%Y-%m-%d') AS fecha_apertura,
+            MAX(UPPER(TRIM(estado))) AS estado,
+            MAX(NULLIF(TRIM(tipo_ot), '')) AS tipo_ot
+          FROM orden_trabajo
+          WHERE ${whereEmpresa}
+            AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
+            AND ${isReprocesoOt}
+            ${whereLocal}
+          GROUP BY nro_orden
           ORDER BY fecha_apertura DESC
         `,
         params,
@@ -434,6 +455,7 @@ export async function getEmpresaDetalle(req, res, next) {
         masRapidas: tiempoMasRapidas,
         masLentas: tiempoMasLentas,
       },
+      reprocesosDetalle,
       porEstado,
       porServicio,
       porVehiculo,
