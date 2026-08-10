@@ -358,82 +358,33 @@ export const getModelosPorMarca = async (req, res, next) => {
 
 // Rangos fijos del histograma de antiguedad (mas anchos que los de "tiempo en
 // taller" en empresas.controllers.js: aqui el backlog se mide en meses, no en dias).
-const RANGOS_ANTIGUEDAD = ["0-7", "8-15", "16-30", "31-60", "61-90", "90+"];
-function rangoAntiguedad(dias) {
-  if (dias <= 7) return "0-7";
-  if (dias <= 15) return "8-15";
-  if (dias <= 30) return "16-30";
-  if (dias <= 60) return "31-60";
-  if (dias <= 90) return "61-90";
-  return "90+";
-}
-
-// Arrastre historico: OT que siguen APERTURADO, CERRADO o LIQUIDADO al cierre
-// del mes elegido, sin importar en que mes se abrieron (a diferencia de
-// otPendientesDetalle/otPorEstado en getDashboardSeries, que solo miran OT
-// abiertas DENTRO del mes filtrado). Misma logica que la hoja "Pendientes"
-// del reporte Excel (agregarPendientesAperturados en reportesFacturacion.service.js),
-// ampliada para incluir Cerrado/Liquidado ademas de Aperturado.
+// Arrastre historico: cuantas OT siguen APERTURADO o CERRADO al cierre del mes
+// elegido, sin importar en que mes se abrieron (a diferencia de otPorEstado en
+// getDashboardSeries, que solo mira OT abiertas DENTRO del mes filtrado),
+// agrupado por sede para comparar Callao vs Trujillo.
 export const getPendientesAperturados = async (req, res, next) => {
   try {
     const { start, local } = parseFilters(req);
     const params = { start, local };
     const whereLocal = localClause(local);
 
-    const detalle = await query(
+    const porSedeEstado = await query(
       `
         SELECT
           local_nombre,
-          nro_orden,
-          MAX(NULLIF(TRIM(cliente_nombre), '')) AS cliente,
-          MAX(NULLIF(TRIM(placa), '')) AS placa,
-          MAX(asesor) AS asesor,
-          MAX(grupo_servicio) AS grupo_servicio,
-          MAX(tipo_ot) AS tipo_ot,
-          MAX(UPPER(TRIM(estado))) AS estado,
-          DATE_FORMAT(MIN(${otDateExpr}), '%Y-%m-%d') AS fecha_apertura,
-          DATEDIFF(LEAST(CURDATE(), LAST_DAY(:start)), MIN(${otDateExpr})) AS dias_aperturada,
-          SUM(${otNetExpr}) AS valor_pendiente
+          UPPER(TRIM(estado)) AS estado,
+          COUNT(DISTINCT nro_orden) AS cantidad
         FROM orden_trabajo
-        WHERE UPPER(TRIM(estado)) IN ('APERTURADO', 'CERRADO', 'LIQUIDADO')
+        WHERE UPPER(TRIM(estado)) IN ('APERTURADO', 'CERRADO')
           AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
           ${whereLocal}
-        GROUP BY local_nombre, nro_orden
-        ORDER BY dias_aperturada DESC
+        GROUP BY local_nombre, UPPER(TRIM(estado))
+        ORDER BY local_nombre
       `,
       params,
     );
 
-    const resumenPorEstadoMap = new Map();
-    const resumenPorSedeMap = new Map();
-    const distribucionMap = new Map(RANGOS_ANTIGUEDAD.map((rango) => [rango, 0]));
-
-    detalle.forEach((fila) => {
-      const dias = Number(fila.dias_aperturada || 0);
-      const valor = Number(fila.valor_pendiente || 0);
-
-      const estado = fila.estado || "SIN ESTADO";
-      const porEstado = resumenPorEstadoMap.get(estado) || { estado, cantidad: 0, valor_pendiente: 0 };
-      porEstado.cantidad += 1;
-      porEstado.valor_pendiente += valor;
-      resumenPorEstadoMap.set(estado, porEstado);
-
-      const sede = fila.local_nombre || "Sin sede";
-      const porSede = resumenPorSedeMap.get(sede) || { local_nombre: sede, cantidad: 0, valor_pendiente: 0 };
-      porSede.cantidad += 1;
-      porSede.valor_pendiente += valor;
-      resumenPorSedeMap.set(sede, porSede);
-
-      const rango = rangoAntiguedad(dias);
-      distribucionMap.set(rango, distribucionMap.get(rango) + 1);
-    });
-
-    res.json({
-      resumenPorEstado: [...resumenPorEstadoMap.values()],
-      resumenPorSede: [...resumenPorSedeMap.values()],
-      distribucionDias: RANGOS_ANTIGUEDAD.map((rango) => ({ rango, cantidad: distribucionMap.get(rango) })),
-      detalle,
-    });
+    res.json({ porSedeEstado });
   } catch (error) {
     next(error);
   }
