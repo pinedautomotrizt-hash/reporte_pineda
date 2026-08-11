@@ -254,6 +254,7 @@ export async function getEmpresaDetalle(req, res, next) {
       reprocesosDetalle,
       porEstado,
       porServicio,
+      porTipoOt,
       porVehiculo,
       porSede,
       repuestosMasUsados,
@@ -388,6 +389,23 @@ export async function getEmpresaDetalle(req, res, next) {
         `,
         params,
       ),
+      // Correctivo vs Mantenimiento Periodico (y demas tipo_ot): clasificacion
+      // mas gruesa que grupo_servicio, para ver de un vistazo cuanto es
+      // preventivo vs reactivo.
+      query(
+        `
+          SELECT
+            COALESCE(NULLIF(TRIM(tipo_ot), ''), 'Sin clasificar') AS tipo_ot,
+            COUNT(DISTINCT nro_orden) AS unidades
+          FROM orden_trabajo
+          WHERE ${whereEmpresa}
+            AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
+            ${whereLocal}
+          GROUP BY COALESCE(NULLIF(TRIM(tipo_ot), ''), 'Sin clasificar')
+          ORDER BY unidades DESC
+        `,
+        params,
+      ),
       query(
         `
           SELECT
@@ -484,6 +502,7 @@ export async function getEmpresaDetalle(req, res, next) {
       reprocesosDetalle,
       porEstado,
       porServicio,
+      porTipoOt,
       porVehiculo,
       porSede,
       repuestosMasUsados,
