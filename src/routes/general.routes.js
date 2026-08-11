@@ -37,6 +37,21 @@ router.get("/auth/me", me);
 // De aqui en adelante, toda ruta exige un access token valido.
 router.use(requireAuth);
 
+// El rol EMPRESAS (clientes con acceso restringido) solo puede pedir datos
+// del modulo Empresas y el catalogo de sedes que alimenta su selector de
+// filtros. Esto es lo que de verdad protege el resto de la data: el sidebar
+// deshabilita los demas modulos en el frontend, pero sin este chequeo alguien
+// con este rol podria seguir pidiendo /dashboard/resumen etc. directo por API.
+router.use((req, res, next) => {
+  if (req.user?.rol === "EMPRESAS") {
+    const permitido = req.path.startsWith("/dashboard/empresas") || req.path === "/dashboard/locales";
+    if (!permitido) {
+      return res.status(403).json({ message: "Tu usuario solo tiene acceso al módulo Empresas." });
+    }
+  }
+  next();
+});
+
 router.get("/dashboard/locales", getLocalesFactura);
 
 // Importaciones: solo ADMIN puede ver el estado y subir archivos.

@@ -1,5 +1,5 @@
 // Da de alta (o actualiza la contraseña de) un usuario de login.
-// Uso: node scripts/crearUsuario.js <email> <password> <"Nombre completo"> <ADMIN|ASESOR>
+// Uso: node scripts/crearUsuario.js <email> <password> <"Nombre completo"> <ADMIN|ASESOR|EMPRESAS>
 import "dotenv/config";
 import { pool, query } from "../src/db.js";
 import { hashPassword } from "../src/utils/auth.js";
@@ -8,11 +8,11 @@ async function main() {
   const [email, password, nombre, rol] = process.argv.slice(2);
 
   if (!email || !password || !nombre || !rol) {
-    console.error('Uso: node scripts/crearUsuario.js <email> <password> "<Nombre completo>" <ADMIN|ASESOR>');
+    console.error('Uso: node scripts/crearUsuario.js <email> <password> "<Nombre completo>" <ADMIN|ASESOR|EMPRESAS>');
     process.exit(1);
   }
-  if (!["ADMIN", "ASESOR"].includes(rol)) {
-    console.error('El rol debe ser "ADMIN" o "ASESOR".');
+  if (!["ADMIN", "ASESOR", "EMPRESAS"].includes(rol)) {
+    console.error('El rol debe ser "ADMIN", "ASESOR" o "EMPRESAS".');
     process.exit(1);
   }
   if (password.length < 6) {
