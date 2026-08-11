@@ -391,7 +391,8 @@ export async function getEmpresaDetalle(req, res, next) {
       ),
       // Correctivo vs Mantenimiento Periodico (y demas tipo_ot): clasificacion
       // mas gruesa que grupo_servicio, para ver de un vistazo cuanto es
-      // preventivo vs reactivo.
+      // preventivo vs reactivo. Se excluye RECLAMOS AL CONCESIONARIO a
+      // proposito: es contenido interno/sensible, no se le muestra al cliente.
       query(
         `
           SELECT
@@ -400,6 +401,7 @@ export async function getEmpresaDetalle(req, res, next) {
           FROM orden_trabajo
           WHERE ${whereEmpresa}
             AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
+            AND UPPER(TRIM(tipo_ot)) <> 'RECLAMOS AL CONCESIONARIO'
             ${whereLocal}
           GROUP BY COALESCE(NULLIF(TRIM(tipo_ot), ''), 'Sin clasificar')
           ORDER BY unidades DESC
@@ -459,6 +461,29 @@ export async function getEmpresaDetalle(req, res, next) {
       ),
     ]);
 
+    // porVehiculo ya viene ordenado desc por vehiculos: el primero es "el
+    // modelo que mas viene". Se pide aparte (no en el Promise.all de arriba)
+    // porque depende de saber primero cual es ese modelo.
+    const modeloTop = porVehiculo[0] || null;
+    const serviciosModeloTop = modeloTop
+      ? await query(
+          `
+            SELECT
+              COALESCE(NULLIF(TRIM(grupo_servicio), ''), 'Sin clasificar') AS grupo_servicio,
+              COUNT(DISTINCT nro_orden) AS unidades
+            FROM orden_trabajo
+            WHERE ${whereEmpresa}
+              AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
+              AND TRIM(marca) = :marcaTop
+              AND TRIM(modelo) = :modeloTop
+              ${whereLocal}
+            GROUP BY COALESCE(NULLIF(TRIM(grupo_servicio), ''), 'Sin clasificar')
+            ORDER BY unidades DESC
+          `,
+          { ...params, marcaTop: modeloTop.marca, modeloTop: modeloTop.modelo },
+        )
+      : [];
+
     const evolucionPorMes = new Map(
       evolucionMensualRows.map((row) => [Number(row.mes), row]),
     );
@@ -506,6 +531,7 @@ export async function getEmpresaDetalle(req, res, next) {
       porVehiculo,
       porSede,
       repuestosMasUsados,
+      serviciosModeloTop,
     });
   } catch (error) {
     next(error);
