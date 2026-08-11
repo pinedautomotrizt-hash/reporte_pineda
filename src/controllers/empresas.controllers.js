@@ -13,6 +13,11 @@ const isReprocesoOt = `UPPER(TRIM(tipo_ot)) IN (
   'RECLAMOS DE GARANTIA'
 )`;
 
+// Cada linea de OT trae su origen (REPUESTO vs SERVICIO/mano de obra) en
+// origen_codigo; "actividad" es la descripcion del repuesto en esas lineas.
+const isRepuestoLinea =
+  "UPPER(TRIM(origen_codigo)) IN ('REPUESTO', 'REPUESTOS', 'RPTO')";
+
 // Algunos clientes empresa vienen mal etiquetados como grupo_cliente=NINGUNO
 // en el reporte origen de OT (ej. ALD Automotive). Se reclasifican por razon
 // social (S.A., S.A.C., E.I.R.L., etc.) en vez de tratarlos como particulares.
@@ -251,6 +256,7 @@ export async function getEmpresaDetalle(req, res, next) {
       porServicio,
       porVehiculo,
       porSede,
+      repuestosMasUsados,
     ] = await Promise.all([
       query(
         `
@@ -413,6 +419,26 @@ export async function getEmpresaDetalle(req, res, next) {
         `,
         params,
       ),
+      // Top 10 repuestos por cantidad real consumida (no por filas: una linea
+      // de aceite puede sumar varios litros, cuenta mas que un repuesto unico).
+      query(
+        `
+          SELECT
+            TRIM(actividad) AS repuesto,
+            SUM(COALESCE(CAST(NULLIF(TRIM(cantidad), '') AS DECIMAL(10,2)), 0)) AS cantidad,
+            COUNT(*) AS veces
+          FROM orden_trabajo
+          WHERE ${whereEmpresa}
+            AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
+            AND ${isRepuestoLinea}
+            AND NULLIF(TRIM(actividad), '') IS NOT NULL
+            ${whereLocal}
+          GROUP BY TRIM(actividad)
+          ORDER BY cantidad DESC
+          LIMIT 10
+        `,
+        params,
+      ),
     ]);
 
     const evolucionPorMes = new Map(
@@ -460,6 +486,7 @@ export async function getEmpresaDetalle(req, res, next) {
       porServicio,
       porVehiculo,
       porSede,
+      repuestosMasUsados,
     });
   } catch (error) {
     next(error);
