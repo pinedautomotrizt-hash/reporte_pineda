@@ -5,6 +5,13 @@ import { localClause, parseFilters } from "../utils/expresiones.js";
 
 const saleDate =
   "STR_TO_DATE(NULLIF(TRIM(fec_documento), ''), '%Y-%m-%d')";
+// Mismas expresiones que series.controllers.js/empresas.controllers.js para
+// leer orden_trabajo (estado del flujo de OT: Aperturado/Cerrado/Facturado/
+// Liquidado, y su valorizado), usadas solo por getAsesorPersonalDashboard.
+const otDate =
+  "STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d')";
+const otPrice =
+  "COALESCE(CAST(NULLIF(TRIM(precio_venta), '') AS DECIMAL(14,2)), 0)";
 const amount = (column) =>
   `COALESCE(CAST(NULLIF(REPLACE(TRIM(${column}), ',', ''), '') AS DECIMAL(14,2)), 0)`;
 const isCreditNote =
@@ -580,8 +587,18 @@ const getAsesorPersonalDashboard = async (req, res, next) => {
       AND ${validDocument}
       ${whereLocal}
     `;
+    // OT del mes (por fecha de apertura, igual criterio que "OT del Mes" en
+    // Operativo/Empresas), no por fecha de venta: esto mira el flujo de
+    // trabajo (aperturado -> cerrado -> facturado -> liquidado), no la
+    // facturacion oficial, por eso va aparte del resto de las consultas.
+    const otPeriod = `
+      ${otDate} >= :start
+      AND ${otDate} < DATE_ADD(:start, INTERVAL 1 MONTH)
+      AND UPPER(TRIM(asesor)) = UPPER(:asesorNombre)
+      ${whereLocal}
+    `;
 
-    const [porMoneda, porMonedaAnterior, porDia, porTipoOt] = await Promise.all([
+    const [porMoneda, porMonedaAnterior, porDia, porTipoOt, porEstadoOt] = await Promise.all([
       query(
         `
           SELECT
@@ -637,6 +654,22 @@ const getAsesorPersonalDashboard = async (req, res, next) => {
         `,
         params,
       ),
+      // Estado del flujo de OT (Aperturado, Cerrado, Facturado, Liquidado si
+      // existe), con su valorizado (precio_venta de la OT, no el monto oficial
+      // de facturacion) para poder mostrar cuanto hay en OT cerradas.
+      query(
+        `
+          SELECT
+            COALESCE(NULLIF(TRIM(estado), ''), 'Sin estado') AS estado,
+            COUNT(DISTINCT nro_orden) AS ots,
+            SUM(${otPrice}) AS venta
+          FROM orden_trabajo
+          WHERE ${otPeriod}
+          GROUP BY COALESCE(NULLIF(TRIM(estado), ''), 'Sin estado')
+          ORDER BY FIELD(estado, 'FACTURADO', 'CERRADO', 'APERTURADO', 'LIQUIDADO', 'FACTURADO INT'), ots DESC
+        `,
+        params,
+      ),
     ]);
 
     const facturadoSoles = porMoneda.reduce((sum, row) => sum + Number(row.sin_igv || 0), 0);
@@ -655,6 +688,9 @@ const getAsesorPersonalDashboard = async (req, res, next) => {
     const daysInMonth = new Date(Number(month.slice(0, 4)), Number(month.slice(5, 7)), 0).getDate();
     const proyeccionSoles = (facturadoSoles / day) * daysInMonth;
     const variacionPct = sinIgvMesAnterior > 0 ? ((facturadoSoles - sinIgvMesAnterior) / sinIgvMesAnterior) * 100 : null;
+    const montoOtCerradas = Number(
+      porEstadoOt.find((row) => row.estado === "CERRADO")?.venta || 0,
+    );
 
     res.json({
       asesor: asesorNombre,
@@ -668,6 +704,7 @@ const getAsesorPersonalDashboard = async (req, res, next) => {
         sinIgvMesAnterior,
         variacionPct,
         proyeccionSoles,
+        montoOtCerradas,
         fechaCorte,
         diasTranscurridos: day,
         diasMes: daysInMonth,
@@ -675,6 +712,7 @@ const getAsesorPersonalDashboard = async (req, res, next) => {
       porMoneda,
       porDia,
       porTipoOt,
+      porEstadoOt,
     });
   } catch (error) {
     next(error);
