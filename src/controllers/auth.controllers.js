@@ -10,7 +10,13 @@ import {
 } from "../utils/auth.js";
 
 function toUsuarioPublico(row) {
-  return { id: row.us_id, nombre: row.us_nombre, email: row.us_email, rol: row.us_rol };
+  return {
+    id: row.us_id,
+    nombre: row.us_nombre,
+    email: row.us_email,
+    rol: row.us_rol,
+    asesorNombre: row.us_asesor_nombre || null,
+  };
 }
 
 function setSessionCookies(req, res, usuario) {
@@ -30,7 +36,7 @@ async function usuarioDesdeRefreshToken(token) {
     return null;
   }
   const [fila] = await query(
-    "SELECT us_id, us_nombre, us_email, us_rol, us_activo FROM usuario WHERE us_id = :id",
+    "SELECT us_id, us_nombre, us_email, us_rol, us_asesor_nombre, us_activo FROM usuario WHERE us_id = :id",
     { id: payload.id },
   );
   return fila && fila.us_activo ? toUsuarioPublico(fila) : null;
@@ -47,7 +53,7 @@ async function login(req, res, next) {
     }
 
     const [fila] = await query(
-      "SELECT us_id, us_nombre, us_email, us_password_hash, us_rol, us_activo FROM usuario WHERE us_email = :email",
+      "SELECT us_id, us_nombre, us_email, us_password_hash, us_rol, us_asesor_nombre, us_activo FROM usuario WHERE us_email = :email",
       { email },
     );
 
@@ -92,7 +98,15 @@ async function me(req, res, next) {
       try {
         const payload = verifyToken(accessToken);
         if (payload.type === "access") {
-          return res.json({ usuario: { id: payload.id, nombre: payload.nombre, email: payload.email, rol: payload.rol } });
+          return res.json({
+            usuario: {
+              id: payload.id,
+              nombre: payload.nombre,
+              email: payload.email,
+              rol: payload.rol,
+              asesorNombre: payload.asesorNombre ?? null,
+            },
+          });
         }
       } catch {
         // access token vencido o invalido: seguimos abajo e intentamos con el refresh token.

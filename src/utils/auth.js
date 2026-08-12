@@ -24,7 +24,14 @@ export async function verifyPassword(password, hash) {
 // type distingue un access token de un refresh token para que uno no sirva en lugar del otro.
 export function signAccessToken(usuario) {
   return jwt.sign(
-    { type: "access", id: usuario.id, nombre: usuario.nombre, email: usuario.email, rol: usuario.rol },
+    {
+      type: "access",
+      id: usuario.id,
+      nombre: usuario.nombre,
+      email: usuario.email,
+      rol: usuario.rol,
+      asesorNombre: usuario.asesorNombre ?? null,
+    },
     JWT_SECRET,
     { expiresIn: ACCESS_TOKEN_TTL },
   );

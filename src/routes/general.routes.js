@@ -15,6 +15,7 @@ import {
   getRegistroVentaAsesores,
   getRegistroVentaDashboard,
   getRegistroVentaResumenMensual,
+  getAsesorPersonalDashboard,
 } from "../controllers/registroVentaDashboard.controllers.js";
 import {
   getAsesoresConfiguracion,
@@ -42,11 +43,20 @@ router.use(requireAuth);
 // filtros. Esto es lo que de verdad protege el resto de la data: el sidebar
 // deshabilita los demas modulos en el frontend, pero sin este chequeo alguien
 // con este rol podria seguir pidiendo /dashboard/resumen etc. directo por API.
+// Mismo criterio para el rol ASESOR_INDIVIDUAL (cada asesora ve solo su
+// propia facturacion en /dashboard/asesor-personal). Distinto del rol ASESOR
+// existente, que sigue con acceso amplio.
 router.use((req, res, next) => {
   if (req.user?.rol === "EMPRESAS") {
     const permitido = req.path.startsWith("/dashboard/empresas") || req.path === "/dashboard/locales";
     if (!permitido) {
       return res.status(403).json({ message: "Tu usuario solo tiene acceso al módulo Empresas." });
+    }
+  }
+  if (req.user?.rol === "ASESOR_INDIVIDUAL") {
+    const permitido = req.path === "/dashboard/asesor-personal" || req.path === "/dashboard/locales";
+    if (!permitido) {
+      return res.status(403).json({ message: "Tu usuario solo tiene acceso al módulo Asesor." });
     }
   }
   next();
@@ -67,6 +77,7 @@ router.get("/dashboard/pendientes-aperturados", getPendientesAperturados);
 router.get("/dashboard/facturacion", getRegistroVentaDashboard);
 router.get("/dashboard/asesores", getRegistroVentaAsesores);
 router.get("/dashboard/resumen-mensual", getRegistroVentaResumenMensual);
+router.get("/dashboard/asesor-personal", getAsesorPersonalDashboard);
 router.get("/dashboard/empresas", getEmpresasResumen);
 router.get("/dashboard/empresas/:empresa", getEmpresaDetalle);
 

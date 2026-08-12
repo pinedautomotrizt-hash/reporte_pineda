@@ -471,6 +471,216 @@ const getRegistroVentaAsesores = async (req, res, next) => {
   }
 };
 
+/*
+ * Igual que allocatedAdvisorDocuments, pero ademas pesa el prorrateo por
+ * tipo_ot (Mantenimiento, Correctivo, etc., tal cual viene en cada linea de
+ * detalle_factura_ot) en vez de solo por asesor. Se usa exclusivamente para
+ * la composicion del trabajo facturado del modulo Asesor personal: un
+ * documento sin lineas de detalle no aporta aqui (JOIN, no LEFT JOIN), asi
+ * que la suma no tiene por que cuadrar centavo a centavo con el total general
+ * (mismo criterio ya aceptado en el modulo Empresas para porTipoOt/porServicio).
+ */
+const allocatedAdvisorTipoOtDocuments = (period) => `
+  WITH documentos AS (
+    ${dedupedDocuments(period)}
+  ),
+  documentos_referencia AS (
+    SELECT
+      d.*,
+      CASE
+        WHEN UPPER(d.tipo_documento) IN ('NC', 'NOTA DE CREDITO', 'NOTA DE CRÉDITO')
+          THEN COALESCE(
+            (
+              SELECT MIN(ref.nro_documento)
+              FROM detalle_factura_ot ref
+              WHERE ref.local_nombre = d.local_nombre
+                AND (
+                  ref.nro_documento = d.operacion_relacionada
+                  OR ref.nro_ot = REPLACE(UPPER(d.operacion_relacionada), 'OT-', '')
+                )
+            ),
+            d.nro_documento
+          )
+        ELSE d.nro_documento
+      END AS detalle_documento
+    FROM documentos d
+  ),
+  detalle_por_asesor_tipo AS (
+    SELECT
+      local_nombre,
+      nro_documento,
+      COALESCE(NULLIF(TRIM(asesor), ''), 'Sin asesor') AS asesor,
+      COALESCE(NULLIF(TRIM(tipo_ot), ''), 'Sin clasificar') AS tipo_ot,
+      SUM(ABS(total_con_igv)) AS peso_asesor_tipo
+    FROM detalle_factura_ot
+    GROUP BY
+      local_nombre,
+      nro_documento,
+      COALESCE(NULLIF(TRIM(asesor), ''), 'Sin asesor'),
+      COALESCE(NULLIF(TRIM(tipo_ot), ''), 'Sin clasificar')
+  ),
+  detalle_total AS (
+    SELECT
+      local_nombre,
+      nro_documento,
+      SUM(ABS(total_con_igv)) AS peso_total
+    FROM detalle_factura_ot
+    GROUP BY local_nombre, nro_documento
+  )
+  SELECT
+    d.nro_documento,
+    d.local_nombre,
+    d.moneda,
+    dat.asesor,
+    dat.tipo_ot,
+    d.sin_igv *
+      CASE
+        WHEN COALESCE(dt.peso_total, 0) > 0
+          THEN dat.peso_asesor_tipo / dt.peso_total
+        ELSE 0
+      END AS sin_igv,
+    d.con_igv *
+      CASE
+        WHEN COALESCE(dt.peso_total, 0) > 0
+          THEN dat.peso_asesor_tipo / dt.peso_total
+        ELSE 0
+      END AS con_igv
+  FROM documentos_referencia d
+  JOIN detalle_total dt
+    ON dt.local_nombre = d.local_nombre
+    AND dt.nro_documento = d.detalle_documento
+  JOIN detalle_por_asesor_tipo dat
+    ON dat.local_nombre = dt.local_nombre
+    AND dat.nro_documento = dt.nro_documento
+`;
+
+// Modulo "Asesor" (rol ASESOR_INDIVIDUAL): cada asesora ve unicamente su
+// propio avance de facturacion, filtrado por su nombre exacto (req.user.asesorNombre,
+// cargado desde usuario.us_asesor_nombre al iniciar sesion). Reutiliza las
+// mismas reglas contables/prorrateo que el resto del dashboard de facturacion.
+const getAsesorPersonalDashboard = async (req, res, next) => {
+  try {
+    const asesorNombre = req.user?.asesorNombre;
+    if (!asesorNombre) {
+      return res.status(400).json({ message: "Tu usuario no tiene un asesor asignado." });
+    }
+
+    const { month, start, local } = parseFilters(req);
+    const params = { start, local, asesorNombre };
+    const whereLocal = localClause(local);
+    const period = `
+      ${saleDate} >= :start
+      AND ${saleDate} < DATE_ADD(:start, INTERVAL 1 MONTH)
+      AND ${validDocument}
+      ${whereLocal}
+    `;
+    const prevPeriod = `
+      ${saleDate} >= DATE_SUB(:start, INTERVAL 1 MONTH)
+      AND ${saleDate} < :start
+      AND ${validDocument}
+      ${whereLocal}
+    `;
+
+    const [porMoneda, porMonedaAnterior, porDia, porTipoOt] = await Promise.all([
+      query(
+        `
+          SELECT
+            moneda,
+            SUM(sin_igv) AS sin_igv,
+            SUM(con_igv) AS con_igv,
+            COUNT(DISTINCT CASE WHEN es_comprobante_principal THEN nro_documento END) AS comprobantes,
+            MAX(fecha_documento) AS fecha_corte
+          FROM (${allocatedAdvisorDocuments(period)}) documentos
+          WHERE UPPER(TRIM(asesor)) = UPPER(:asesorNombre)
+          GROUP BY moneda
+          ORDER BY moneda
+        `,
+        params,
+      ),
+      query(
+        `
+          SELECT
+            moneda,
+            SUM(sin_igv) AS sin_igv
+          FROM (${allocatedAdvisorDocuments(prevPeriod)}) documentos
+          WHERE UPPER(TRIM(asesor)) = UPPER(:asesorNombre)
+          GROUP BY moneda
+        `,
+        params,
+      ),
+      query(
+        `
+          SELECT
+            DATE_FORMAT(fecha_documento, '%Y-%m-%d') AS fecha,
+            moneda,
+            SUM(sin_igv) AS sin_igv,
+            SUM(con_igv) AS con_igv,
+            COUNT(DISTINCT CASE WHEN es_comprobante_principal THEN nro_documento END) AS comprobantes
+          FROM (${allocatedAdvisorDocuments(period)}) documentos
+          WHERE UPPER(TRIM(asesor)) = UPPER(:asesorNombre)
+          GROUP BY fecha_documento, moneda
+          ORDER BY fecha_documento, moneda
+        `,
+        params,
+      ),
+      query(
+        `
+          SELECT
+            tipo_ot,
+            moneda,
+            SUM(sin_igv) AS sin_igv,
+            SUM(con_igv) AS con_igv
+          FROM (${allocatedAdvisorTipoOtDocuments(period)}) documentos
+          WHERE UPPER(TRIM(asesor)) = UPPER(:asesorNombre)
+          GROUP BY tipo_ot, moneda
+          ORDER BY sin_igv DESC
+        `,
+        params,
+      ),
+    ]);
+
+    const facturadoSoles = porMoneda.reduce((sum, row) => sum + Number(row.sin_igv || 0), 0);
+    const facturadoSolesConIgv = porMoneda.reduce((sum, row) => sum + Number(row.con_igv || 0), 0);
+    const comprobantesSoles = porMoneda.reduce((sum, row) => sum + Number(row.comprobantes || 0), 0);
+    const sinIgvMesAnterior = porMonedaAnterior.reduce((sum, row) => sum + Number(row.sin_igv || 0), 0);
+    const fechaCorte = porMoneda.reduce(
+      (latest, row) => (
+        row.fecha_corte && new Date(row.fecha_corte).getTime() > new Date(latest).getTime()
+          ? row.fecha_corte
+          : latest
+      ),
+      start,
+    );
+    const day = Math.max(1, new Date(fechaCorte).getUTCDate());
+    const daysInMonth = new Date(Number(month.slice(0, 4)), Number(month.slice(5, 7)), 0).getDate();
+    const proyeccionSoles = (facturadoSoles / day) * daysInMonth;
+    const variacionPct = sinIgvMesAnterior > 0 ? ((facturadoSoles - sinIgvMesAnterior) / sinIgvMesAnterior) * 100 : null;
+
+    res.json({
+      asesor: asesorNombre,
+      resumen: {
+        month,
+        local: local || "Todos",
+        facturadoSoles,
+        facturadoSolesConIgv,
+        comprobantesSoles,
+        ticket: comprobantesSoles ? facturadoSoles / comprobantesSoles : 0,
+        sinIgvMesAnterior,
+        variacionPct,
+        proyeccionSoles,
+        fechaCorte,
+        diasTranscurridos: day,
+        diasMes: daysInMonth,
+      },
+      porMoneda,
+      porDia,
+      porTipoOt,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getRegistroVentaResumenMensual = async (req, res, next) => {
   try {
     const { start, local } = parseFilters(req);
@@ -548,4 +758,5 @@ export {
   getRegistroVentaDashboard,
   getRegistroVentaAsesores,
   getRegistroVentaResumenMensual,
+  getAsesorPersonalDashboard,
 };
