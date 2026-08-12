@@ -180,6 +180,92 @@ const allocatedAdvisorDocuments = (period) => `
     AND da.nro_documento = dt.nro_documento
 `;
 
+/*
+ * Igual que allocatedAdvisorDocuments, pero en vez de pesar por asesor pesa
+ * por si la linea de detalle tiene la OT abierta (fec_apertura) dentro del
+ * mismo mes que se esta consultando. Sirve para separar, del total facturado
+ * del mes, cuanto corresponde a trabajo que se abrio Y se facturo en el mismo
+ * mes, de lo que es arrastre (OT abierta en un mes anterior y recien
+ * facturada ahora). detalle_factura_ot ya trae fec_apertura por linea, no
+ * hace falta cruzar con orden_trabajo.
+ */
+const sameMonthOpenedDocuments = (period) => `
+  WITH documentos AS (
+    ${dedupedDocuments(period)}
+  ),
+  documentos_referencia AS (
+    SELECT
+      d.*,
+      CASE
+        WHEN UPPER(d.tipo_documento) IN ('NC', 'NOTA DE CREDITO', 'NOTA DE CRÉDITO')
+          THEN COALESCE(
+            (
+              SELECT MIN(ref.nro_documento)
+              FROM detalle_factura_ot ref
+              WHERE ref.local_nombre = d.local_nombre
+                AND (
+                  ref.nro_documento = d.operacion_relacionada
+                  OR ref.nro_ot = REPLACE(UPPER(d.operacion_relacionada), 'OT-', '')
+                )
+            ),
+            d.nro_documento
+          )
+        ELSE d.nro_documento
+      END AS detalle_documento
+    FROM documentos d
+  ),
+  detalle_por_apertura AS (
+    SELECT
+      local_nombre,
+      nro_documento,
+      CASE
+        WHEN ${otDate} >= :start AND ${otDate} < DATE_ADD(:start, INTERVAL 1 MONTH)
+          THEN 1 ELSE 0
+      END AS mismo_mes,
+      SUM(ABS(total_con_igv)) AS peso
+    FROM detalle_factura_ot
+    GROUP BY
+      local_nombre,
+      nro_documento,
+      CASE
+        WHEN ${otDate} >= :start AND ${otDate} < DATE_ADD(:start, INTERVAL 1 MONTH)
+          THEN 1 ELSE 0
+      END
+  ),
+  detalle_total AS (
+    SELECT
+      local_nombre,
+      nro_documento,
+      SUM(ABS(total_con_igv)) AS peso_total
+    FROM detalle_factura_ot
+    GROUP BY local_nombre, nro_documento
+  )
+  SELECT
+    d.nro_documento,
+    d.local_nombre,
+    d.moneda,
+    dap.mismo_mes,
+    d.sin_igv *
+      CASE
+        WHEN COALESCE(dt.peso_total, 0) > 0
+          THEN dap.peso / dt.peso_total
+        ELSE 0
+      END AS sin_igv,
+    d.con_igv *
+      CASE
+        WHEN COALESCE(dt.peso_total, 0) > 0
+          THEN dap.peso / dt.peso_total
+        ELSE 0
+      END AS con_igv
+  FROM documentos_referencia d
+  JOIN detalle_total dt
+    ON dt.local_nombre = d.local_nombre
+    AND dt.nro_documento = d.detalle_documento
+  JOIN detalle_por_apertura dap
+    ON dap.local_nombre = dt.local_nombre
+    AND dap.nro_documento = dt.nro_documento
+`;
+
 const getRegistroVentaDashboard = async (req, res, next) => {
   try {
     const { month, start, local, meta } = parseFilters(req);
@@ -198,7 +284,7 @@ const getRegistroVentaDashboard = async (req, res, next) => {
       ${whereLocal}
     `;
 
-    const [porMoneda, porDia, porLocal, porDocumento, porPago, porAsesor, porMonedaAnterior, mostrador] =
+    const [porMoneda, porDia, porLocal, porDocumento, porPago, porAsesor, porMonedaAnterior, mostrador, porLocalMismoMes] =
       await Promise.all([
         // Totales del mes por moneda: base para el resumen principal y la comparativa mensual.
         query(
@@ -326,6 +412,22 @@ const getRegistroVentaDashboard = async (req, res, next) => {
           `,
           params,
         ),
+        // Del total facturado del mes, la parte que corresponde a OT abiertas
+        // en ese mismo mes (no arrastre de meses anteriores), por sede.
+        query(
+          `
+            SELECT
+              local_nombre AS nombre,
+              moneda,
+              SUM(sin_igv) AS sin_igv,
+              SUM(con_igv) AS con_igv
+            FROM (${sameMonthOpenedDocuments(period)}) documentos
+            WHERE mismo_mes = 1
+            GROUP BY local_nombre, moneda
+            ORDER BY moneda, sin_igv DESC
+          `,
+          params,
+        ),
       ]);
 
     const buildComparativo = (moneda) => {
@@ -385,6 +487,12 @@ const getRegistroVentaDashboard = async (req, res, next) => {
       0,
     ).getDate();
     const proyeccionSoles = (facturadoSoles / day) * daysInMonth;
+    // Suma de la misma manera que facturadoSoles: las columnas de importe ya
+    // vienen expresadas en soles aunque el documento original sea en dolares.
+    const facturadoMismoMesSoles = porLocalMismoMes.reduce(
+      (sum, row) => sum + Number(row.sin_igv || 0),
+      0,
+    );
 
     res.json({
       resumen: {
@@ -403,6 +511,7 @@ const getRegistroVentaDashboard = async (req, res, next) => {
         ticket: comprobantesSoles
           ? facturadoSoles / comprobantesSoles
           : 0,
+        facturadoMismoMesSoles,
         fechaCorte,
         diasTranscurridos: day,
         diasMes: daysInMonth,
@@ -413,6 +522,7 @@ const getRegistroVentaDashboard = async (req, res, next) => {
       porDocumento,
       porPago,
       porAsesor,
+      porLocalMismoMes,
       mostrador: mostrador[0] || { sin_igv: 0, con_igv: 0, comprobantes: 0 },
       comparativoMesAnterior,
     });
