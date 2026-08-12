@@ -597,8 +597,14 @@ const getAsesorPersonalDashboard = async (req, res, next) => {
       AND UPPER(TRIM(asesor)) = UPPER(:asesorNombre)
       ${whereLocal}
     `;
+    const otPrevPeriod = `
+      ${otDate} >= DATE_SUB(:start, INTERVAL 1 MONTH)
+      AND ${otDate} < :start
+      AND UPPER(TRIM(asesor)) = UPPER(:asesorNombre)
+      ${whereLocal}
+    `;
 
-    const [porMoneda, porMonedaAnterior, porDia, porTipoOt, porEstadoOt] = await Promise.all([
+    const [porMoneda, porMonedaAnterior, porDia, porTipoOt, porEstadoOt, cerradasMesAnterior, sedePrincipalRows] = await Promise.all([
       query(
         `
           SELECT
@@ -670,6 +676,33 @@ const getAsesorPersonalDashboard = async (req, res, next) => {
         `,
         params,
       ),
+      // Mismo valorizado de OT cerradas, pero del mes anterior: solo el total,
+      // para poder comparar el "pendiente de facturar" mes contra mes.
+      query(
+        `
+          SELECT COALESCE(SUM(${otPrice}), 0) AS venta
+          FROM orden_trabajo
+          WHERE UPPER(TRIM(estado)) = 'CERRADO'
+            AND ${otPrevPeriod}
+        `,
+        params,
+      ),
+      // Sede donde mas trabaja este asesor (sin filtrar por el "local"
+      // seleccionado): sirve para precargar el selector de sede la primera
+      // vez que entra, en vez de arrancar siempre en "Todos". Funciona igual
+      // para futuras asesoras de Callao sin tocar codigo, porque se calcula
+      // de la data real en vez de estar fijo a Trujillo.
+      query(
+        `
+          SELECT local_nombre, COUNT(DISTINCT nro_orden) AS n
+          FROM orden_trabajo
+          WHERE UPPER(TRIM(asesor)) = UPPER(:asesorNombre)
+          GROUP BY local_nombre
+          ORDER BY n DESC
+          LIMIT 1
+        `,
+        params,
+      ),
     ]);
 
     const facturadoSoles = porMoneda.reduce((sum, row) => sum + Number(row.sin_igv || 0), 0);
@@ -691,9 +724,15 @@ const getAsesorPersonalDashboard = async (req, res, next) => {
     const montoOtCerradas = Number(
       porEstadoOt.find((row) => row.estado === "CERRADO")?.venta || 0,
     );
+    const montoOtCerradasMesAnterior = Number(cerradasMesAnterior[0]?.venta || 0);
+    const variacionOtCerradasPct = montoOtCerradasMesAnterior > 0
+      ? ((montoOtCerradas - montoOtCerradasMesAnterior) / montoOtCerradasMesAnterior) * 100
+      : null;
+    const sedePrincipal = sedePrincipalRows[0]?.local_nombre || null;
 
     res.json({
       asesor: asesorNombre,
+      sedePrincipal,
       resumen: {
         month,
         local: local || "Todos",
@@ -705,6 +744,8 @@ const getAsesorPersonalDashboard = async (req, res, next) => {
         variacionPct,
         proyeccionSoles,
         montoOtCerradas,
+        montoOtCerradasMesAnterior,
+        variacionOtCerradasPct,
         fechaCorte,
         diasTranscurridos: day,
         diasMes: daysInMonth,
