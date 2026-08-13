@@ -671,6 +671,95 @@ const allocatedAdvisorTipoOtDocuments = (period) => `
     AND dat.nro_documento = dt.nro_documento
 `;
 
+/*
+ * Igual que allocatedAdvisorDocuments, pero ademas pesa por si la linea de
+ * detalle tiene la OT abierta (fec_apertura) dentro del mismo mes que se
+ * esta consultando (mismo criterio que sameMonthOpenedDocuments, aplicado a
+ * nivel general). Se usa solo en el modulo Asesor personal, para separar de
+ * su propio total facturado del mes cuanto es trabajo abierto ese mismo mes
+ * vs arrastre de meses anteriores.
+ */
+const allocatedAdvisorSameMonthDocuments = (period) => `
+  WITH documentos AS (
+    ${dedupedDocuments(period)}
+  ),
+  documentos_referencia AS (
+    SELECT
+      d.*,
+      CASE
+        WHEN UPPER(d.tipo_documento) IN ('NC', 'NOTA DE CREDITO', 'NOTA DE CRÉDITO')
+          THEN COALESCE(
+            (
+              SELECT MIN(ref.nro_documento)
+              FROM detalle_factura_ot ref
+              WHERE ref.local_nombre = d.local_nombre
+                AND (
+                  ref.nro_documento = d.operacion_relacionada
+                  OR ref.nro_ot = REPLACE(UPPER(d.operacion_relacionada), 'OT-', '')
+                )
+            ),
+            d.nro_documento
+          )
+        ELSE d.nro_documento
+      END AS detalle_documento
+    FROM documentos d
+  ),
+  detalle_por_asesor_mismo_mes AS (
+    SELECT
+      local_nombre,
+      nro_documento,
+      COALESCE(NULLIF(TRIM(asesor), ''), 'Sin asesor') AS asesor,
+      CASE
+        WHEN ${otDate} >= :start AND ${otDate} < DATE_ADD(:start, INTERVAL 1 MONTH)
+          THEN 1 ELSE 0
+      END AS mismo_mes,
+      SUM(ABS(total_con_igv)) AS peso
+    FROM detalle_factura_ot
+    GROUP BY
+      local_nombre,
+      nro_documento,
+      COALESCE(NULLIF(TRIM(asesor), ''), 'Sin asesor'),
+      CASE
+        WHEN ${otDate} >= :start AND ${otDate} < DATE_ADD(:start, INTERVAL 1 MONTH)
+          THEN 1 ELSE 0
+      END
+  ),
+  detalle_total AS (
+    SELECT
+      local_nombre,
+      nro_documento,
+      SUM(ABS(total_con_igv)) AS peso_total
+    FROM detalle_factura_ot
+    GROUP BY local_nombre, nro_documento
+  )
+  SELECT
+    d.nro_documento,
+    d.local_nombre,
+    d.fecha_documento,
+    d.moneda,
+    dam.asesor,
+    dam.mismo_mes,
+    d.sin_igv *
+      CASE
+        WHEN COALESCE(dt.peso_total, 0) > 0
+          THEN dam.peso / dt.peso_total
+        ELSE 0
+      END AS sin_igv,
+    d.con_igv *
+      CASE
+        WHEN COALESCE(dt.peso_total, 0) > 0
+          THEN dam.peso / dt.peso_total
+        ELSE 0
+      END AS con_igv
+  FROM documentos_referencia d
+  JOIN detalle_total dt
+    ON dt.local_nombre = d.local_nombre
+    AND dt.nro_documento = d.detalle_documento
+  JOIN detalle_por_asesor_mismo_mes dam
+    ON dam.local_nombre = dt.local_nombre
+    AND dam.nro_documento = dt.nro_documento
+`;
+
 // Modulo "Asesor" (rol ASESOR_INDIVIDUAL): cada asesora ve unicamente su
 // propio avance de facturacion, filtrado por su nombre exacto (req.user.asesorNombre,
 // cargado desde usuario.us_asesor_nombre al iniciar sesion). Reutiliza las
@@ -714,7 +803,7 @@ const getAsesorPersonalDashboard = async (req, res, next) => {
       ${whereLocal}
     `;
 
-    const [porMoneda, porMonedaAnterior, porDia, porTipoOt, porEstadoOt, cerradasMesAnterior, sedePrincipalRows] = await Promise.all([
+    const [porMoneda, porMonedaAnterior, porDia, porTipoOt, porEstadoOt, cerradasMesAnterior, sedePrincipalRows, porDiaMismoMes] = await Promise.all([
       query(
         `
           SELECT
@@ -813,6 +902,25 @@ const getAsesorPersonalDashboard = async (req, res, next) => {
         `,
         params,
       ),
+      // Avance diario, pero solo de la parte del total que corresponde a OT
+      // abiertas dentro de este mismo mes (excluye arrastre de meses
+      // anteriores). Alimenta la tarjeta y el grafico de "Facturado del mes,
+      // sin arrastre".
+      query(
+        `
+          SELECT
+            DATE_FORMAT(fecha_documento, '%Y-%m-%d') AS fecha,
+            moneda,
+            SUM(sin_igv) AS sin_igv,
+            SUM(con_igv) AS con_igv
+          FROM (${allocatedAdvisorSameMonthDocuments(period)}) documentos
+          WHERE UPPER(TRIM(asesor)) = UPPER(:asesorNombre)
+            AND mismo_mes = 1
+          GROUP BY fecha_documento, moneda
+          ORDER BY fecha_documento, moneda
+        `,
+        params,
+      ),
     ]);
 
     const facturadoSoles = porMoneda.reduce((sum, row) => sum + Number(row.sin_igv || 0), 0);
@@ -839,6 +947,10 @@ const getAsesorPersonalDashboard = async (req, res, next) => {
       ? ((montoOtCerradas - montoOtCerradasMesAnterior) / montoOtCerradasMesAnterior) * 100
       : null;
     const sedePrincipal = sedePrincipalRows[0]?.local_nombre || null;
+    // Del total facturado del mes, la parte que corresponde a OT abiertas ese
+    // mismo mes (no arrastre de meses anteriores recien facturado ahora).
+    const facturadoMismoMesSoles = porDiaMismoMes.reduce((sum, row) => sum + Number(row.sin_igv || 0), 0);
+    const mismoMesPct = facturadoSoles ? (facturadoMismoMesSoles / facturadoSoles) * 100 : 0;
 
     res.json({
       asesor: asesorNombre,
@@ -856,12 +968,15 @@ const getAsesorPersonalDashboard = async (req, res, next) => {
         montoOtCerradas,
         montoOtCerradasMesAnterior,
         variacionOtCerradasPct,
+        facturadoMismoMesSoles,
+        mismoMesPct,
         fechaCorte,
         diasTranscurridos: day,
         diasMes: daysInMonth,
       },
       porMoneda,
       porDia,
+      porDiaMismoMes,
       porTipoOt,
       porEstadoOt,
     });
