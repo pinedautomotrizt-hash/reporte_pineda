@@ -1,5 +1,6 @@
 import XLSX from "xlsx";
 import { HttpError } from "./httpError.js";
+import { fixSheetRange } from "./xlsxRange.js";
 
 const text = (value) => String(value ?? "").trim();
 
@@ -23,6 +24,7 @@ export function parseTabularExcel(filePath, config) {
   const workbook = XLSX.readFile(filePath, { cellDates: true });
   const sheet = workbook.Sheets[workbook.SheetNames[0]];
   if (!sheet) throw new HttpError(400, "El Excel no contiene hojas para importar.");
+  fixSheetRange(sheet);
   const matrix = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: null, raw: true });
   const sourceRows = matrix.slice(config.skipLines || 0)
     .filter((row) => row.some((value) => value !== null && text(value) !== ""));

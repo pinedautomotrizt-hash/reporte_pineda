@@ -2,6 +2,7 @@ import crypto from "node:crypto";
 import XLSX from "xlsx";
 import { parseSemicolonCsv } from "./csv.js";
 import { HttpError } from "./httpError.js";
+import { fixSheetRange } from "./xlsxRange.js";
 
 export const detalleFacturaOtColumns = [
   "local_nombre", "fec_emision", "nro_documento", "nro_ot", "fec_apertura",
@@ -73,6 +74,7 @@ export function parseDetalleFacturaOtExcel(filePath) {
   const workbook = XLSX.readFile(filePath, { cellDates: true });
   const sheet = workbook.Sheets[workbook.SheetNames[0]];
   if (!sheet) throw new HttpError(400, "El Excel no contiene hojas para importar.");
+  fixSheetRange(sheet);
   const matrix = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: null, raw: true });
   return buildDetalleFacturaOtFromMatrix(matrix);
 }
