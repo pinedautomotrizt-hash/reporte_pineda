@@ -41,8 +41,10 @@ const validDocument = `
 `;
 // MOSTRADOR corresponde a venta directa de repuestos. No forma parte del
 // avance diario de los asesores ni del total principal de facturación.
+// PAGOS VARIOS tampoco (a pedido del negocio): a diferencia de Mostrador no
+// necesita su propia tarjeta informativa, simplemente no debe sumar.
 const advisorSalesOnly =
-  "COALESCE(UPPER(TRIM(clase_venta)), '') <> 'MOSTRADOR'";
+  "COALESCE(UPPER(TRIM(clase_venta)), '') NOT IN ('MOSTRADOR', 'PAGOS VARIOS')";
 const counterSalesOnly =
   "COALESCE(UPPER(TRIM(clase_venta)), '') = 'MOSTRADOR'";
 
@@ -56,6 +58,8 @@ const counterSalesOnly =
  *    también se corrige su fecha original aunque la anulación sea posterior.
  * 5. Clase Venta = MOSTRADOR se excluye del avance y total principal porque es
  *    venta directa de repuestos, no producción de los asesores de servicio.
+ *    Clase Venta = PAGOS VARIOS tampoco suma (a pedido del negocio), sin
+ *    tarjeta informativa propia como sí tiene Mostrador.
  *
  * Esta consulta base alimenta todos los bloques del dashboard, por lo que las
  * reglas se aplican igual al resumen, días, locales, asesores y comparativos.

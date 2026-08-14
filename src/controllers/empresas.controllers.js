@@ -55,7 +55,7 @@ const accountingSaleAmount =
 const validSaleDocument = `
   COALESCE(UPPER(TRIM(estado)), '') <> 'ANULADO'
   AND UPPER(TRIM(estado_sunat)) = 'APROBADO'
-  AND COALESCE(UPPER(TRIM(clase_venta)), '') <> 'MOSTRADOR'
+  AND COALESCE(UPPER(TRIM(clase_venta)), '') NOT IN ('MOSTRADOR', 'PAGOS VARIOS')
 `;
 
 // Un documento por fila (deduplicado), agrupado tambien por cliente y moneda
