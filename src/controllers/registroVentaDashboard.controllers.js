@@ -288,7 +288,7 @@ const getRegistroVentaDashboard = async (req, res, next) => {
       ${whereLocal}
     `;
 
-    const [porMoneda, porDia, porLocal, porDocumento, porPago, porAsesor, porMonedaAnterior, mostrador, porLocalMismoMes] =
+    const [porMoneda, porDia, porLocal, porDocumento, porPago, porAsesor, porMonedaAnterior, mostrador, porLocalMismoMes, porEmisor] =
       await Promise.all([
         // Totales del mes por moneda: base para el resumen principal y la comparativa mensual.
         query(
@@ -432,6 +432,32 @@ const getRegistroVentaDashboard = async (req, res, next) => {
           `,
           params,
         ),
+        // Quien registra/emite cada comprobante (columna "Asesor" del Registro
+        // de Venta) — distinto de "Asesor Operación": aca suele salir la
+        // persona encargada de facturar por sede, no quien atendio el vehiculo.
+        // Consulta aparte (no dedupedDocuments) porque esa ya usa "asesor"
+        // como alias de asesor_operacion, y aca se necesita la columna cruda.
+        query(
+          `
+            SELECT
+              local_nombre,
+              COALESCE(NULLIF(TRIM(asesor), ''), 'Sin asesor') AS asesor,
+              COUNT(DISTINCT nro_documento) AS comprobantes
+            FROM (
+              SELECT
+                nro_documento,
+                local_nombre,
+                COALESCE(NULLIF(TRIM(asesor), ''), 'Sin asesor') AS asesor
+              FROM registro_venta
+              WHERE ${period}
+                AND ${advisorSalesOnly}
+              GROUP BY nro_documento, local_nombre, COALESCE(NULLIF(TRIM(asesor), ''), 'Sin asesor')
+            ) documentos
+            GROUP BY local_nombre, asesor
+            ORDER BY comprobantes DESC
+          `,
+          params,
+        ),
       ]);
 
     const buildComparativo = (moneda) => {
@@ -527,6 +553,7 @@ const getRegistroVentaDashboard = async (req, res, next) => {
       porPago,
       porAsesor,
       porLocalMismoMes,
+      porEmisor,
       mostrador: mostrador[0] || { sin_igv: 0, con_igv: 0, comprobantes: 0 },
       comparativoMesAnterior,
     });
