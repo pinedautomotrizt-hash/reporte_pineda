@@ -563,18 +563,28 @@ export async function getEmpresaDetalle(req, res, next) {
         `,
         params,
       ),
-      // Vehiculos distintos por dia del mes filtrado, para ver el ingreso
-      // dia a dia (no solo el total mensual de mas arriba).
+      // Vehiculos por dia del mes filtrado, pero cada placa cuenta UNA SOLA
+      // VEZ: el dia que aparece aqui es el de su PRIMER ingreso del mes, asi
+      // la suma de todos los dias cuadra exacto con "Vehiculos unicos" del
+      // resumen/evolucion mensual (misma logica que ya usa el reporte de
+      // RentaEquipos). Si un vehiculo vuelve otro dia del mismo mes, ese dia
+      // no se le vuelve a sumar aqui.
       query(
         `
-          SELECT
-            DAY(${otDateExpr}) AS dia,
-            COUNT(DISTINCT NULLIF(TRIM(placa), '')) AS placas
-          FROM orden_trabajo
-          WHERE ${whereEmpresa}
-            AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
-            ${whereLocal}
-          GROUP BY DAY(${otDateExpr})
+          WITH primera_placa AS (
+            SELECT
+              NULLIF(TRIM(placa), '') AS placa,
+              MIN(${otDateExpr}) AS primera_fecha
+            FROM orden_trabajo
+            WHERE ${whereEmpresa}
+              AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
+              AND NULLIF(TRIM(placa), '') IS NOT NULL
+              ${whereLocal}
+            GROUP BY NULLIF(TRIM(placa), '')
+          )
+          SELECT DAY(primera_fecha) AS dia, COUNT(*) AS placas
+          FROM primera_placa
+          GROUP BY DAY(primera_fecha)
         `,
         params,
       ),
