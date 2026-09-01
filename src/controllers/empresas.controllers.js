@@ -18,6 +18,13 @@ const isReprocesoOt = `UPPER(TRIM(tipo_ot)) IN (
 const isRepuestoLinea =
   "UPPER(TRIM(origen_codigo)) IN ('REPUESTO', 'REPUESTOS', 'RPTO')";
 
+// Mismo valor que ya usa "Correctivo vs. Mantenimiento Periodico" para
+// identificar el tipo Correctivo, reutilizado para filtrar el ranking de
+// repuestos solo a OT correctivas (menos comunes que las de mantenimiento
+// periodico, por eso interesa verlas aparte).
+const isCorrectivoOt =
+  "UPPER(TRIM(tipo_ot)) = 'CORRECTIVO Y REPARACIONES GENERALES'";
+
 // Algunos clientes empresa vienen mal etiquetados como grupo_cliente=NINGUNO
 // en el reporte origen de OT (ej. ALD Automotive). Se reclasifican por razon
 // social (S.A., S.A.C., E.I.R.L., etc.) en vez de tratarlos como particulares.
@@ -267,6 +274,8 @@ export async function getEmpresaDetalle(req, res, next) {
       porVehiculo,
       porSede,
       repuestosMasUsados,
+      repuestosCorrectivoRows,
+      porDiaRows,
     ] = await Promise.all([
       query(
         `
@@ -531,6 +540,44 @@ export async function getEmpresaDetalle(req, res, next) {
         `,
         params,
       ),
+      // Mismo ranking de repuestos, pero solo de OT tipo Correctivo: al ser
+      // menos comunes que las de mantenimiento periodico, verlas aparte (sin
+      // que las tape el volumen de aceite/filtros de rutina) ayuda a detectar
+      // que se les rompe mas seguido a estos clientes.
+      query(
+        `
+          SELECT
+            TRIM(actividad) AS repuesto,
+            SUM(COALESCE(CAST(NULLIF(TRIM(cantidad), '') AS DECIMAL(10,2)), 0)) AS cantidad,
+            COUNT(*) AS veces
+          FROM orden_trabajo
+          WHERE ${whereEmpresa}
+            AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
+            AND ${isRepuestoLinea}
+            AND ${isCorrectivoOt}
+            AND NULLIF(TRIM(actividad), '') IS NOT NULL
+            ${whereLocal}
+          GROUP BY TRIM(actividad)
+          ORDER BY cantidad DESC
+          LIMIT 10
+        `,
+        params,
+      ),
+      // Vehiculos distintos por dia del mes filtrado, para ver el ingreso
+      // dia a dia (no solo el total mensual de mas arriba).
+      query(
+        `
+          SELECT
+            DAY(${otDateExpr}) AS dia,
+            COUNT(DISTINCT NULLIF(TRIM(placa), '')) AS placas
+          FROM orden_trabajo
+          WHERE ${whereEmpresa}
+            AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
+            ${whereLocal}
+          GROUP BY DAY(${otDateExpr})
+        `,
+        params,
+      ),
     ]);
 
     // porVehiculo ya viene ordenado desc por vehiculos: el primero es "el
@@ -597,6 +644,19 @@ export async function getEmpresaDetalle(req, res, next) {
       otConCierre: Number(row.ot_con_cierre || 0),
     }));
 
+    // Vehiculos por dia del mes filtrado: se rellenan TODOS los dias del mes
+    // (no solo los que tuvieron ingresos) para que el grafico muestre huecos
+    // reales en vez de saltarse dias sin dato.
+    const [anioMes, mesMes] = month.split("-").map(Number);
+    const diasDelMes = new Date(anioMes, mesMes, 0).getDate();
+    const porDiaPorNumero = new Map(
+      porDiaRows.map((row) => [Number(row.dia), Number(row.placas || 0)]),
+    );
+    const porDia = Array.from({ length: diasDelMes }, (_, index) => ({
+      dia: index + 1,
+      placas: porDiaPorNumero.get(index + 1) || 0,
+    }));
+
     // Orden fijo de los cubos del histograma (la BD los devuelve sin orden util).
     const ordenRangos = ["0", "1", "2", "3", "4-7", "8+"];
     const distribucionPorRango = new Map(
@@ -636,6 +696,8 @@ export async function getEmpresaDetalle(req, res, next) {
       porVehiculo,
       porSede,
       repuestosMasUsados,
+      repuestosCorrectivos: repuestosCorrectivoRows,
+      porDia,
       serviciosModeloTop,
     });
   } catch (error) {
