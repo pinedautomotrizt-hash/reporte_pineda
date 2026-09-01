@@ -252,6 +252,8 @@ export async function getEmpresaDetalle(req, res, next) {
       resumenRows,
       evolucionMensualRows,
       evolucionMensualAnioAnteriorRows,
+      evolucionMensualPlacasRows,
+      evolucionMensualPlacasAnioAnteriorRows,
       tiempoPromedioRows,
       tiempoDistribucionRows,
       tiempoPorTipoOtRows,
@@ -301,6 +303,36 @@ export async function getEmpresaDetalle(req, res, next) {
           SELECT
             MONTH(${otDateExpr}) AS mes,
             COUNT(DISTINCT nro_orden) AS unidades
+          FROM orden_trabajo
+          WHERE ${whereEmpresa}
+            AND ${otDateExpr} >= :yearStartAnterior AND ${otDateExpr} < DATE_ADD(:yearStartAnterior, INTERVAL 1 YEAR)
+            ${whereLocal}
+          GROUP BY MONTH(${otDateExpr})
+        `,
+        params,
+      ),
+      // Evolucion mensual pero contando placas unicas (vehiculos distintos)
+      // en vez de OT: un mismo vehiculo que vuelve 2 veces en el mes no suma
+      // 2 aca, a diferencia de evolucionMensualRows.
+      query(
+        `
+          SELECT
+            MONTH(${otDateExpr}) AS mes,
+            COUNT(DISTINCT NULLIF(TRIM(placa), '')) AS placas
+          FROM orden_trabajo
+          WHERE ${whereEmpresa}
+            AND ${otDateExpr} >= :yearStart AND ${otDateExpr} < DATE_ADD(:yearStart, INTERVAL 1 YEAR)
+            ${whereLocal}
+          GROUP BY MONTH(${otDateExpr})
+        `,
+        params,
+      ),
+      // Mismo shape que evolucionMensualPlacasRows pero un año antes.
+      query(
+        `
+          SELECT
+            MONTH(${otDateExpr}) AS mes,
+            COUNT(DISTINCT NULLIF(TRIM(placa), '')) AS placas
           FROM orden_trabajo
           WHERE ${whereEmpresa}
             AND ${otDateExpr} >= :yearStartAnterior AND ${otDateExpr} < DATE_ADD(:yearStartAnterior, INTERVAL 1 YEAR)
@@ -540,6 +572,25 @@ export async function getEmpresaDetalle(req, res, next) {
         unidadesAnioAnterior: Number(filaAnterior?.unidades || 0),
       };
     });
+
+    // Mismo comparativo pero contando placas unicas (vehiculos distintos) por
+    // mes, en vez de OT — grafico aparte porque mide algo distinto (cuantos
+    // vehiculos vinieron, no cuantas veces se atendio algo).
+    const evolucionPlacasPorMes = new Map(
+      evolucionMensualPlacasRows.map((row) => [Number(row.mes), row]),
+    );
+    const evolucionPlacasAnteriorPorMes = new Map(
+      evolucionMensualPlacasAnioAnteriorRows.map((row) => [Number(row.mes), row]),
+    );
+    const evolucionMensualPlacas = Array.from({ length: 12 }, (_, index) => {
+      const fila = evolucionPlacasPorMes.get(index + 1);
+      const filaAnterior = evolucionPlacasAnteriorPorMes.get(index + 1);
+      return {
+        mes: index + 1,
+        placas: Number(fila?.placas || 0),
+        placasAnioAnterior: Number(filaAnterior?.placas || 0),
+      };
+    });
     const tiempoPorTipoOt = tiempoPorTipoOtRows.map((row) => ({
       tipoOt: row.tipo_ot,
       promedioDias: row.promedio_dias === null ? null : Number(row.promedio_dias),
@@ -564,6 +615,7 @@ export async function getEmpresaDetalle(req, res, next) {
         reprocesos: 0,
       },
       evolucionMensual,
+      evolucionMensualPlacas,
       anioActual: Number(yearStart.slice(0, 4)),
       anioAnterior: Number(yearStartAnterior.slice(0, 4)),
       tiempoTaller: {
