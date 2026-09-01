@@ -216,12 +216,16 @@ export async function getEmpresaDetalle(req, res, next) {
     const { start, month, local } = parseFilters(req);
     const whereLocal = localClause(local);
     const yearStart = `${month.slice(0, 4)}-01-01`;
-    const params = { start, local, empresa, yearStart };
+    // Mismo mes/dia pero un año antes, para el comparativo "Años anteriores"
+    // (Evolución mensual muestra año actual vs año anterior en el mismo grafico).
+    const yearStartAnterior = `${Number(month.slice(0, 4)) - 1}-01-01`;
+    const params = { start, local, empresa, yearStart, yearStartAnterior };
     const whereEmpresa = "TRIM(cliente_nombre) = :empresa";
-    // Cada OT colapsada a una fila (placa, fechas, estado y dias entre
+    // Cada OT colapsada a una fila (placa, fechas, estado, tipo y dias entre
     // apertura y cierre). Es la base unica que reusan el promedio/min/max, el
-    // histograma, el detalle de las ultimas OT y las de "mas rapida/mas lenta" —
-    // todas ven exactamente la misma poblacion, no cada una un recorte distinto.
+    // histograma, el detalle de las ultimas OT, las de "mas rapida/mas lenta" y
+    // el tiempo por tipo de servicio — todas ven exactamente la misma
+    // poblacion, no cada una un recorte distinto.
     const otResumenSubquery = `
       SELECT
         nro_orden,
@@ -229,6 +233,7 @@ export async function getEmpresaDetalle(req, res, next) {
         DATE_FORMAT(MIN(${otDateExpr}), '%Y-%m-%d') AS fecha_apertura,
         DATE_FORMAT(MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')), '%Y-%m-%d') AS fecha_cierre,
         MAX(UPPER(TRIM(estado))) AS estado,
+        MAX(NULLIF(TRIM(tipo_ot), '')) AS tipo_ot,
         DATEDIFF(
           MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')),
           MIN(${otDateExpr})
@@ -246,8 +251,10 @@ export async function getEmpresaDetalle(req, res, next) {
     const [
       resumenRows,
       evolucionMensualRows,
+      evolucionMensualAnioAnteriorRows,
       tiempoPromedioRows,
       tiempoDistribucionRows,
+      tiempoPorTipoOtRows,
       tiempoDetalle,
       tiempoMasRapidas,
       tiempoMasLentas,
@@ -287,6 +294,21 @@ export async function getEmpresaDetalle(req, res, next) {
         `,
         params,
       ),
+      // Mismo shape que evolucionMensualRows pero un año antes, para el
+      // comparativo "Años anteriores" del grafico de Evolución mensual.
+      query(
+        `
+          SELECT
+            MONTH(${otDateExpr}) AS mes,
+            COUNT(DISTINCT nro_orden) AS unidades
+          FROM orden_trabajo
+          WHERE ${whereEmpresa}
+            AND ${otDateExpr} >= :yearStartAnterior AND ${otDateExpr} < DATE_ADD(:yearStartAnterior, INTERVAL 1 YEAR)
+            ${whereLocal}
+          GROUP BY MONTH(${otDateExpr})
+        `,
+        params,
+      ),
       query(
         `
           SELECT
@@ -311,6 +333,24 @@ export async function getEmpresaDetalle(req, res, next) {
             COUNT(*) AS cantidad
           FROM (${otCerradasSubquery}) t
           GROUP BY rango
+        `,
+        params,
+      ),
+      // Dias promedio en taller por tipo de OT (Mantenimiento Periodico vs
+      // Correctivo, etc.), sobre las mismas OT cerradas que ya usa el
+      // promedio/histograma general. Excluye reprocesos/reclamos, igual que
+      // "Correctivo vs. Mantenimiento Periodico" mas abajo, para no mezclar
+      // contenido interno/sensible en un indicador que ve el cliente.
+      query(
+        `
+          SELECT
+            COALESCE(tipo_ot, 'Sin clasificar') AS tipo_ot,
+            ROUND(AVG(dias), 1) AS promedio_dias,
+            COUNT(*) AS ot_con_cierre
+          FROM (${otCerradasSubquery}) t
+          WHERE COALESCE(UPPER(tipo_ot), '') <> 'RECLAMOS AL CONCESIONARIO'
+          GROUP BY COALESCE(tipo_ot, 'Sin clasificar')
+          ORDER BY ot_con_cierre DESC
         `,
         params,
       ),
@@ -487,14 +527,24 @@ export async function getEmpresaDetalle(req, res, next) {
     const evolucionPorMes = new Map(
       evolucionMensualRows.map((row) => [Number(row.mes), row]),
     );
+    const evolucionAnteriorPorMes = new Map(
+      evolucionMensualAnioAnteriorRows.map((row) => [Number(row.mes), row]),
+    );
     const evolucionMensual = Array.from({ length: 12 }, (_, index) => {
       const fila = evolucionPorMes.get(index + 1);
+      const filaAnterior = evolucionAnteriorPorMes.get(index + 1);
       return {
         mes: index + 1,
         unidades: Number(fila?.unidades || 0),
         reprocesos: Number(fila?.reprocesos || 0),
+        unidadesAnioAnterior: Number(filaAnterior?.unidades || 0),
       };
     });
+    const tiempoPorTipoOt = tiempoPorTipoOtRows.map((row) => ({
+      tipoOt: row.tipo_ot,
+      promedioDias: row.promedio_dias === null ? null : Number(row.promedio_dias),
+      otConCierre: Number(row.ot_con_cierre || 0),
+    }));
 
     // Orden fijo de los cubos del histograma (la BD los devuelve sin orden util).
     const ordenRangos = ["0", "1", "2", "3", "4-7", "8+"];
@@ -514,12 +564,15 @@ export async function getEmpresaDetalle(req, res, next) {
         reprocesos: 0,
       },
       evolucionMensual,
+      anioActual: Number(yearStart.slice(0, 4)),
+      anioAnterior: Number(yearStartAnterior.slice(0, 4)),
       tiempoTaller: {
         promedioDias: tiempoPromedioRows[0]?.promedio_dias ?? null,
         minDias: tiempoPromedioRows[0]?.min_dias ?? null,
         maxDias: tiempoPromedioRows[0]?.max_dias ?? null,
         otConCierre: Number(tiempoPromedioRows[0]?.ot_con_cierre || 0),
         distribucion,
+        porTipoOt: tiempoPorTipoOt,
         detalle: tiempoDetalle,
         masRapidas: tiempoMasRapidas,
         masLentas: tiempoMasLentas,
