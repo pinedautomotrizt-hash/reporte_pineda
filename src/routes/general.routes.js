@@ -16,6 +16,7 @@ import {
   getRegistroVentaDashboard,
   getRegistroVentaResumenMensual,
   getAsesorPersonalDashboard,
+  getProyeccionAnual,
 } from "../controllers/registroVentaDashboard.controllers.js";
 import {
   getAsesoresConfiguracion,
@@ -77,6 +78,7 @@ router.get("/dashboard/pendientes-aperturados", getPendientesAperturados);
 router.get("/dashboard/facturacion", getRegistroVentaDashboard);
 router.get("/dashboard/asesores", getRegistroVentaAsesores);
 router.get("/dashboard/resumen-mensual", getRegistroVentaResumenMensual);
+router.get("/dashboard/proyeccion-anual", getProyeccionAnual);
 router.get("/dashboard/asesor-personal", getAsesorPersonalDashboard);
 router.get("/dashboard/empresas", getEmpresasResumen);
 router.get("/dashboard/empresas/:empresa", getEmpresaDetalle);

@@ -1,5 +1,6 @@
 import { query } from "../db.js";
 import { localClause, parseFilters } from "../utils/expresiones.js";
+import { METAS_ANUALES } from "../config/metas.js";
 
 
 
@@ -1089,9 +1090,39 @@ const getRegistroVentaResumenMensual = async (req, res, next) => {
   }
 };
 
+// Facturación real 2025 en adelante por sede/año/mes, para el panel de
+// Proyección anual del módulo Facturación (Meta/Alcance/Variación por mes).
+// Usa la misma query que ya alimenta la tarjeta "Meta mensual" del dashboard
+// (dedupedDocuments con advisorSalesOnly) para que ambos números coincidan.
+const getProyeccionAnual = async (req, res, next) => {
+  try {
+    const period = `
+      ${saleDate} >= :desde
+      AND ${validDocument}
+    `;
+    const rows = await query(
+      `
+        SELECT
+          local_nombre,
+          YEAR(fecha_documento) AS anio,
+          MONTH(fecha_documento) AS mes,
+          SUM(sin_igv) AS facturado
+        FROM (${dedupedDocuments(period)}) documentos
+        GROUP BY local_nombre, YEAR(fecha_documento), MONTH(fecha_documento)
+        ORDER BY local_nombre, anio, mes
+      `,
+      { desde: "2025-01-01" },
+    );
+    res.json({ filas: rows, metas: METAS_ANUALES });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export {
   getRegistroVentaDashboard,
   getRegistroVentaAsesores,
   getRegistroVentaResumenMensual,
   getAsesorPersonalDashboard,
+  getProyeccionAnual,
 };
