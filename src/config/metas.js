@@ -6,11 +6,14 @@
 // 12 valores [Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic]
 // cuando la meta cambia dentro del año.
 export const METAS_ANUALES = {
-  "Pineda Callao": { 2025: 418000, 2026: 418000 },
+  "Pineda Callao": {
+    2025: 350000,
+    // Sube de 400,000 a 418,000 a partir de julio.
+    2026: [400000, 400000, 400000, 400000, 400000, 400000, 418000, 418000, 418000, 418000, 418000, 418000],
+  },
   "Pineda Trujillo": {
-    // Trujillo abrió en 2025: sin meta en la apertura (Ene-Abr), 100,000
-    // de mayo a setiembre, y 150,000 en el último trimestre.
-    2025: [0, 0, 0, 0, 100000, 100000, 100000, 100000, 100000, 150000, 150000, 150000],
+    // Trujillo abrió en 2025: sin meta en ningún mes del año de apertura.
+    2025: 0,
     2026: 200000,
   },
 };
