@@ -1100,8 +1100,9 @@ const getProyeccionAnual = async (req, res, next) => {
       ${saleDate} >= :desde
       AND ${validDocument}
     `;
-    const rows = await query(
-      `
+    const [rows, unidades] = await Promise.all([
+      query(
+        `
         SELECT
           local_nombre,
           YEAR(fecha_documento) AS anio,
@@ -1112,8 +1113,28 @@ const getProyeccionAnual = async (req, res, next) => {
         ORDER BY local_nombre, anio, mes
       `,
       { desde: "2025-01-01" },
-    );
-    res.json({ filas: rows, metas: METAS_ANUALES });
+      ),
+      // Una unidad atendida representa un vehiculo diferente (placa unica)
+      // que tuvo al menos una OT abierta en el mes. La agrupacion por sede y
+      // mes permite comparar la capacidad operativa sin duplicar reingresos
+      // de la misma placa dentro del periodo.
+      query(
+        `
+          SELECT
+            local_nombre,
+            YEAR(${otDate}) AS anio,
+            MONTH(${otDate}) AS mes,
+            COUNT(DISTINCT NULLIF(TRIM(placa), '')) AS unidades
+          FROM orden_trabajo
+          WHERE ${otDate} >= :desde
+            AND NULLIF(TRIM(placa), '') IS NOT NULL
+          GROUP BY local_nombre, YEAR(${otDate}), MONTH(${otDate})
+          ORDER BY local_nombre, anio, mes
+        `,
+        { desde: "2025-01-01" },
+      ),
+    ]);
+    res.json({ filas: rows, unidades, metas: METAS_ANUALES });
   } catch (error) {
     next(error);
   }

@@ -1,0 +1,7022 @@
+[
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "001230",
+    "desc": "BOTA DE SEGURIDAD TALLA 41",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "005054",
+    "desc": "PAR DE BOTAS DE JEBE",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "005063",
+    "desc": "BOTAS T=43 D/JEBE C/ PUNTA ACERO 2021",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "022749",
+    "desc": "BOTAS DE SEGURIDAD T40 BOTIN",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "0888030016L",
+    "desc": "ACEITE SINTETICO 5W-30 1L",
+    "familia": "ACEITE GASOLINERO 1/",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "0888070016L",
+    "desc": "ACEITE GASOLINERO 10W30 1L (CAM2)",
+    "familia": "ACEITE GASOLINERO 1/",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "0888581580L",
+    "desc": "API GL4 TRANS/MAN",
+    "familia": "ACEITE DE TRANSMISION",
+    "sistemaViejo": "Transmisión",
+    "sistemaNuevo": "Transmisión",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "104631218",
+    "desc": "ARANDELA TAPON DE CARTER M12 (ALUMINIO)",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Motor interno"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "10892-333W",
+    "desc": "SUPER LIMPIADOR DE PARABRISAS 32ML-",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Carrocería",
+    "subNuevo": "Vidrios y espejos"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "10892009030",
+    "desc": "LIQUIDO DE FRENOS DOT4 0089010801",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "144774",
+    "desc": "PANTALON JEAN TALLA 32 C/DOBLE CINTA GRUESA",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "1500A608-ALT",
+    "desc": "FILTRO DE AIRE DE MOTOR L200",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "15208BN30A-FIL",
+    "desc": "FILTRO DE ACEITE - ALT",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "164034KV0A-ALT",
+    "desc": "ELEMENTO FILTRO DE PETROLEO",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "165464JM1A-ALT",
+    "desc": "FILTRO DE AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "165465RA0A-FIL",
+    "desc": "FILTRO AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "17177",
+    "desc": "FOCO LAGRIMA 12V 5W",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "178010L040-ALT",
+    "desc": "FILTRO DE AIRE - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "178010Y040-FIL",
+    "desc": "FILTRO DE AIRE",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "263002Y500-FIL",
+    "desc": "FILTRO DE ACEITE - ALT",
+    "familia": "FILTRO DE ACEITE(MVP",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "48881",
+    "desc": "FOCO H4 12V 60/55W",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "80292-SDA-A01",
+    "desc": "FILTRO DE AC",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "871390K070-ALT",
+    "desc": "FILTRO DE CABINA - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "888581590L",
+    "desc": "APIGL5 DIFEREN",
+    "familia": "ACEITE DIFERENCIAL",
+    "sistemaViejo": "Transmisión",
+    "sistemaNuevo": "Transmisión",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "90915YZZJ1-ALT",
+    "desc": "FILTRO DE ACEITE",
+    "familia": "FILTRO DE ACEITE(MVP",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "AB399176AC-FIL",
+    "desc": "FILTRO DE PETROLEO - ALT",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "AB3J9601AB-ALT",
+    "desc": "FILTRO DE AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "D0888980039L",
+    "desc": "REFRIGERANTE 50/50 ROJO",
+    "familia": "RADIADOR",
+    "sistemaViejo": "Refrigeración",
+    "sistemaNuevo": "Refrigeración",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "FC-1806",
+    "desc": "PRE FILTRO COMBUSTIBLE 3/4-16 UNF-2B",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Combustible",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "LM3318",
+    "desc": "SPRAY LIMPIADOR",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "U2Y014302-ALT",
+    "desc": "FILTRO ELEMENTO DE ACEITE",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "1017110XED95-ALT",
+    "desc": "FILTRO DE ACEITE",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "117205X00A-BA",
+    "desc": "FAJA DE ALTERNADOR 7PK1750 - ALT",
+    "familia": "FAJAS",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Arranque y carga"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "1191.111",
+    "desc": "KIT PINTURA ULTRABASE 1/16",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "11950EB70A-BA",
+    "desc": "FAJA DE D/H 4PK820- ALT",
+    "familia": "FAJAS",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "1425TOPEMUELLE",
+    "desc": "TOPE DE MUELLE",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Componentes de suspensión"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "263502J000-ALT",
+    "desc": "FILTRO DE ACEITE",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "45A0015L",
+    "desc": "ACEITE 15W40 CK-4",
+    "familia": "ACEITE PETROLERO",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "48005",
+    "desc": "FOCO HB3(9005) 12V",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "90915YZZD2-ALT",
+    "desc": "FILTRO DE ACEITE - ALT",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "97133D3000-ALT",
+    "desc": "FILTRO DE A/C - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Aire acondicionado",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "ETNAW13PRO",
+    "desc": "BATERIA 13 PLACAS",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Arranque y carga"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "FN-0637",
+    "desc": "JGO DE ZAPATAS (NIBK) RANGER - ALT",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "PN-0644HD",
+    "desc": "JGO DE PASTILLA DELT",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "PN-51001HD",
+    "desc": "JGO DE PASTILLA DELT (RANGER Y BT50) - ALT",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "S1049",
+    "desc": "JGO DE ZAPATAS -ALT",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "005478",
+    "desc": "CABLE INDECO GPT/3 18 NEGRO",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "1520831U00",
+    "desc": "FILTRO DE ACEITE-FIL",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "165467674R-ALT",
+    "desc": "FILTRO DE AIRE RENAULT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "7700274177-FIL",
+    "desc": "FILTRO DE ACEITE RENAULT  - ALT",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "ATF-D3",
+    "desc": "ACEITE ATF",
+    "familia": "ACEITE DE TRANSMISION",
+    "sistemaViejo": "Transmisión",
+    "sistemaNuevo": "Transmisión",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "BF421",
+    "desc": "LIQUIDO DE FRENO DOT 4 (NIBK)",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "SH01-13-3A0A-ALT",
+    "desc": "FILTRO DE AIRE MAZDA CX9 - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "031912",
+    "desc": "ABRILLANTADOR PARA LLANTA",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "1112589230-ALT",
+    "desc": "ESPARRAGO DE RUEDA",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Componentes de suspensión"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "1191.11",
+    "desc": "KIT PINTURA ULTRABASE 1/32",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "281134X000-ALT",
+    "desc": "FILTRO DE AIRE - VERNA",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "3B3G9176AA-ALT",
+    "desc": "FILTRO DE PETROLEO - ALT",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "46751179",
+    "desc": "FILTRO DE ACEITE - RAM",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "51842923",
+    "desc": "FILTRO DE AC - RAM",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "51854598",
+    "desc": "FILTRO DE AIRE - RAM",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "52950M1000",
+    "desc": "TUERCA DE ARO",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Componentes de suspensión"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "7089967-F",
+    "desc": "JGO DE PASTILLA DELT RAM V700",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "CINTEL",
+    "desc": "CINTA TELA AUTOMOTRIZ",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "GAS-0003",
+    "desc": "FILTRO DE FASE LIQUIDA",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "023280",
+    "desc": "CINTA AISLANTE NEGRA",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "402064KH1B-ALT",
+    "desc": "DISCO DE FRENO DELANTERO - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "16405A000P-ALT",
+    "desc": "FILTRO DE PETROLEO (NEW L200) - ALT",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "51270SR3023-ALT",
+    "desc": "ROTULAS TRAPECIO INFERIOR RANGER",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Componentes de suspensión"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "AB39/9601/AB/-ALT",
+    "desc": "FILTRO DE AIRE - FORD RANGER / MAZDA BT-50",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "MB3Z9601C-ALT",
+    "desc": "FILTRO DE AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "130411002002",
+    "desc": "BOCINA DE MUELLE",
+    "familia": "COJINETE DE MOTOR",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Componentes de suspensión"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "233900L041-FIL",
+    "desc": "FILTRO DE PETROLEO - ALT",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "28113C7000-FIL",
+    "desc": "FILTRO DE AIRE (I20 1.4 / SELTOS 1.6 / SONET1.5)",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "3213",
+    "desc": "CINTA NORTON 3/4 NARANJA 1855M X48",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "48328",
+    "desc": "FOCO H7 12V 55W NARVA",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "BPFD85155-ALT",
+    "desc": "PISTON DE CALIPERS FORD RANGER",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Motor interno"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "CR2016",
+    "desc": "PILA LITHIUM 3V CR2016",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "007201341",
+    "desc": "FOCO DOBLE CONTACTO 12V 21/5W",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "848870450FB18",
+    "desc": "PLUMILLA FLATBLADE N18",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "848870500FB20",
+    "desc": "PLUMILLAS FLATBLADE 500MM - 20",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "PN-3414",
+    "desc": "JGO DE PASTILLA DELT ( L200 )",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "006647",
+    "desc": "ESTAÑO 1 MM - 1/16MM DE150 GRAMOS POWER-10PP1",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "025577",
+    "desc": "SEGURO DE ARO M12X1.5 CROMADO",
+    "familia": "OTROS SIN DSCTO",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Componentes de suspensión"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "17919",
+    "desc": "FOCO LAGRIMON DE 2 CONTACTOS",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "310101",
+    "desc": "CILINDRO",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "MB3Z18124CH-ALT",
+    "desc": "AMORTIGUADOR DELT RH Y LH RANGER 2024-UP",
+    "familia": "AMORTIGUADOR",
+    "sistemaViejo": "Suspensión",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Amortiguación"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "SEGUR-ARO3",
+    "desc": "SEGURO ARO M12X1.25",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Componentes de suspensión"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "042342130",
+    "desc": "PERNO",
+    "familia": "OTROS SIN DSCTO",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "0888581080L",
+    "desc": "TRANSFER GEAR OIL",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "1654602N00-FIL",
+    "desc": "FILTRO DE AIRE(URVAN) - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "16546Y03S1-FIL",
+    "desc": "AIRE NISSAN AD CON MALLA (STP-20102) (16546-V0100)",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "281134F000-FIL",
+    "desc": "FILTRO DE AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "CTX170A-AISIN",
+    "desc": "KIT DE EMBRAGUE (PLATO/DISCO/COLLARIN)",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Embrague",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "00890321185",
+    "desc": "SILICONA NEUTRA ALTA TEMPERATURA 85G",
+    "familia": "ARTICULO QUIMICO",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "1109110XP6EXA-FIL",
+    "desc": "FILTRO AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "16400ES60A-ALT",
+    "desc": "FILTRO DE PETROLEO - ALT",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "30720711-H1",
+    "desc": "FOCO TIPO H1  12V 55W",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "0004532",
+    "desc": "FUSIBLE DE CARTUCHO 30 AMP",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "005615",
+    "desc": "PORTAFUSIBLE AEREO UÑA MED(202-101)",
+    "familia": "OTROS SIN DSCTO",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "1230A182",
+    "desc": "FILTRO DE ACEITE",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "30893090020",
+    "desc": "PEGAMENTO INSTANTANEO WURTH",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "48072",
+    "desc": "FOCO H11 12V 55W",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "BB3Q6744BA-ALT",
+    "desc": "FILTRO ELEMENTO  ACEITE RANGER REEM  (U2Y014302)",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "SEG.ESPMIT",
+    "desc": "SEGURO DE ESPEJOS MITSUBISHI 2025-",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Carrocería",
+    "subNuevo": "Vidrios y espejos"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "VD-01",
+    "desc": "PARCHE VIPAL 01",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "2234ORING",
+    "desc": "ORING TURBO",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "EXTINTOR.6KG",
+    "desc": "EXTINTOR 6KG",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "PN-0822HD",
+    "desc": "JGO PASTILLAS DELANTERAS  MAXUS - ALT",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "848870600FB24",
+    "desc": "PLUMILLA FLATBLADE N24",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "005408-U",
+    "desc": "FUSIBLE DE UÑA 15AMP HELLA",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "28859PER",
+    "desc": "PERNOS",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "FN-0620",
+    "desc": "JGO DE ZAPATAS DE FRENO (HILUX) - ALT",
+    "familia": "ZAPATAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "10461622",
+    "desc": "ARANDELA DE BRONCE M16 (104631620 )",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "1609998980",
+    "desc": "FILTRO DE AIRE ACONDICIONADO - EUROREPAR",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Aire acondicionado",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "1611659480",
+    "desc": "FILTRO DE COMBUSTIBLE",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Combustible",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "1611891580",
+    "desc": "FILTRO DE AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "2630042040-ALT",
+    "desc": "FILTRO DE ACEITE",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "319222E900-HI",
+    "desc": "FILTRO DE PETROLEO H1 - ALT",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "1780125020-ALT",
+    "desc": "FILTRO DE AIRE",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "263502M000-FIL",
+    "desc": "FILTRO ELEMENTO DE ACEITE - ALT",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "28113H8100-ALT",
+    "desc": "FILTRO DE AIRE - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "319224H900",
+    "desc": "FILTRO DE PETROLEO - KIA -HYUNDAI",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "JAC-0003",
+    "desc": "FILTRO DE GASOLINA - ALT",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "TR413",
+    "desc": "PITON PARA ARO DE AUTO",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "00892075100",
+    "desc": "UNDERCOATING-PROTECTOR BAJOS NEGROS 1KG",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "9913211210-A",
+    "desc": "FOCO 1 CONTACTO 12 V 21W AMBAR",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "003333",
+    "desc": "SILICONA PARA TABLERO LIQUIDO",
+    "familia": "OTROS QUIMICOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "005618",
+    "desc": "TERMINAL HEMBRA 6.3(16-14)",
+    "familia": "OTROS SIN DSCTO",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "00890100811",
+    "desc": "SELLADOR CARROCERIA PU NEGRO",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "018516",
+    "desc": "SIRENA D/RETROCESO HELLA 110DB 12/24V PP2021",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "025576",
+    "desc": "SEGURO DE ARO M12X1.25 CROMADO",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Componentes de suspensión"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "10082020004",
+    "desc": "PONCHO DE PALIER",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "100899700114",
+    "desc": "FILTRO DE PINTURA 190 MICRAS",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "1053916080-A",
+    "desc": "ABRAZADERA INOX ZEBRA 60-80",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "105589441",
+    "desc": "TERMINAL AISLADO 6.3 MACHO ROJO",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "1105010P3030",
+    "desc": "FILTRO COMBUSTIBLE PRIMARIO JAC T8",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Combustible",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "1112589530-ALT",
+    "desc": "TUERCA CROMADA DE RUEDA",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Componentes de suspensión"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "1191.1",
+    "desc": "KIT PINTURA ULTRABASE 1/4",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "1191.1111",
+    "desc": "KIT PINTURA ULTRABASE 1/8",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "152095084R-ALT",
+    "desc": "FILTRO ELEMENTO DE ACEITE - ALT",
+    "familia": "FILTRO DE ACEITE(MVP",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "1611329180-D",
+    "desc": "PONCHO DE PALIER INT - BERLINGO",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "164003XN1B-ALT",
+    "desc": "FILTRO DE COMBUSTIBLE (NS URVAN) -ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Combustible",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "1640501T70-ALT",
+    "desc": "FILTRO SEDIMENTADOR",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "165466RA0A-ALT",
+    "desc": "FILTRO DE AIRE NISSAN XTRAIL - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "1687120580",
+    "desc": "FILTRO DE ACEITE - EUROREPAR",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "233900L041-B",
+    "desc": "FILTRO DE PETROLEO - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "24521833-ALT",
+    "desc": "FILTRO DE COMBUSTIBLE N400 - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Combustible",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "24552164-ALT",
+    "desc": "FILTRO DE AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "25181616-ALT",
+    "desc": "FILTRO DE ACEITE",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "40206A020P-ALT",
+    "desc": "DISCO DE FRENO DELANTERO 4N16 L200 MITSUBISHI",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "4056A219-ALT",
+    "desc": "JEBE BARRA ESTABILIZADORA N°31 L200 4N15",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Componentes de suspensión"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "4467",
+    "desc": "SEGURO DE DOBLE 4X4 UNIVERSAL",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "462010K190C0",
+    "desc": "PALANCA FRENO MANO HILUX 1GD 2 GC ORIG",
+    "familia": "SPOILER",
+    "sistemaViejo": "Carrocería",
+    "sistemaNuevo": "Carrocería",
+    "subNuevo": "Carrocería (exterior)"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "46416684F",
+    "desc": "FILTRO DE GASOLINA",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "48006",
+    "desc": "FOCO HB4 12V 55W NARVA",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "485108Z206-ALT",
+    "desc": "AMORTIGUADOR DELANTERO",
+    "familia": "AMORTIGUADOR",
+    "sistemaViejo": "Suspensión",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Amortiguación"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "4PK725",
+    "desc": "FAJA ALTERNADOR",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Arranque y carga"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "55226521",
+    "desc": "BUJIA DE ENCENDIDO - RAM",
+    "familia": "BUJIAS",
+    "sistemaViejo": "Electricidad",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Encendido"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "651243",
+    "desc": "ACEITE MOBIL  HD 40 MONOGRADO ESTACIONARIO",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "80440049",
+    "desc": "AMORTIGUADOR POST RH Y LH",
+    "familia": "AMORTIGUADOR",
+    "sistemaViejo": "Suspensión",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Amortiguación"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "8104400XP24BA-ALT",
+    "desc": "FILTRO DE AC - ALT POER WINGLE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "848270400P16",
+    "desc": "PLUMILLA N16",
+    "familia": "PLUMILLAS Y JEBES",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "848270650P26",
+    "desc": "PLUMILLA STANDAR N26",
+    "familia": "PLUMILLAS Y JEBES",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "848870400FB16",
+    "desc": "PLUMILLAS FLATBLADE 400MM - 16",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "848870450FB14",
+    "desc": "PLUMILLA FLATBLADE N14",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "848870550FB22",
+    "desc": "PLUMILLAS FLATBLADE 550MM - 22",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "848870650FB26",
+    "desc": "PLUMILLA FLATBLADE 650MM N26",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "871390D080-ALT",
+    "desc": "FILTRO DE A/C",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Aire acondicionado",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "9011310003",
+    "desc": "PERNO AJUSTE (AJUSTE TAMBOR EJE FRONTAL)",
+    "familia": "OTROS SIN DSCTO",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "905003XA0A",
+    "desc": "CHAPA COMPUERTA POSTERIOR- ALT",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Carrocería",
+    "subNuevo": "Carrocería (exterior)"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "97133F2000-ALT",
+    "desc": "FILTRO DE A/C",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Aire acondicionado",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "9825340780",
+    "desc": "TAPON DE LLENADO DE ACEITE DE CAJA DE CAMBIOS",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Transmisión",
+    "subNuevo": "Caja de cambios"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "9954211-ALT",
+    "desc": "JGO DE ZAPATAS DE FRENO",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "A-26555A000P",
+    "desc": "FARO POSTERIOR IZQUIERDO  2025 MODERNO",
+    "familia": "FARO",
+    "sistemaViejo": "Electricidad",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "A0001802609-ALT",
+    "desc": "FILTRO DE ACEITE MERCEDES BENZ SPRINTER ALT",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "ASW17D",
+    "desc": "CHAPA  INTERRUPTOR LUZ PARA TABLERO",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "AU0003959",
+    "desc": "FARO NEBLINERO 6° AAA",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "BOR0112",
+    "desc": "BORNE DE BATERIA",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Arranque y carga"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "BPS-304",
+    "desc": "FILTRO DE PETROLEO N°2  - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "C00088829",
+    "desc": "RETEN DE DIFERENCIA DELANTERO LH LADO PALIER -ALT",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "C00136809",
+    "desc": "CAÑERIA LIQUIDO HIDRAULICO T60",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "COAMMA009-ALT",
+    "desc": "AMORTIGUADOR COMPUERTA URVAN ALT",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Amortiguación"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "CR2032",
+    "desc": "PILA DE LLAVERO 3V CR2032",
+    "familia": "PI",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "DN-1104",
+    "desc": "TAMBOR DE FRENO",
+    "familia": "TAMBOR DE FRENO",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "EPOXICO-001",
+    "desc": "PEGAMENTO EPOXICO",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "ETNAHL11PRO",
+    "desc": "BATERIA ETNA 11 PLACAS",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Arranque y carga"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "F48321",
+    "desc": "FOCO 12V 55W TIPO H3",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "FN-6741",
+    "desc": "JGO DE ZAPATAS (L200) - ALT",
+    "familia": "ZAPATAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "G123",
+    "desc": "GRASA CHV",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "HPC15",
+    "desc": "KIT BARNIZ HPC15",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "KU-938",
+    "desc": "CANDADO DE SEGURIDAD 38MM",
+    "familia": "NUEVA FAMILIA CAMBIAR DESC",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "LFD0253",
+    "desc": "LAPTOP NIU FD0253",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "LM7615",
+    "desc": "ACEITE DE MOTOR 5W30 SPECIAL TEC AA - 1LTS",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "LM7616",
+    "desc": "ACEITE SPECIAL TEC AA 5W30 LIQUI MOLY",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "LM9089",
+    "desc": "MOLYGEN NEW GENERATION 5W30 / ACEITE DE  MOTOR 4L",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "MASKING-01",
+    "desc": "MASKING FILM 4.87M X 120M",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "PN-3809",
+    "desc": "JGO DE PASTILLA DELT (L200)",
+    "familia": "PASTILLAS (MVP)",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "PN-6050",
+    "desc": "JGO DE PASTILLA DELT (N400)",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "QIS2894444",
+    "desc": "OXIM ULTRA AFLOJATODO EN SPRAY 400ML",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "R-75W90",
+    "desc": "ACEITE TRANSMISION GL4- 75W90",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Transmisión",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "SEGPALIER",
+    "desc": "SEGURO PALIER",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "URVAN-0009",
+    "desc": "GANCHO DE COMPUERTA",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Carrocería",
+    "subNuevo": "Carrocería (exterior)"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Repuestos",
+    "codigo": "W-579581003",
+    "desc": "DISCO FLAP INOX 115MM - G80",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "000012-A",
+    "desc": "CINTA REFLECTIVA AMARILLA",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "00128",
+    "desc": "WAYPE AUTOMOTRIZ X KILO",
+    "familia": "KIT SECADOR",
+    "sistemaViejo": "Aire acondicionado",
+    "sistemaNuevo": "Aire acondicionado",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "001687",
+    "desc": "PINTURA EN SPRAY",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "004747",
+    "desc": "PISTOLA DE AIRE P/LIMP. D/MOT. (PILI-19236 TRUPER)",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "005054",
+    "desc": "PAR DE BOTAS DE JEBE",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "005517",
+    "desc": "LIJA 40",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "00899-700-400",
+    "desc": "ESPONJA PARA LAVADO DE COCHES",
+    "familia": "PI",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "011553",
+    "desc": "SHAMPPO NEUTRO1GL MASTER",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "019037",
+    "desc": "GUANTES ANTICORTE  ROJO (W1-251RD)",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "019985",
+    "desc": "PAÑOS ABSORBENTES",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "021893",
+    "desc": "PAÑO DE MICROFIBRA 40X40 IMPORTADO COLORES",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "022751",
+    "desc": "BOTIN DE SEGURIDAD T=42 CON PLANTA PU NEGRO SEGPRO",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "028900",
+    "desc": "GUANTES ANTICORTE CLUTE GRIS",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "031912",
+    "desc": "ABRILLANTADOR PARA LLANTA",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "042342130",
+    "desc": "PERNO",
+    "familia": "OTROS SIN DSCTO",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "1053912540",
+    "desc": "ABRAZADERA INOX ZEBRA 25-40MM",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "1053913250",
+    "desc": "ABRAZADERA INOX ZEBRA 32-50",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "11569",
+    "desc": "ESCOBILLA CIRCULAR",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "1191",
+    "desc": "KIT PINTURA ULTRABASE",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "1191.1",
+    "desc": "KIT PINTURA ULTRABASE 1/4",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "1191.11",
+    "desc": "KIT PINTURA ULTRABASE 1/32",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "1191.111",
+    "desc": "KIT PINTURA ULTRABASE 1/16",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "1191.1111",
+    "desc": "KIT PINTURA ULTRABASE 1/8",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "1213",
+    "desc": "BROCA ESCALANADA 9 ESC 1/4 A 3/4",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "123PER1P",
+    "desc": "PERNO",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "140394",
+    "desc": "POLO MANGA LARGA GRIS",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "144736",
+    "desc": "PANTALON AZUL T=L DOBLE CINTA GRUESA",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "1529",
+    "desc": "PUENTE ADHERENTE 83405 S.W 1/4",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "1538",
+    "desc": "COLADOR SW.",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "218",
+    "desc": "KIT PINTURA 1 GALON",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "2672",
+    "desc": "PAPEL KRAFT 90450 MT MIPA 1 ROLLO",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "28859PER",
+    "desc": "PERNOS",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "30242870",
+    "desc": "PAÑOS MULTIUSOS PARA LIMPIEZA (WYPALL)",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "319097",
+    "desc": "DESENGRASANTE MECANICO 1GL PASLEY",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "3213",
+    "desc": "CINTA NORTON 3/4 NARANJA 1855M X48",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "3520830210",
+    "desc": "FUSIBLE PLANO MICRO 10 AMP",
+    "familia": "CAUTIVO MOTOR",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Motor interno"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "3520830220",
+    "desc": "FUSIBLE PLANO MICRO 20 AMP",
+    "familia": "CAUTIVO MOTOR",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Motor interno"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "3569",
+    "desc": "PAÑO GOMOSO ROBERLO",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "359710",
+    "desc": "LIMPIADOR DE ESPUMA 650ML PASLEY",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "3671",
+    "desc": "MASILLA ROBERLO MULTIPLAST 1KG",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "3727",
+    "desc": "THINNER 455  X 5LT",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "3742",
+    "desc": "MASILLA YESKY 4KL",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "4101",
+    "desc": "BARNIZ CC900 1/4",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "4188",
+    "desc": "MASILLA MIPA P35-PLASTICO 1KG",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "4221",
+    "desc": "KIT BASE HS P41-BLANCA 1GL",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "4222.1",
+    "desc": "KIT BASE HS P41-GRIS GALON",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "4316932",
+    "desc": "GUANTES DE NITRILO DESECHABLES",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "56412GRAP",
+    "desc": "GRAPAS",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "688",
+    "desc": "ANTICRATERA 8780 S.W. 1/8",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "869",
+    "desc": "CINTA 3M P/MOLDURAS 06382 1/2\"",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Carrocería",
+    "subNuevo": "Carrocería (exterior)"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "CAD121410",
+    "desc": "CANDADO 50MM",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "CC900",
+    "desc": "BARNIZ CC900 X 5 LT",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "DC10920A",
+    "desc": "PLOMO P/ARO DE FIERRO ZINC 20GR",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "DC10930S",
+    "desc": "PLOMO P/ARO DE FIERRO ZINC 30GR-UNIDAD",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "DS-FLAP",
+    "desc": "DISCO FLAP",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "ETCHINGPRIMER",
+    "desc": "KIT ETCHING PRIMER SW",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "HER-0007",
+    "desc": "MOTA",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "L-0020",
+    "desc": "MICROFIBRA PAÑO PELUCHE GRD",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "LIJA-1200P",
+    "desc": "LIJA PLANA P1200",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "LIJA-1500P",
+    "desc": "LIJA PLANA P1500",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "LIJA-2000P",
+    "desc": "LIJA PLANA P2000",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "LIJA-320C",
+    "desc": "LIJA CIRCULAR P320",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "LIJA-800P",
+    "desc": "LIJA PLANA P800 A275 NORTON",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "MANG-1/2",
+    "desc": "MANGUERA DE MEDIA PARA AGUA",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Refrigeración",
+    "subNuevo": null
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "MI0006",
+    "desc": "PULIDOR 1",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "NIPLEINS",
+    "desc": "NIPLE",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "PERN5/16",
+    "desc": "PERNO 5/16",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "PN62019",
+    "desc": "ADITIVO INYECCION DIESEL 300ML",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "PYP-FILPISO",
+    "desc": "FILTRO DE PISO IMPORT DE FIBRA DE VIDRIO  20 0.80",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "R13112B9",
+    "desc": "SWITCH CONECTOR 2 GOLPES",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "SILICONA0001",
+    "desc": "SILICONA DE TABLERO",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "VD-01",
+    "desc": "PARCHE VIPAL 01",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "ZINC.SPRAY",
+    "desc": "SPRAY DE ZINC 400ML",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Trujillo",
+    "hoja": "Insumos",
+    "codigo": "ZINCMIP",
+    "desc": "ZINCADO MIPA 800C",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "00890321185",
+    "desc": "SILICONA NEUTRA ALTA TEMPERATURA 85G",
+    "familia": "ARTICULO QUIMICO",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "0888030016L",
+    "desc": "ACEITE SINTETICO 5W-30 1L",
+    "familia": "ACEITE GASOLINERO 1/",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "0888050002L",
+    "desc": "ACEITE 15W40 DIESEL 1L",
+    "familia": "ACEITE PETROLERO 1/4",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "0888070016L",
+    "desc": "ACEITE GASOLINERO 10W30 1L (CAM2)",
+    "familia": "ACEITE GASOLINERO 1/",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "104631218",
+    "desc": "ARANDELA TAPON DE CARTER M12 (ALUMINIO)",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Motor interno"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "104631420",
+    "desc": "ARANDELA DE ALUMINIO M14",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "10892-333W",
+    "desc": "SUPER LIMPIADOR DE PARABRISAS 32ML-",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Carrocería",
+    "subNuevo": "Vidrios y espejos"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "11189M8441",
+    "desc": "EMPAQUE DE TAPA DE BALANCIN",
+    "familia": "EMPAQUE DE MOTOR VARIOS Y TAPONES",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Motor interno"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1378053M30-ALT",
+    "desc": "FILTRO DE AIRE",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1378061J01-ALT",
+    "desc": "FILTRO DE AIRE SUZUKI APV 1.6 G16A",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1500A608-ALT",
+    "desc": "FILTRO DE AIRE DE MOTOR L200",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "16405A000P-ALT",
+    "desc": "FILTRO DE PETROLEO (NEW L200) - ALT",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "178010C010-FIL",
+    "desc": "FILTRO DE AIRE - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "178010L040-ALT",
+    "desc": "FILTRO DE AIRE - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "233900L070-ALT",
+    "desc": "FILTRO DE PETROLEO 1GD (ALTERNATIVO)",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "23597310-ALT",
+    "desc": "FILTRO DE A/C - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Aire acondicionado",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "24552164-ALT",
+    "desc": "FILTRO DE AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "25181616-ALT",
+    "desc": "FILTRO DE ACEITE",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "263002Y500-FIL",
+    "desc": "FILTRO DE ACEITE - ALT",
+    "familia": "FILTRO DE ACEITE(MVP",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "263502S000-FIL",
+    "desc": "FILTRO ELEMENTO DE ACEITE - ALT",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "28113N9000-ALT",
+    "desc": "FILTRO DE AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "310101",
+    "desc": "CILINDRO",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "46751179",
+    "desc": "FILTRO DE ACEITE - RAM",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "51842923",
+    "desc": "FILTRO DE AC - RAM",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "51854598",
+    "desc": "FILTRO DE AIRE - RAM",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "90915YZZD2-ALT",
+    "desc": "FILTRO DE ACEITE - ALT",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "90915YZZJ1-ALT",
+    "desc": "FILTRO DE ACEITE",
+    "familia": "FILTRO DE ACEITE(MVP",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "90981-H4",
+    "desc": "FOCO H4 12V 60/55W",
+    "familia": "FARO",
+    "sistemaViejo": "Electricidad",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "97133L1000-ALT",
+    "desc": "FILTRO DE A/C - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Aire acondicionado",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "9913212050WP",
+    "desc": "FOCO LAGRIMA 12V-5W",
+    "familia": "FARO",
+    "sistemaViejo": "Electricidad",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "9913221210WP",
+    "desc": "FOCO 2 CONTACTOS 12V-55W FRENO",
+    "familia": "FARO",
+    "sistemaViejo": "Electricidad",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "BF421",
+    "desc": "LIQUIDO DE FRENO DOT 4 (NIBK)",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "EXTINTOR.6KG",
+    "desc": "EXTINTOR 6KG",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "GAS-0003",
+    "desc": "FILTRO DE FASE LIQUIDA",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "LM3318",
+    "desc": "SPRAY LIMPIADOR",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-0644HD",
+    "desc": "JGO DE PASTILLA DELT",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-1832",
+    "desc": "JGO DE PASTILLA DELT (APV)",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "U2Y014302-ALT",
+    "desc": "FILTRO ELEMENTO DE ACEITE",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "001984",
+    "desc": "FARO NEBLINERO REDONDO",
+    "familia": "FARO",
+    "sistemaViejo": "Electricidad",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "021500",
+    "desc": "TRABATUERCA (SEGURO DE TUERCAS DE RUEDA X UND)",
+    "familia": "OTROS SIN DSCTO",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Componentes de suspensión"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "025577",
+    "desc": "SEGURO DE ARO M12X1.5 CROMADO",
+    "familia": "OTROS SIN DSCTO",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Componentes de suspensión"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "0888581580L",
+    "desc": "API GL4 TRANS/MAN",
+    "familia": "ACEITE DE TRANSMISION",
+    "sistemaViejo": "Transmisión",
+    "sistemaNuevo": "Transmisión",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "10461622",
+    "desc": "ARANDELA DE BRONCE M16 (104631620 )",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "10487777-FIL",
+    "desc": "FILTRO DE AIRE - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "151000158AA-ALT",
+    "desc": "FILTRO DE AIRE - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "15208BN30A-FIL",
+    "desc": "FILTRO DE ACEITE - ALT",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "164034KV0A-ALT",
+    "desc": "ELEMENTO FILTRO DE PETROLEO",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1654602N00-FIL",
+    "desc": "FILTRO DE AIRE(URVAN) - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "165464JM1A-ALT",
+    "desc": "FILTRO DE AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "178010Y040-FIL",
+    "desc": "FILTRO DE AIRE",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "23598509",
+    "desc": "TEMPLADOR DE FAJA ACCESORIOS",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "25010251-ALT",
+    "desc": "FILTRO DE ACEITE - ALT",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "2630035505-ALT",
+    "desc": "FILTRO DE ACEITE - ALT",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "263202F100-ALT",
+    "desc": "FILTRO ELEMENTO DE ACEITE",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "64210-OSRAM",
+    "desc": "FOCO H7",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "7081832",
+    "desc": "JGO DE ZAPATA",
+    "familia": "ZAPATAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "7700274177-FIL",
+    "desc": "FILTRO DE ACEITE RENAULT  - ALT",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "848270450P18",
+    "desc": "PLUMILLA STANDAR N18",
+    "familia": "PLUMILLAS Y JEBES",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "D0888980039L",
+    "desc": "REFRIGERANTE 50/50 ROJO",
+    "familia": "RADIADOR",
+    "sistemaViejo": "Refrigeración",
+    "sistemaNuevo": "Refrigeración",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "EXTINTOR.2KG",
+    "desc": "EXTINTOR DE 2 KG",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "LM7615",
+    "desc": "ACEITE DE MOTOR 5W30 SPECIAL TEC AA - 1LTS",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "LM7616",
+    "desc": "ACEITE SPECIAL TEC AA 5W30 LIQUI MOLY",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "MB3Z19N619-ALT",
+    "desc": "FILTRO DE AC - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "MB3Z9601C-ALT",
+    "desc": "FILTRO DE AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-3809",
+    "desc": "JGO DE PASTILLA DELT (L200)",
+    "familia": "PASTILLAS (MVP)",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "WINGLE-0006",
+    "desc": "BOCINA DE SOPORTE DE TUBO ESCAPE - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Escape",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "005307",
+    "desc": "BOTIQUIN PORTATIL TRANSPARENTE (SIMPLE)",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "00937318",
+    "desc": "REMACHE POP 5/32 X 3/4",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "104631622",
+    "desc": "ARANDELA DE ALUMINIO M18",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "10892009030",
+    "desc": "LIQUIDO DE FRENOS DOT4 0089010801",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1109020-K1-ALT",
+    "desc": "FILTRO DE AIRE - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1629084080",
+    "desc": "FILTRO DE ACEITE",
+    "familia": "FILTRO DE ACEITE(MVP",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1651078J01-FIL",
+    "desc": "FILTRO DE ACEITE - ALT",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "23913353-GM",
+    "desc": "TERMOSTATO",
+    "familia": "TERMOSTATO",
+    "sistemaViejo": "Refrigeración",
+    "sistemaNuevo": "Refrigeración",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "2630042040-ALT",
+    "desc": "FILTRO DE ACEITE",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "272774BA0A-ALT",
+    "desc": "FILTRO DE A/C -",
+    "familia": "CHASIS DIFERENCIAL",
+    "sistemaViejo": "Transmisión",
+    "sistemaNuevo": "Aire acondicionado",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "281134F000-FIL",
+    "desc": "FILTRO DE AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "319224H900",
+    "desc": "FILTRO DE PETROLEO - KIA -HYUNDAI",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "45A0015L",
+    "desc": "ACEITE 15W40 CK-4",
+    "familia": "ACEITE PETROLERO",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "7089967-F",
+    "desc": "JGO DE PASTILLA DELT RAM V700",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "7H0819631-FIL",
+    "desc": "FILTRO DE A/C - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Aire acondicionado",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "848870600FB24",
+    "desc": "PLUMILLA FLATBLADE N24",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "90981HB3",
+    "desc": "FOCO FARO DELANTERO 12V-60W HB3",
+    "familia": "FARO",
+    "sistemaViejo": "Electricidad",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "9913211210-A",
+    "desc": "FOCO 1 CONTACTO 12 V 21W AMBAR",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "ATF-D3",
+    "desc": "ACEITE ATF",
+    "familia": "ACEITE DE TRANSMISION",
+    "sistemaViejo": "Transmisión",
+    "sistemaNuevo": "Transmisión",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "GAS-0004",
+    "desc": "FILTRO DE FASE GASEOSA",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-0148W",
+    "desc": "JGO DE PASTILLA DELT",
+    "familia": "PASTILLAS (MVP)",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-1482C",
+    "desc": "JGO PASTILLAS DELANTERAS  - ALT",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-51001HD",
+    "desc": "JGO DE PASTILLA DELT (RANGER Y BT50) - ALT",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-6050",
+    "desc": "JGO DE PASTILLA DELT (N400)",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "SEGUR-ARO3",
+    "desc": "SEGURO ARO M12X1.25",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Componentes de suspensión"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "005054",
+    "desc": "PAR DE BOTAS DE JEBE",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "17314",
+    "desc": "FOCO DE SALON 12V10W",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "F48321",
+    "desc": "FOCO 12V 55W TIPO H3",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "00006325G3",
+    "desc": "FARO DIRECCIONAL DE GUARDAFANGO",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "011231",
+    "desc": "BOTIN CLUTE T42",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "021644",
+    "desc": "CLAXON CARACOL HELLA",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "09002811",
+    "desc": "BUJIAS ENCENDIDO",
+    "familia": "BUJIAS",
+    "sistemaViejo": "Electricidad",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Encendido"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1109013-Y01-FIL",
+    "desc": "FILTRO DE AIRE - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1109130V6500-FIL",
+    "desc": "FILTRO DE AIRE - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "144736",
+    "desc": "PANTALON AZUL T=L DOBLE CINTA GRUESA",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1611277680",
+    "desc": "KIT DE ACCESORIOS",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1611891580",
+    "desc": "FILTRO DE AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "16546AA150-ALT",
+    "desc": "FILTRO DE AIRE",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1687120580",
+    "desc": "FILTRO DE ACEITE - EUROREPAR",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1780121050-FIL",
+    "desc": "FILTRO DE AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "233900L041-FIL",
+    "desc": "FILTRO DE PETROLEO - ALT",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "23594228",
+    "desc": "FAJA DE ACCESORIOS (N400)",
+    "familia": "FAJAS",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "23962008-ALT",
+    "desc": "FILTRO DE COMBUSTIBLE N400",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Combustible",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "24521833-ALT",
+    "desc": "FILTRO DE COMBUSTIBLE N400 - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Combustible",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "263502M000-FIL",
+    "desc": "FILTRO ELEMENTO DE ACEITE - ALT",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "28113G6000-ALT",
+    "desc": "FILTRO DE AIRE NEW PICANTO",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "3641100XKU00B-ALT",
+    "desc": "SENSOR TPMS - ALT",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "482110K080-ALT",
+    "desc": "HOJA DE MUELLE N° 1",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Componentes de suspensión"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "52257218",
+    "desc": "FILTRO DE GASOLINA",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "72880FL000-ALT",
+    "desc": "FILTRO DE A/C (XV-FORESTER 18/20)",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Aire acondicionado",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "8107151V6500-ALT",
+    "desc": "FILTRO DE A/C - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Aire acondicionado",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "848270400P16",
+    "desc": "PLUMILLA N16",
+    "familia": "PLUMILLAS Y JEBES",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "871390D080-ALT",
+    "desc": "FILTRO DE A/C",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Aire acondicionado",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "90385T0014-ALT",
+    "desc": "JEBE DE MUELLE SUPERIOR",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Componentes de suspensión"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "97133C4100-ALT",
+    "desc": "FILTRO DE A/C - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Aire acondicionado",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "97133D3000-ALT",
+    "desc": "FILTRO DE A/C - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Aire acondicionado",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "AB3J9601AB-ALT",
+    "desc": "FILTRO DE AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "AM-CHANGAN",
+    "desc": "AMORTIGUADOR DE COMPUERTA",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Amortiguación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "C-5W30",
+    "desc": "ACEITE SINTETICO 5W-30 - CASTROL",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "P2587",
+    "desc": "PERNO CENTRAL DE MUELLE",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Componentes de suspensión"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-6029",
+    "desc": "JGO DE PASTILLA DELT",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "SHINERAY-0007",
+    "desc": "JGO DE BUJIA DE ENCENDIDO - ALT",
+    "familia": "BUJIAS",
+    "sistemaViejo": "Electricidad",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Encendido"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "WINGLE-0003",
+    "desc": "JGO DE CABLE DE BUJIA - ALT",
+    "familia": "CABLE DE BUJIA",
+    "sistemaViejo": "Electricidad",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Encendido"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "030115561P-FIL",
+    "desc": "FILTRO DE ACEITE VW GOLF / POLO / GOL / JETTA",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1609998980",
+    "desc": "FILTRO DE AIRE ACONDICIONADO - EUROREPAR",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Aire acondicionado",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "23921498-ALT",
+    "desc": "CINTA DE AIRBAG - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "30720711-H1",
+    "desc": "FOCO TIPO H1  12V 55W",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "9820344180",
+    "desc": "BRAZO LIMPIAPARABRISAS DELANT DER",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Carrocería",
+    "subNuevo": "Vidrios y espejos"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "9834002580",
+    "desc": "BRAZO LIMPIAPARABRISAS DELANT IZQ",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Carrocería",
+    "subNuevo": "Vidrios y espejos"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "9956592-KE",
+    "desc": "BOMBIN DE FRENO LH - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "ADW-42640.",
+    "desc": "BATERIA 12 V 13P",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Arranque y carga"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "CHV-0035",
+    "desc": "BOMBIN DE FRENO - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "D1513-HDK",
+    "desc": "JGO DE PASTILLA DELT - ALT",
+    "familia": "PASTILLAS (MVP)",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "17801BZ130-ALT",
+    "desc": "FILTRO DE AIRE (ALTERNATIVO)",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "28113F2000-ALT",
+    "desc": "FILTRO DE AIRE NEW ELANTRA / CERATO",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "58302M7A30-KB",
+    "desc": "JGO DE PASTILLA POST - ALT",
+    "familia": "PASTILLAS (MVP)",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "97133F2000-ALT",
+    "desc": "FILTRO DE A/C",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Aire acondicionado",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "97133G6000-ALT",
+    "desc": "FILTRO DE A/C NEW PICANTO",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Aire acondicionado",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "9913211210WP",
+    "desc": "FOCO 1 CONTACTO 12V-21W WURT",
+    "familia": "FARO",
+    "sistemaViejo": "Electricidad",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1611659480",
+    "desc": "FILTRO DE COMBUSTIBLE",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Combustible",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1722061AA00-ALT",
+    "desc": "FILTRO DE AIRE - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "281133X000-FIL",
+    "desc": "FILTRO DE AIRE - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "80291-T5R-A01-ALT",
+    "desc": "FILTRO DE AC - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "971332E200-ALT",
+    "desc": "FILTRO DE A/C (971332E210) -ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Aire acondicionado",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "EXTINTOR3",
+    "desc": "BASE EXTINTOR 6KG",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "HL-11-PRO",
+    "desc": "BATERIA 12V",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Arranque y carga"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-0457",
+    "desc": "JGO DE PASTILLA POST - ALT",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "018516",
+    "desc": "SIRENA D/RETROCESO HELLA 110DB 12/24V PP2021",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "165465RA0A-FIL",
+    "desc": "FILTRO AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1722064AA00-ALT",
+    "desc": "FILTRO DE AIRE - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "48I1000",
+    "desc": "BATERIA CAPSA 15 PLACAS 12 V",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Arranque y carga"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "80292-SDA-A01",
+    "desc": "FILTRO DE AC",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "FN-4467",
+    "desc": "JGO DE ZAPATAS POST",
+    "familia": "ZAPATAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "MB3Z18124CH-ALT",
+    "desc": "AMORTIGUADOR DELT RH Y LH RANGER 2024-UP",
+    "familia": "AMORTIGUADOR",
+    "sistemaViejo": "Suspensión",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Amortiguación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "P2240",
+    "desc": "KIT ACCESORIOS CALIPERS - FORD RANGER",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-0019W",
+    "desc": "JGO DE PASTILLA POST",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-0373",
+    "desc": "JGO DE PASTILLA DELT",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-0502",
+    "desc": "JGO DE PASTILLA DELT",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-1853",
+    "desc": "JGO DE PASTILLA DELT",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-3414",
+    "desc": "JGO DE PASTILLA DELT ( L200 )",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-42005",
+    "desc": "JGO DE PASTILLA DELT (PARTNER) - ALT",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-6019",
+    "desc": "JGO PASTILLAS DELANTERAS - ALT",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-6027",
+    "desc": "JGO DE PASTILLA POST",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN1806",
+    "desc": "JGO DE PASTILLA POST (PARTNER NIBK) - ALT",
+    "familia": "PASTILLAS (MVP)",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PRO000008",
+    "desc": "PERNO Y TUERCA  - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "RN-2160V",
+    "desc": "DISCO DE FRENO DELT (PARTNER) - ALT",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "0000010",
+    "desc": "SENSORES DE RETROCESO AV.18.5 - MEDIA LUNA",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Carrocería",
+    "subNuevo": "Vidrios y espejos"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "8104400XP24BA-ALT",
+    "desc": "FILTRO DE AC - ALT POER WINGLE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "0023103",
+    "desc": "FILTRO GASOLINA N300",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1635067180",
+    "desc": "KIT DE DISTRIBUCION",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "263502J000-ALT",
+    "desc": "FILTRO DE ACEITE",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "28113C7000-FIL",
+    "desc": "FILTRO DE AIRE (I20 1.4 / SELTOS 1.6 / SONET1.5)",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "28113D3300-FIL",
+    "desc": "FILTRO DE AIRE - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "51854598-A",
+    "desc": "FILTRO DE AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "9098113044-WP",
+    "desc": "FOCO 12V-21 5W TIPO LAGRIMON 2 CONTACTOS FRENO",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "97133F2000ALT",
+    "desc": "FILTRO DE AC HYU CRE",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "KV619B262AF-ALT",
+    "desc": "FILTRO COMBUSTIBLE RANGER 2024 - UP  ALT",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Combustible",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-0044",
+    "desc": "JGO DE PASTILLA POST",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "REFINE-0026",
+    "desc": "RETEN DE CIGUEÑAL DELT - ALT",
+    "familia": "RETENES",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Motor interno"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "REFINE-0039",
+    "desc": "RETEN DE CIGUEÑAL POST",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Motor interno"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "144750",
+    "desc": "PANTALON AZUL T=XXL",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "5196247030",
+    "desc": "GANCHO,REMOLQUE  MD1",
+    "familia": "SPOILER",
+    "sistemaViejo": "Carrocería",
+    "sistemaNuevo": "Carrocería",
+    "subNuevo": "Carrocería (exterior)"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "FN-0620",
+    "desc": "JGO DE ZAPATAS DE FRENO (HILUX) - ALT",
+    "familia": "ZAPATAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1015601GD150-ALT",
+    "desc": "FAJA DE ACCESORIOS (6PK1885) - ALT",
+    "familia": "FAJAS",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "90916T2033-BA",
+    "desc": "FAJA DE ACCESORIOS  7PK2050- ALT",
+    "familia": "FAJAS",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "9091901164-NGK",
+    "desc": "BUJIA DE ENCENDIDO - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Encendido"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "BB3Q6744BA-ALT",
+    "desc": "FILTRO ELEMENTO  ACEITE RANGER REEM  (U2Y014302)",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "IHA-NB3V",
+    "desc": "FILTRO DE AIRE FORD RANGER  GASOLINERO",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "IHO-KU2J-ALT",
+    "desc": "FILTRO ELEMENTO  FORD RANGER",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "MICRO2-10A",
+    "desc": "FUSIBLE MICRO2 DE 10AMPERIOS",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "MICRO2-15A",
+    "desc": "FUSIBLE MICRO2 DE 15 AMPERIOS",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "MICRO2-20A",
+    "desc": "FUSIBLE MICRO2 DE 20 AMPERIOS",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "00892075100",
+    "desc": "UNDERCOATING-PROTECTOR BAJOS NEGROS 1KG",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "10541225040",
+    "desc": "ABRAZADERA PALIER W4 25-40 MM",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "108901003",
+    "desc": "SILICONA NEGRA 300ML WURTH (PEGA/SELLA)",
+    "familia": "RAMAL DE MOTOR",
+    "sistemaViejo": "Electricidad",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "23594229-ALT",
+    "desc": "FAJA DE ALTERNADOR 6PK1110 - ALT",
+    "familia": "FAJAS",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Arranque y carga"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "55226521",
+    "desc": "BUJIA DE ENCENDIDO - RAM",
+    "familia": "BUJIAS",
+    "sistemaViejo": "Electricidad",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Encendido"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "GRAPA-0001",
+    "desc": "REMACHE PARTE INF-PARAGOLPE - ALT",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "JB3Z/8620/B/",
+    "desc": "FAJA DE ACCESORIOS",
+    "familia": "FAJAS",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "JB3Z/8678/A/",
+    "desc": "POLEA",
+    "familia": "POLEA  MOTOR",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Motor interno"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "KU940",
+    "desc": "CANDADO DE SEGURIDAD 40MM",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "KZ6702",
+    "desc": "JGO DE ZAPATAS (NEW VAN) - ALT",
+    "familia": "ZAPATAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "MB3Z/8620/G",
+    "desc": "FAJA DE ACCESORIOS",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "S1049",
+    "desc": "JGO DE ZAPATAS -ALT",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "FF13PRO",
+    "desc": "BATERIA ETNA 12V",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Arranque y carga"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "REFINE-0004",
+    "desc": "JUEGO CAÑA DE BOBINA (JAC REFINE)",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "REFINE-0006",
+    "desc": "BUJIA DE ENCENDIDO",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Encendido"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "VAN-0001",
+    "desc": "JEBE DE PEDAL",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "23639422-ALT",
+    "desc": "BOMBA DE EMBRAGUE (N400) - ALT",
+    "familia": "BOMBA DE EMBRAGUE Y",
+    "sistemaViejo": "Embrague",
+    "sistemaNuevo": "Embrague",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "28113K2100-FIL",
+    "desc": "FILTRO DE AIRE HYUNDAI VENUE 20-22 (28113C7000)",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "3520830207",
+    "desc": "FUSIBLE PLANO MICRO 7.5 AMP",
+    "familia": "CAUTIVO MOTOR",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Motor interno"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "3520830210",
+    "desc": "FUSIBLE PLANO MICRO 10 AMP",
+    "familia": "CAUTIVO MOTOR",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Motor interno"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "848270400P16-B",
+    "desc": "PLUMILLA STANDAR N16",
+    "familia": "PLUMILLAS Y JEBES",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "FN-6741",
+    "desc": "JGO DE ZAPATAS (L200) - ALT",
+    "familia": "ZAPATAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "L200-0003",
+    "desc": "SWITCH DE RETROCESO DE CAJA DE CAMBIOS - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Transmisión",
+    "subNuevo": "Caja de cambios"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "LM2325",
+    "desc": "ACEITE SPECIAL TEC F 5W30 1LT",
+    "familia": "ACEITE GASOLINERO",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "000011-S",
+    "desc": "CAMARA RETROCESO",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "186996013",
+    "desc": "FOCO 12V",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "35208025",
+    "desc": "FUSIBLE UNIVERSAL TIPO U 25 AMP",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "848270350P14-B",
+    "desc": "PLUMILLA STANDAR N14",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "007053",
+    "desc": "CINTA REFLECTIVA P/CONO 28/36 X 8.5 SUP (BLANCO)",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "011780",
+    "desc": "COBERTOR DE CIRCULINA EN CUERINA ALTA",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "015017",
+    "desc": "CINTA REFLECTIVA P/CONO 28/36 - 8.5 INF (BLANCO)",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "021092",
+    "desc": "CLAXON CARACOL 12V HELLA",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "021643",
+    "desc": "CLAXON HELLA P 12V",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1701661V6550",
+    "desc": "SWITCH DE RETROCESO",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "848270600P24-B",
+    "desc": "PLUMILLA STANDAR N24",
+    "familia": "PLUMILLAS Y JEBES",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "848870550FB22",
+    "desc": "PLUMILLAS FLATBLADE 550MM - 22",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "DQG3425-ALT",
+    "desc": "BOBINA DE ENCENDIDO",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Encendido"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "IH-21197",
+    "desc": "JGO DE CABLE DE BUJIA",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Encendido"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "JAC-0003",
+    "desc": "FILTRO DE GASOLINA - ALT",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "SAP-N400",
+    "desc": "CHAPA SAPITO ANCLAJE",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "10487777-ALT",
+    "desc": "FILTRO DE AIRE - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1109110XP6EXA-FIL",
+    "desc": "FILTRO AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "263202F000-ALT",
+    "desc": "FILTRO DE ELEMENTO ACEITE",
+    "familia": "FILTRO DE ACEITE(MVP",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "55211240",
+    "desc": "FAJA DE DH",
+    "familia": "FAJAS",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "55236520",
+    "desc": "TENSOR DE FAJA",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "55258482",
+    "desc": "FAJA DE ACCESORIOS",
+    "familia": "FAJAS",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "848270500P20",
+    "desc": "PLUMILLA STANDAR N20",
+    "familia": "PLUMILLAS Y JEBES",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "871390K090-ALT",
+    "desc": "FILTRO A/C REMP ( 871390K070 ) - HILUX - L200",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Aire acondicionado",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "A1638149580",
+    "desc": "FILTRO DE PETROLEO",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "REFINE-0001",
+    "desc": "SWITCH DE RETROCESO - JAC",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "SX5G-1109012",
+    "desc": "FILTRO DE AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "90981WH7",
+    "desc": "FOCO DE FARO TIPO H7",
+    "familia": "FARO",
+    "sistemaViejo": "Electricidad",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-1871",
+    "desc": "JGO DE PASTILLA DELT (AVANZA)",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "VOLVO-0002",
+    "desc": "FILTRO DE ACEITE - ALT",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "VOLVO-0003",
+    "desc": "FILTRO DE AIRE - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1780177050-ALT",
+    "desc": "FILTRO DE AIRE - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "3520830215",
+    "desc": "FUSIBLE PLANO MICRO 15 AMP",
+    "familia": "CAUTIVO MOTOR",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Motor interno"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "3520830220",
+    "desc": "FUSIBLE PLANO MICRO 20 AMP",
+    "familia": "CAUTIVO MOTOR",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Motor interno"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "848370525P21",
+    "desc": "PLUMILLA STANDAR N21",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "9025008054",
+    "desc": "PASADOR RECTO (VOLANTE DE MOTOR)",
+    "familia": "OTROS SIN DSCTO",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Dirección",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "M2010180100AA",
+    "desc": "CABLE DE ACELERADOR",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "144774",
+    "desc": "PANTALON JEAN TALLA 32 C/DOBLE CINTA GRUESA",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "281134X000-ALT",
+    "desc": "FILTRO DE AIRE - VERNA",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "64211-OSRAM",
+    "desc": "FOCO H11",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "848870500FB20",
+    "desc": "PLUMILLAS FLATBLADE 500MM - 20",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "CMF45L",
+    "desc": "BATERIA 12V 11P",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Arranque y carga"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "043710K110-JP",
+    "desc": "CRUCETA DE CARDAN JAPONES TOYO",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Transmisión",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "252122F320",
+    "desc": "FAJA DE ACCESORIOS",
+    "familia": "FAJAS",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "252812F002",
+    "desc": "TEMPLADOR DE FAJA",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "2528727060",
+    "desc": "POLEA -",
+    "familia": "POLEA  MOTOR",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Motor interno"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "252872F000",
+    "desc": "POLEA LOCA",
+    "familia": "POLEA  MOTOR",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Motor interno"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "252882F000",
+    "desc": "POLEA LOCA",
+    "familia": "POLEA  MOTOR",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Motor interno"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "848270350P14",
+    "desc": "PLUMILLA STANDAR N14",
+    "familia": "PLUMILLAS Y JEBES",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "90389T0006-ALT",
+    "desc": "BOCINA DE MUELLE - ALT",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Componentes de suspensión"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "A49102V7114",
+    "desc": "ACOPLAMIENTO DEL EJE DE TRANSMISION",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-0600",
+    "desc": "JGO DE PASTILLAS DELT",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "000E148145-ALT",
+    "desc": "FILTRO DE COMBUSTIBLE - ALT",
+    "familia": "FILTRO DE COMBUSTIBL",
+    "sistemaViejo": "Combustible",
+    "sistemaNuevo": "Combustible",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "0032820",
+    "desc": "FILTRO DE GASOLINA KIA/HYUNDAI",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "014474",
+    "desc": "PANTALON  AZUL T=XL DOBLE CINTA GRUESA",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "019878",
+    "desc": "FARO LATERAL MULTIVOLTAJE 03 LED (AMBAR)",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "022756",
+    "desc": "GUANTES PALMA PU GRIS - T8",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "023796",
+    "desc": "BOTIN DE SEGURIDAD T=43 CON PLANTA PU NEGRO SEGPRO",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "025576",
+    "desc": "SEGURO DE ARO M12X1.25 CROMADO",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Componentes de suspensión"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "0415231090-A",
+    "desc": "FILTRO ACEITE - ALT",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "0415238010-ALT",
+    "desc": "FILTRO DE ACEITE ELEMENTO - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "04E-129-620-ALT",
+    "desc": "FILTRO DE AIRE - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "04E129620A-ALT",
+    "desc": "F DE AIRE VW T-CROSS 2019-202-GOLF-POLO 2017-ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "10082020004",
+    "desc": "PONCHO DE PALIER",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1017110XEN01-ALT",
+    "desc": "FILTRO ELEMENTO DE ACEITE - ALT",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1109101XGW01A-ALT",
+    "desc": "FILTRO DE AIRE (HAVAL) - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "117205X00A-BA",
+    "desc": "FAJA DE ALTERNADOR 7PK1750 - ALT",
+    "familia": "FAJAS",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Arranque y carga"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "11950EB70A-BA",
+    "desc": "FAJA DE D/H 4PK820- ALT",
+    "familia": "FAJAS",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "123050M132",
+    "desc": "BARRA DE MOOLD",
+    "familia": "SOPORTE DE MOTOR",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1602100E00-DA",
+    "desc": "COLLARIN DE EMBRAGUE - ALT",
+    "familia": "COLLARIN EMBRAGUE",
+    "sistemaViejo": "Embrague",
+    "sistemaNuevo": "Embrague",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1609998980-WA",
+    "desc": "FILTRO DE A/C",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Aire acondicionado",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1611891580-ALT",
+    "desc": "FILTRO DE AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "165464BA1B-FIL",
+    "desc": "FILTRO DE AIRE QASHQAI 2016-2021 - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1684447980-ALT",
+    "desc": "BOMBA DE AGUA - ALT",
+    "familia": "BOMBA DE AGUA Y ACCE",
+    "sistemaViejo": "Refrigeración",
+    "sistemaNuevo": "Refrigeración",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1687120580-ALT",
+    "desc": "FILTRO DE ACEITE",
+    "familia": "FILTRO DE ACEITE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "1780131120-ALT",
+    "desc": "FILTRO DE AIRE DE MOTOR",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "17801BZ140-ALT",
+    "desc": "FILTRO DE AIRE - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "17801BZ200",
+    "desc": "FILTRO AIRE TOYOTA YARIS",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "23628770-STP",
+    "desc": "AMORTIGUADOR POSTERIOR RH/LH - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Amortiguación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "23949463-DC",
+    "desc": "COLLARIN DE EMBRAGUE -ALT N400",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Embrague",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "23994622-DC",
+    "desc": "DISCO DE EMBRAGUE N400 ALT",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Embrague",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "24510381-ALT",
+    "desc": "DISCO DE FRENO -ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "24537282-DC",
+    "desc": "PLATO DE EMBRAGUE N400 ALT",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Embrague",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "24588463-ALT",
+    "desc": "FILTRO DE ACEITE",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "2521204600-ALT",
+    "desc": "FAJA DE ACCESORIOS 6K1210 - ALT",
+    "familia": "FAJAS",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "281134H000-ALT",
+    "desc": "FILTRO DE AIRE DE MOTOR H100 H1",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "28113A9100-ALT",
+    "desc": "FILTRO DE AIRE DE MOTOR",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "2905100-K00-A1JP",
+    "desc": "AMORTIGUADOR DELT RH Y LH",
+    "familia": "AMORTIGUADOR",
+    "sistemaViejo": "Suspensión",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Amortiguación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "3412011AK00XA-BA",
+    "desc": "FAJA DE D/H (4PK1100) - ALT",
+    "familia": "FAJAS",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "4133100XP01XB-ALT",
+    "desc": "FARO POST LH - ALT",
+    "familia": "FARO",
+    "sistemaViejo": "Electricidad",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "4133200XP01XB-ALT",
+    "desc": "FARO POST RH - ALT",
+    "familia": "FARO",
+    "sistemaViejo": "Electricidad",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "4333009295-CTR",
+    "desc": "ROTULA INF DER/IZQ TY HILUX 1KD/2KD/1GD/2GD",
+    "familia": "ROTULAS",
+    "sistemaViejo": "Suspensión",
+    "sistemaNuevo": "Suspensión",
+    "subNuevo": "Componentes de suspensión"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "4504609810-CTR",
+    "desc": "TERMINAL DE DIRECCION LH Y RH",
+    "familia": "TERMINALES DIRECCION",
+    "sistemaViejo": "Dirección",
+    "sistemaNuevo": "Dirección",
+    "subNuevo": "Cremallera y terminales (dirección)"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "46736814-BA",
+    "desc": "FAJA DE ALTERNADOR 4PK665 - ALT",
+    "familia": "FAJAS",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Arranque y carga"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "51899848",
+    "desc": "ARRANCADOR",
+    "familia": "ARRANCADOR",
+    "sistemaViejo": "Electricidad",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Arranque y carga"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "55226056-RE",
+    "desc": "KIT DE DISTRIBUCION - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "6K1470",
+    "desc": "FAJA DE ACCESORIOS",
+    "familia": "FAJAS",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "75B24L",
+    "desc": "BATERIA 12V BOSCH",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Arranque y carga"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "8103012-K00-BA",
+    "desc": "FAJA DE ALTERNADOR/AC (4PK985) - ALT",
+    "familia": "FAJAS",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Arranque y carga"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "848370475P19",
+    "desc": "PLUMILLA STANDAR N19",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "90916T2006-ALT",
+    "desc": "FAJA DE ACCESORIOS 7PK1515 - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "90981H4-24V",
+    "desc": "FOCO H4",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "90981HB4",
+    "desc": "FOCO FARO HB4 12V-51W",
+    "familia": "FARO",
+    "sistemaViejo": "Electricidad",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "94757663-FIL",
+    "desc": "FILTRO DE AIRE - ALT",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "97133C5000-ALT",
+    "desc": "FILTRO DE A/C",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Aire acondicionado",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "976174H000-ALT",
+    "desc": "FILTRO CABINA",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "9961913",
+    "desc": "KIT DISTRIBUCION - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "A1109110XP6EXA",
+    "desc": "FILTRO DE AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "A281305M100",
+    "desc": "FILTRO DE AIRE",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "ABDGF-61-J6X",
+    "desc": "FILTRO DE AC",
+    "familia": "FILTRO DE AIRE",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "D1627-8844",
+    "desc": "JGO DE PASTILLA DELT. (OROCH) - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "DN-1124",
+    "desc": "TAMBOR DE FRENO  GREAT WALL WINGLESS 7",
+    "familia": "TAMBOR DE FRENO",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "DN-1662",
+    "desc": "TAMBOR DE FRENO CHEVROLET N300/ N400",
+    "familia": "TAMBOR DE FRENO",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "IH-21144",
+    "desc": "JGO DE CABLE DE BUJIA (SHINERAY-X30) - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Encendido"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "KD4767UC164",
+    "desc": "SENSOR DE RETROCESO - MAZDA",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "KIT-HDC09",
+    "desc": "KIT DE EMBRAGUE VALEO (PLATO-DISCO) - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Embrague",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "LFR5A-11",
+    "desc": "BUJIA NGK NIQUEL 6376 NISSAN, HYUNDAI, KIA",
+    "familia": "CABLE DE BUJIA",
+    "sistemaViejo": "Electricidad",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Encendido"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "M-5W30",
+    "desc": "ACEITE SINTETICO 5W-30",
+    "familia": "ACEITE GASOLINERO",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "MB3Z/6A228/A/",
+    "desc": "POLEA TENSORA",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "MN187235",
+    "desc": "CARTER DE MOTOR",
+    "familia": "CARTER MOTOR",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Motor interno"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "MX908643-ALT",
+    "desc": "FILTRO PRIMARIO DE AIRE",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "MX910095-ALT",
+    "desc": "FILTRO DE PETROLEO",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "MX925985-ALT",
+    "desc": "FILTRO DE AIRE",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "NX120-7L",
+    "desc": "BATERIA 12V 15P ROCKET",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Arranque y carga"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PAH9133A0-ALT",
+    "desc": "FILTRO DE AIRE CX30 (ALTERNATIVO)",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Filtros"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-0131HD",
+    "desc": "JGO DE PASTILLA DELT (RAM)",
+    "familia": "PASTILLAS (MVP)",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-0767",
+    "desc": "JGO DE PASTILLA DELT (PICANTO)",
+    "familia": "PASTILLAS (MVP)",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-1846",
+    "desc": "PASTILLA PRIUSV2012 , TOYOTA FORTUNER",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN-9406",
+    "desc": "JGO DE PASTILLA DELT (NEW-VAN)",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PN62018",
+    "desc": "ADITIVO INYECCION GASOLINERO 300ML",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "PRO0000013",
+    "desc": "JGO DE ZAPATAS - ALT",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "RN-1664V",
+    "desc": "JGO DE DISCO DE FRENO DELT(HILUX) - ALT",
+    "familia": "PASTILLAS",
+    "sistemaViejo": "Frenos",
+    "sistemaNuevo": "Frenos",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Repuestos",
+    "codigo": "SMF-NX110-5L",
+    "desc": "BATERIA 12V",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Arranque y carga"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "000012",
+    "desc": "CINTA REFLECTIVA ROJA/BLANCO 45.7MT",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "000156",
+    "desc": "CHIMPUNERA NOTEX NEGRO (100 UND)",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "004949",
+    "desc": "POLO MANGA LARGA AZUL OSC.T=L",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "005177",
+    "desc": "CABLE INDECO GPT/3 16 NEGRO PP2021",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "005408-U",
+    "desc": "FUSIBLE DE UÑA 15AMP HELLA",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "005576",
+    "desc": "MANGUERA PASACABLE CORRUGADO ABIERTO 1/2",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Refrigeración",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "006387-U",
+    "desc": "FUSIBLE DE UÑA 20AMP HELLA (8JS-711-688-002) PP",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "006914",
+    "desc": "CHALECO DRILL T-L NARANJA",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "008145",
+    "desc": "MALETA DE LONA",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "00892075100",
+    "desc": "UNDERCOATING-PROTECTOR BAJOS NEGROS 1KG",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "009449",
+    "desc": "STRETCH FILM 18",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "009450",
+    "desc": "STRECH FILM N° 20",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "010119-U",
+    "desc": "FUSIBLE DE UÑA 25AMP HELLA",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "010608",
+    "desc": "CONECTOR PARA PERTIGA",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "011553",
+    "desc": "SHAMPPO NEUTRO1GL MASTER",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "013390",
+    "desc": "MEDIDOR DE COCADA DIGITAL RT-046 NINGBO",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "014472",
+    "desc": "PANTALON AZUL T-M",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "022749",
+    "desc": "BOTAS DE SEGURIDAD T40 BOTIN",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "022756",
+    "desc": "GUANTES PALMA PU GRIS - T8",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "031912",
+    "desc": "ABRILLANTADOR PARA LLANTA",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "031914",
+    "desc": "SILICONA PARA TABLERO CREMA",
+    "familia": "OTROS QUIMICOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "032709",
+    "desc": "SOCKET PARA FOCO",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": "Luces"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "033333",
+    "desc": "SILICONA PARA TABLERO LIQUIDO",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "1053912032",
+    "desc": "ABRAZADERA 20-32 MM",
+    "familia": "CAUTIVO MOTOR",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Motor interno"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "1053912540-B",
+    "desc": "ABRAZADERA INOX ZEBRA 25-40",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "1053914060-A",
+    "desc": "ABRAZADERA INOX ZEBRA 40-60",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "1053916080-A",
+    "desc": "ABRAZADERA INOX ZEBRA 60-80",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "10539180100",
+    "desc": "ABRAZADERA DE METAL 80 -100",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "105391816",
+    "desc": "ABRAZADERA 8-16 MM",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "108901003",
+    "desc": "SILICONA NEGRA 300ML WURTH (PEGA/SELLA)",
+    "familia": "RAMAL DE MOTOR",
+    "sistemaViejo": "Electricidad",
+    "sistemaNuevo": "Electricidad",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "302-434",
+    "desc": "LLAVE ALLEN LARGA 5.00 MM",
+    "familia": "HERRAMIENTAS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "3520830015",
+    "desc": "FUSIBLE TIPO MINI 15A",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "CR1620",
+    "desc": "PILA 3V CAMELION CR1620",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "CR2032",
+    "desc": "PILA DE LLAVERO 3V CR2032",
+    "familia": "PI",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "DC10920A",
+    "desc": "PLOMO P/ARO DE FIERRO ZINC 20GR",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "DC10930S",
+    "desc": "PLOMO P/ARO DE FIERRO ZINC 30GR-UNIDAD",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "DCFE060",
+    "desc": "PLOMO ADHESIVAS 10GR-TIRA 6 UNIDADES",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "G-0001",
+    "desc": "ABRILLANTADOR DE TABLEROS CALIDAD (ALL POLISH)",
+    "familia": "OTROS QUIMICOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "G-0002",
+    "desc": "ABRILLANTADOR Y PROTECTOR DE LLANTA (POLISH TIRE)",
+    "familia": "OTROS QUIMICOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "G-0003",
+    "desc": "SHAMPOO PARA AUTO EXTRA CONCETRADO (GOLD CAR)",
+    "familia": "OTROS QUIMICOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "G-0004",
+    "desc": "SHAMPOO PARA TAPICES Y ALFOMBRAS (XTREME WASH)",
+    "familia": "OTROS QUIMICOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "G-0005",
+    "desc": "DESENGRASANTE D ALTO PODER (GOL 100)(PACK D 2 GAL)",
+    "familia": "OTROS QUIMICOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "HSW-200",
+    "desc": "HSW 200 PLUS LIMA LIMON 200 ML",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "INS-0019",
+    "desc": "GUANTES AMARILLO VIRUTEX TALLA 7",
+    "familia": "OTROS QUIMICOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "Lubricación"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "JB0004",
+    "desc": "PEGAMENTO DE CONTACTO",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "L40-3",
+    "desc": "LIJA PLANA DE FIERRO 40-3 230X280 MM",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "LLAV-0002",
+    "desc": "LLAVERO DESTAPADORES-PINEDA",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "PB7GR",
+    "desc": "PLOMO ADHESIVO 1/4 7GR TIRA X 12UNID.",
+    "familia": "CHASIS CABINA",
+    "sistemaViejo": "Chasis",
+    "sistemaNuevo": "Chasis",
+    "subNuevo": null
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "PI-0001",
+    "desc": "PISOS DE PAPEL (MILLAR)",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "PN33391",
+    "desc": "CUBITRON II FIBRE ROLOC DISC 3IN G60 3M",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "PN33456-U",
+    "desc": "DISCO DE CORTE 3IN CUBITRON II 5XBOX 3M",
+    "familia": "VALVULA (LEVAS)",
+    "sistemaViejo": "Motor",
+    "sistemaNuevo": "Motor",
+    "subNuevo": "Motor interno"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "PN62018",
+    "desc": "ADITIVO INYECCION GASOLINERO 300ML",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "PN62019",
+    "desc": "ADITIVO INYECCION DIESEL 300ML",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "PN62149-ES",
+    "desc": "ADITIVO LIMPIADOR DEL OBTURADOR",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "PN6768",
+    "desc": "MASKING FILM 4.67 MX 120M",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "PRIMAX45G",
+    "desc": "GAS DE 45 KG",
+    "familia": "NUEVA FAMILIA CAMBIAR DESC",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "QIS2894444",
+    "desc": "OXIM ULTRA AFLOJATODO EN SPRAY 400ML",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "TR413",
+    "desc": "PITON PARA ARO DE AUTO",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "TRAPO0001",
+    "desc": "TRAPO INDUSTRIAL",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "VD-01",
+    "desc": "PARCHE VIPAL 01",
+    "familia": "VARIOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "VUL-2X14",
+    "desc": "CABLE VULCANIZADO 2X14",
+    "familia": "ACCESORIOS",
+    "sistemaViejo": "Accesorios",
+    "sistemaNuevo": "Accesorios",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "W-30585380115",
+    "desc": "DISCO REMOVEDOR DE NYLON 115MM",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "W-3520830020",
+    "desc": "FUSIBLE MINI 20A",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "W-3538012122",
+    "desc": "ABRAZADERA W4 9MM 12-22 MM",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "W-3538032250",
+    "desc": "ABRAZADERA 9 MM - 32-50 MM",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "W-35630145200",
+    "desc": "CINTILLO NYLON NEGRO 4.5 X 200 MM",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "W-35630145280",
+    "desc": "CINTILLO NYLON NEGRO 4.5 X 280 MM",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "W-579581004",
+    "desc": "DISCO FLAP INOX 115MM - G120",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  },
+  {
+    "sede": "Callao",
+    "hoja": "Insumos",
+    "codigo": "ZINC.SPRAY",
+    "desc": "SPRAY DE ZINC 400ML",
+    "familia": "OTROS REPUESTOS",
+    "sistemaViejo": "General",
+    "sistemaNuevo": "General",
+    "subNuevo": "General / consumibles"
+  }
+]
