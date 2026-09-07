@@ -379,8 +379,11 @@ export async function getEmpresaDetalle(req, res, next) {
         `,
         params,
       ),
-      // Días promedio en taller por tipo de OT, sobre las mismas OT cerradas
-      // que ya usa el promedio e histograma general.
+      // Dias promedio en taller por tipo de OT (Mantenimiento Periodico vs
+      // Correctivo, etc.), sobre las mismas OT cerradas que ya usa el
+      // promedio/histograma general. Excluye reprocesos/reclamos, igual que
+      // "Correctivo vs. Mantenimiento Periodico" mas abajo, para no mezclar
+      // contenido interno/sensible en un indicador que ve el cliente.
       query(
         `
           SELECT
@@ -649,7 +652,6 @@ export async function getEmpresaDetalle(req, res, next) {
     });
     const tiempoPorTipoOt = tiempoPorTipoOtRows.map((row) => ({
       tipoOt: row.tipo_ot,
-      promedioHoras: row.promedio_horas === null ? null : Number(row.promedio_horas),
       promedioDias: row.promedio_dias === null ? null : Number(row.promedio_dias),
       otConCierre: Number(row.ot_con_cierre || 0),
     }));
