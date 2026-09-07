@@ -235,6 +235,7 @@ export async function getEmpresaDetalle(req, res, next) {
     // histograma, el detalle de las ultimas OT, las de "mas rapida/mas lenta" y
     // el tiempo por tipo de servicio — todas ven exactamente la misma
     // poblacion, no cada una un recorte distinto.
+     
     const otResumenSubquery = `
       SELECT
         nro_orden,
@@ -243,9 +244,6 @@ export async function getEmpresaDetalle(req, res, next) {
         DATE_FORMAT(MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')), '%Y-%m-%d') AS fecha_cierre,
         MAX(UPPER(TRIM(estado))) AS estado,
         MAX(NULLIF(TRIM(tipo_ot), '')) AS tipo_ot,
-        -- Se suman las horas de las actividades de la OT antes de promediar:
-        -- una OT puede traer varias líneas y no debe contarse como varias OT.
-        SUM(COALESCE(CAST(REPLACE(NULLIF(TRIM(horas_hombre), ''), ',', '.') AS DECIMAL(12,2)), 0)) AS horas_hombre,
         DATEDIFF(
           MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')),
           MIN(${otDateExpr})
@@ -382,22 +380,16 @@ export async function getEmpresaDetalle(req, res, next) {
         `,
         params,
       ),
-      // Tiempo de atención operativo: horas-hombre registradas por cada OT,
-      // no el tiempo calendario que el vehículo permaneció abierto. Solo se
-      // incluyen mantenimientos y correctivos cerrados con horas informadas.
+      // Días promedio en taller por tipo de OT, sobre las mismas OT cerradas
+      // que ya usa el promedio e histograma general.
       query(
         `
           SELECT
             COALESCE(tipo_ot, 'Sin clasificar') AS tipo_ot,
-            ROUND(AVG(horas_hombre), 1) AS promedio_horas,
-            ROUND(AVG(horas_hombre) / 8, 1) AS promedio_dias,
+            ROUND(AVG(dias), 1) AS promedio_dias,
             COUNT(*) AS ot_con_cierre
           FROM (${otCerradasSubquery}) t
-          WHERE horas_hombre > 0
-            AND (
-              COALESCE(UPPER(tipo_ot), '') LIKE '%MANTENIMIENTO%'
-              OR COALESCE(UPPER(tipo_ot), '') LIKE '%CORRECTIVO%'
-            )
+          WHERE COALESCE(UPPER(tipo_ot), '') <> 'RECLAMOS AL CONCESIONARIO'
           GROUP BY COALESCE(tipo_ot, 'Sin clasificar')
           ORDER BY ot_con_cierre DESC
         `,
