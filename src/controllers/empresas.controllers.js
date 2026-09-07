@@ -248,8 +248,8 @@ export async function getEmpresaDetalle(req, res, next) {
         MAX(NULLIF(TRIM(tipo_ot), '')) AS tipo_ot,
         DATEDIFF(
           MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')),
-          MIN(${otDateExpr})
-        ) AS dias
+          MIN(${otDateExpr}) 
+        ) AS dias   
       FROM orden_trabajo    
       WHERE ${whereEmpresa}
         AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
@@ -361,11 +361,11 @@ export async function getEmpresaDetalle(req, res, next) {
             -- Las OT resueltas el mismo dÃ­a no intervienen en el promedio de
             -- tiempo en taller. Los extremos y el total de OT cerradas se
             -- mantienen para no alterar esos indicadores.
-            ROUND(AVG(CASE WHEN dias <> 1 THEN dias END), 1) AS promedio_dias,
+            ROUND(AVG(CASE WHEN dias <= 1 THEN dias END), 1) AS promedio_dias,
             MIN(dias) AS min_dias,
             MAX(dias) AS max_dias,
             COUNT(*) AS ot_con_cierre,
-            COUNT(CASE WHEN dias <> 1 THEN 1 END) AS ot_para_promedio
+            COUNT(CASE WHEN dias <= 1 THEN 1 END) AS ot_para_promedio
           FROM (${otCerradasSubquery}) t
         `,
         params,
@@ -395,7 +395,7 @@ export async function getEmpresaDetalle(req, res, next) {
             ROUND(AVG(dias), 1) AS promedio_dias,
             COUNT(*) AS ot_con_cierre
           FROM (${otCerradasSubquery}) t
-          WHERE dias <> 1
+          WHERE dias <= 1
           GROUP BY COALESCE(tipo_ot, 'Sin clasificar')
           ORDER BY ot_con_cierre DESC
         `,
