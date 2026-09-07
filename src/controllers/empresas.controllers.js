@@ -27,6 +27,14 @@ const isRepuestoLinea =
 const isCorrectivoOt =
   "UPPER(TRIM(tipo_ot)) = 'CORRECTIVO Y REPARACIONES GENERALES'";
 
+// El indicador de tiempo en taller para clientes empresa se mide solo sobre
+// los servicios operativos principales. Reprocesos y reclamos se gestionan
+// aparte y no deben elevar el promedio de Mantenimiento/Correctivo.
+const esServicioOperativoTiempoTaller = `UPPER(TRIM(tipo_ot)) IN (
+  'MANTENIMIENTO PERIODICO',
+  'CORRECTIVO Y REPARACIONES GENERALES'
+)`;
+
 // Algunos clientes empresa vienen mal etiquetados como grupo_cliente=NINGUNO
 // en el reporte origen de OT (ej. ALD Automotive). Se reclasifican por razon
 // social (S.A., S.A.C., E.I.R.L., etc.) en vez de tratarlos como particulares.
@@ -256,6 +264,11 @@ export async function getEmpresaDetalle(req, res, next) {
     // Mismo subquery pero solo con las que ya cerraron (dias no es NULL), para
     // los calculos que no tiene sentido que arrastren las OT todavia abiertas.
     const otCerradasSubquery = `SELECT * FROM (${otResumenSubquery}) t WHERE dias IS NOT NULL`;
+    const otTiempoTallerSubquery = `
+      SELECT *
+      FROM (${otCerradasSubquery}) t
+      WHERE ${esServicioOperativoTiempoTaller}
+    `;
 
     const [
       resumenRows,
@@ -361,8 +374,9 @@ export async function getEmpresaDetalle(req, res, next) {
             ROUND(AVG(CASE WHEN dias > 1 THEN dias END), 1) AS promedio_dias,
             MIN(dias) AS min_dias,
             MAX(dias) AS max_dias,
-            COUNT(*) AS ot_con_cierre
-          FROM (${otCerradasSubquery}) t
+            COUNT(*) AS ot_con_cierre,
+            COUNT(CASE WHEN dias > 1 THEN 1 END) AS ot_para_promedio
+          FROM (${otTiempoTallerSubquery}) t
         `,
         params,
       ),
@@ -377,24 +391,21 @@ export async function getEmpresaDetalle(req, res, next) {
               ELSE '8+'
             END AS rango,
             COUNT(*) AS cantidad
-          FROM (${otCerradasSubquery}) t
+          FROM (${otTiempoTallerSubquery}) t
           GROUP BY rango
         `,
         params,
       ),
-      // Dias promedio en taller por tipo de OT (Mantenimiento Periodico vs
-      // Correctivo, etc.), sobre las mismas OT cerradas que ya usa el
-      // promedio/histograma general. Excluye reprocesos/reclamos, igual que
-      // "Correctivo vs. Mantenimiento Periodico" mas abajo, para no mezclar
-      // contenido interno/sensible en un indicador que ve el cliente.
+      // Dias promedio por los dos servicios operativos, sobre la misma base
+      // del indicador general y sin OT de 0/1 dia.
       query(
         `
           SELECT
             COALESCE(tipo_ot, 'Sin clasificar') AS tipo_ot,
             ROUND(AVG(dias), 1) AS promedio_dias,
             COUNT(*) AS ot_con_cierre
-          FROM (${otCerradasSubquery}) t
-          WHERE COALESCE(UPPER(tipo_ot), '') <> 'RECLAMOS AL CONCESIONARIO'
+          FROM (${otTiempoTallerSubquery}) t
+          WHERE dias > 1
           GROUP BY COALESCE(tipo_ot, 'Sin clasificar')
           ORDER BY ot_con_cierre DESC
         `,
@@ -698,6 +709,7 @@ export async function getEmpresaDetalle(req, res, next) {
         minDias: tiempoPromedioRows[0]?.min_dias ?? null,
         maxDias: tiempoPromedioRows[0]?.max_dias ?? null,
         otConCierre: Number(tiempoPromedioRows[0]?.ot_con_cierre || 0),
+        otParaPromedio: Number(tiempoPromedioRows[0]?.ot_para_promedio || 0),
         distribucion,
         porTipoOt: tiempoPorTipoOt,
         detalle: tiempoDetalle,
