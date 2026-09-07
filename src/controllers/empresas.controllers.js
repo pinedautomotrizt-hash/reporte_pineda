@@ -4,13 +4,11 @@ import { parseFilters, localClause } from "../utils/expresiones.js";
 const otDateExpr =
   "STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d')";
 
-// Categorias de tipo_ot que representan un reproceso o reclamo de garantia
-// sobre un trabajo ya realizado (confirmado con el negocio, ver orden_trabajo.tipo_ot).
+// Los reprocesos se obtienen exclusivamente del campo/categoría de taller
+// mecánica indicado por negocio; no se mezclan reclamos ni reprocesos de B&P.
 const isReprocesoOt = `UPPER(TRIM(tipo_ot)) IN (
-  'REPROCESO TALLER MECÁNICA',
-  'REPROCESO TALLER B&P',
-  'RECLAMOS AL CONCESIONARIO',
-  'RECLAMOS DE GARANTIA'
+  'REPROCESOS DE TALLER MECANICA',
+  'REPROCESOS DE TALLER MECÁNICA'
 )`;
 
 // Cada linea de OT trae su origen (REPUESTO vs SERVICIO/mano de obra) en
@@ -424,8 +422,8 @@ export async function getEmpresaDetalle(req, res, next) {
         `,
         params,
       ),
-      // Detalle de cada OT marcada como reproceso/reclamo de garantia, para el
-      // modal de "Reprocesos / garantias" del resumen.
+      // Detalle de cada OT marcada como reproceso de taller mecánica, para el
+      // modal de reprocesos del resumen.
       query(
         `
           SELECT
