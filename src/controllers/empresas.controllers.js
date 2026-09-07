@@ -19,6 +19,8 @@ const isReprocesoOt = `UPPER(TRIM(tipo_ot)) IN (
 // origen_codigo; "actividad" es la descripcion del repuesto en esas lineas.
 const isRepuestoLinea =
   "UPPER(TRIM(origen_codigo)) IN ('REPUESTO', 'REPUESTOS', 'RPTO')";
+const isManoObraLinea =
+  "UPPER(TRIM(origen_codigo)) IN ('SERVICIO', 'SERVICIOS', 'MANO DE OBRA', 'MO')";
 
 // Mismo valor que ya usa "Correctivo vs. Mantenimiento Periodico" para
 // identificar el tipo Correctivo, reutilizado para filtrar el ranking de
@@ -278,7 +280,7 @@ export async function getEmpresaDetalle(req, res, next) {
       porTipoOt,
       porVehiculo,
       porSede,
-      repuestosMasUsados,
+      manoObraTopRows,
       repuestosCorrectivoRows,
       porDiaRows,
     ] = await Promise.all([
@@ -528,18 +530,18 @@ export async function getEmpresaDetalle(req, res, next) {
         `,
         params,
       ),
-      // Top 10 repuestos por cantidad real consumida (no por filas: una linea
-      // de aceite puede sumar varios litros, cuenta mas que un repuesto unico).
+      // Top de mano de obra por cantidad registrada. "actividad" contiene el
+      // nombre del servicio realizado en las lÃ­neas de mano de obra.
       query(
         `
           SELECT
-            TRIM(actividad) AS repuesto,
+            TRIM(actividad) AS servicio,
             SUM(COALESCE(CAST(NULLIF(TRIM(cantidad), '') AS DECIMAL(10,2)), 0)) AS cantidad,
             COUNT(*) AS veces
           FROM orden_trabajo
           WHERE ${whereEmpresa}
             AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
-            AND ${isRepuestoLinea}
+            AND ${isManoObraLinea}
             AND NULLIF(TRIM(actividad), '') IS NOT NULL
             ${whereLocal}
           GROUP BY TRIM(actividad)
@@ -714,7 +716,7 @@ export async function getEmpresaDetalle(req, res, next) {
       porTipoOt,
       porVehiculo,
       porSede,
-      repuestosMasUsados,
+      manoObraTop: manoObraTopRows,
       repuestosCorrectivos: repuestosCorrectivoRows,
       porDia,
       serviciosModeloTop,
