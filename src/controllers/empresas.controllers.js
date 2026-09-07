@@ -30,11 +30,6 @@ const isCorrectivoOt =
 // El indicador de tiempo en taller para clientes empresa se mide solo sobre
 // los servicios operativos principales. Reprocesos y reclamos se gestionan
 // aparte y no deben elevar el promedio de Mantenimiento/Correctivo.
-const esServicioOperativoTiempoTaller = `UPPER(TRIM(tipo_ot)) IN (
-  'MANTENIMIENTO PERIODICO',
-  'CORRECTIVO Y REPARACIONES GENERALES'
-)`;
-
 // Algunos clientes empresa vienen mal etiquetados como grupo_cliente=NINGUNO
 // en el reporte origen de OT (ej. ALD Automotive). Se reclasifican por razon
 // social (S.A., S.A.C., E.I.R.L., etc.) en vez de tratarlos como particulares.
@@ -255,7 +250,7 @@ export async function getEmpresaDetalle(req, res, next) {
           MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')),
           MIN(${otDateExpr})
         ) AS dias
-      FROM orden_trabajo
+      FROM orden_trabajo    
       WHERE ${whereEmpresa}
         AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
         ${whereLocal}
@@ -264,11 +259,6 @@ export async function getEmpresaDetalle(req, res, next) {
     // Mismo subquery pero solo con las que ya cerraron (dias no es NULL), para
     // los calculos que no tiene sentido que arrastren las OT todavia abiertas.
     const otCerradasSubquery = `SELECT * FROM (${otResumenSubquery}) t WHERE dias IS NOT NULL`;
-    const otTiempoTallerSubquery = `
-      SELECT *
-      FROM (${otCerradasSubquery}) t
-      WHERE ${esServicioOperativoTiempoTaller}
-    `;
 
     const [
       resumenRows,
@@ -371,12 +361,12 @@ export async function getEmpresaDetalle(req, res, next) {
             -- Las OT resueltas el mismo dÃ­a no intervienen en el promedio de
             -- tiempo en taller. Los extremos y el total de OT cerradas se
             -- mantienen para no alterar esos indicadores.
-            ROUND(AVG(CASE WHEN dias > 1 THEN dias END), 1) AS promedio_dias,
+            ROUND(AVG(CASE WHEN dias <> 1 THEN dias END), 1) AS promedio_dias,
             MIN(dias) AS min_dias,
             MAX(dias) AS max_dias,
             COUNT(*) AS ot_con_cierre,
-            COUNT(CASE WHEN dias > 1 THEN 1 END) AS ot_para_promedio
-          FROM (${otTiempoTallerSubquery}) t
+            COUNT(CASE WHEN dias <> 1 THEN 1 END) AS ot_para_promedio
+          FROM (${otCerradasSubquery}) t
         `,
         params,
       ),
@@ -391,7 +381,7 @@ export async function getEmpresaDetalle(req, res, next) {
               ELSE '8+'
             END AS rango,
             COUNT(*) AS cantidad
-          FROM (${otTiempoTallerSubquery}) t
+          FROM (${otCerradasSubquery}) t
           GROUP BY rango
         `,
         params,
@@ -404,8 +394,8 @@ export async function getEmpresaDetalle(req, res, next) {
             COALESCE(tipo_ot, 'Sin clasificar') AS tipo_ot,
             ROUND(AVG(dias), 1) AS promedio_dias,
             COUNT(*) AS ot_con_cierre
-          FROM (${otTiempoTallerSubquery}) t
-          WHERE dias > 1
+          FROM (${otCerradasSubquery}) t
+          WHERE dias <> 1
           GROUP BY COALESCE(tipo_ot, 'Sin clasificar')
           ORDER BY ot_con_cierre DESC
         `,
