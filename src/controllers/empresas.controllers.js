@@ -386,8 +386,7 @@ export async function getEmpresaDetalle(req, res, next) {
         `,
         params,
       ),
-      // Dias promedio por los dos servicios operativos, sobre la misma base
-      // del indicador general y sin OT de 0/1 dia.
+      // Correctivo admite hasta tres dÃ­as; los demÃ¡s tipos solo hasta uno.
       query(
         `
           SELECT
@@ -395,7 +394,10 @@ export async function getEmpresaDetalle(req, res, next) {
             ROUND(AVG(dias), 1) AS promedio_dias,
             COUNT(*) AS ot_con_cierre
           FROM (${otCerradasSubquery}) t
-          WHERE dias <= 1
+          WHERE (
+            (${isCorrectivoOt} AND dias <= 3)
+            OR (NOT (${isCorrectivoOt}) AND dias <= 1)
+          )
           GROUP BY COALESCE(tipo_ot, 'Sin clasificar')
           ORDER BY ot_con_cierre DESC
         `,
