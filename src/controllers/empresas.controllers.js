@@ -4,9 +4,13 @@ import { parseFilters, localClause } from "../utils/expresiones.js";
 const otDateExpr =
   "STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d')";
 
-// Los reprocesos se obtienen exclusivamente del campo/categoría de taller
-// mecánica indicado por negocio; no se mezclan reclamos ni reprocesos de B&P.
+// Los reprocesos se obtienen exclusivamente de la categoría de taller
+// mecánica indicada por negocio; no se mezclan reclamos ni reprocesos de B&P.
+// La fuente muestra "REPROCESO TALLER MECÁNICA"; se aceptan variantes de
+// escritura que existen o podrían existir en la carga histórica.
 const isReprocesoOt = `UPPER(TRIM(tipo_ot)) IN (
+  'REPROCESO TALLER MECANICA',
+  'REPROCESO TALLER MECÁNICA',
   'REPROCESOS DE TALLER MECANICA',
   'REPROCESOS DE TALLER MECÁNICA'
 )`;
