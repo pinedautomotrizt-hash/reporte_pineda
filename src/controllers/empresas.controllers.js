@@ -243,6 +243,9 @@ export async function getEmpresaDetalle(req, res, next) {
         DATE_FORMAT(MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')), '%Y-%m-%d') AS fecha_cierre,
         MAX(UPPER(TRIM(estado))) AS estado,
         MAX(NULLIF(TRIM(tipo_ot), '')) AS tipo_ot,
+        -- Se suman las horas de las actividades de la OT antes de promediar:
+        -- una OT puede traer varias líneas y no debe contarse como varias OT.
+        SUM(COALESCE(CAST(REPLACE(NULLIF(TRIM(horas_hombre), ''), ',', '.') AS DECIMAL(12,2)), 0)) AS horas_hombre,
         DATEDIFF(
           MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')),
           MIN(${otDateExpr})
@@ -379,19 +382,22 @@ export async function getEmpresaDetalle(req, res, next) {
         `,
         params,
       ),
-      // Dias promedio en taller por tipo de OT (Mantenimiento Periodico vs
-      // Correctivo, etc.), sobre las mismas OT cerradas que ya usa el
-      // promedio/histograma general. Excluye reprocesos/reclamos, igual que
-      // "Correctivo vs. Mantenimiento Periodico" mas abajo, para no mezclar
-      // contenido interno/sensible en un indicador que ve el cliente.
+      // Tiempo de atención operativo: horas-hombre registradas por cada OT,
+      // no el tiempo calendario que el vehículo permaneció abierto. Solo se
+      // incluyen mantenimientos y correctivos cerrados con horas informadas.
       query(
         `
           SELECT
             COALESCE(tipo_ot, 'Sin clasificar') AS tipo_ot,
-            ROUND(AVG(dias), 1) AS promedio_dias,
+            ROUND(AVG(horas_hombre), 1) AS promedio_horas,
+            ROUND(AVG(horas_hombre) / 8, 1) AS promedio_dias,
             COUNT(*) AS ot_con_cierre
           FROM (${otCerradasSubquery}) t
-          WHERE COALESCE(UPPER(tipo_ot), '') <> 'RECLAMOS AL CONCESIONARIO'
+          WHERE horas_hombre > 0
+            AND (
+              COALESCE(UPPER(tipo_ot), '') LIKE '%MANTENIMIENTO%'
+              OR COALESCE(UPPER(tipo_ot), '') LIKE '%CORRECTIVO%'
+            )
           GROUP BY COALESCE(tipo_ot, 'Sin clasificar')
           ORDER BY ot_con_cierre DESC
         `,
@@ -652,6 +658,7 @@ export async function getEmpresaDetalle(req, res, next) {
     });
     const tiempoPorTipoOt = tiempoPorTipoOtRows.map((row) => ({
       tipoOt: row.tipo_ot,
+      promedioHoras: row.promedio_horas === null ? null : Number(row.promedio_horas),
       promedioDias: row.promedio_dias === null ? null : Number(row.promedio_dias),
       otConCierre: Number(row.ot_con_cierre || 0),
     }));
