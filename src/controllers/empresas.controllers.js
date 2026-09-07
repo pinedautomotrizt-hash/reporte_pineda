@@ -235,7 +235,6 @@ export async function getEmpresaDetalle(req, res, next) {
     // histograma, el detalle de las ultimas OT, las de "mas rapida/mas lenta" y
     // el tiempo por tipo de servicio — todas ven exactamente la misma
     // poblacion, no cada una un recorte distinto.
-     
     const otResumenSubquery = `
       SELECT
         nro_orden,
