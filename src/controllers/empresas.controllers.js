@@ -355,7 +355,10 @@ export async function getEmpresaDetalle(req, res, next) {
       query(
         `
           SELECT
-            ROUND(AVG(dias), 1) AS promedio_dias,
+            -- Las OT resueltas el mismo dÃ­a no intervienen en el promedio de
+            -- tiempo en taller. Los extremos y el total de OT cerradas se
+            -- mantienen para no alterar esos indicadores.
+            ROUND(AVG(CASE WHEN dias > 1 THEN dias END), 1) AS promedio_dias,
             MIN(dias) AS min_dias,
             MAX(dias) AS max_dias,
             COUNT(*) AS ot_con_cierre
