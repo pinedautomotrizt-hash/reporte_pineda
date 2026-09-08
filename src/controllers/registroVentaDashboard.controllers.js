@@ -1124,7 +1124,7 @@ const getProyeccionAnual = async (req, res, next) => {
             local_nombre,
             YEAR(${otDate}) AS anio,
             MONTH(${otDate}) AS mes,
-            COUNT(DISTINCT NULLIF(TRIM(placa), '')) AS unidades
+            COUNT(DISTINCT nro_orden) AS unidades
           FROM orden_trabajo
           WHERE ${otDate} >= :desde
             AND NULLIF(TRIM(placa), '') IS NOT NULL

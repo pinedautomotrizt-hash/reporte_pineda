@@ -398,7 +398,7 @@ export async function getEmpresaDetalle(req, res, next) {
           FROM (${otCerradasSubquery}) t
           WHERE (
             (${isCorrectivoOt} AND dias <= 3)
-            OR (NOT (${isCorrectivoOt}) AND dias <= 1)
+            OR (UPPER(TRIM(tipo_ot)) = 'MANTENIMIENTO PERIODICO' AND dias <= 1)
           )
           GROUP BY COALESCE(tipo_ot, 'Sin clasificar')
           ORDER BY ot_con_cierre DESC
