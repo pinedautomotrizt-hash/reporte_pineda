@@ -256,7 +256,7 @@ export async function getEmpresaDetalle(req, res, next) {
       WHERE ${whereEmpresa}
         AND ${otDateExpr} >= :start AND ${otDateExpr} < DATE_ADD(:start, INTERVAL 1 MONTH)
         ${whereLocal}
-      GROUP BY nro_orden
+      GROUP BY nro_orden    
     `;
     // Mismo subquery pero solo con las que ya cerraron (dias no es NULL), para
     // los calculos que no tiene sentido que arrastren las OT todavia abiertas.
