@@ -796,16 +796,21 @@ async function aplicarPresentacionCorporativa(buffer) {
       oddFooter: "Pineda Automotriz - Taller Multimarca · Página &P de &N",
     };
 
-    // Estas hojas son listados de revisión: se quitan los autofiltros y se
-    // resalta la cabecera de la tabla con el rojo corporativo.
-    if (["Documentos", "NC y anulaciones"].includes(sheet.name)) {
-      sheet.autoFilter = null;
+    // Listados tabulares: se resalta la cabecera con rojo corporativo, se da formato a celdas
+    // y se activa el autofiltro nativo de Excel en la fila de encabezados (fila 6).
+    const hojasConFiltro = [
+      "Documentos",
+      "NC y anulaciones",
+      "Pendientes cerradas",
+      "Pendientes en reprocesos",
+    ];
+    if (hojasConFiltro.includes(sheet.name)) {
       const tableHeader = sheet.getRow(6);
-      tableHeader.height = 23;
+      tableHeader.height = 24;
       tableHeader.eachCell({ includeEmpty: false }, (cell) => {
         cell.style = {
           ...cell.style,
-          font: { bold: true, color: { argb: "FFFFFFFF" } },
+          font: { bold: true, color: { argb: "FFFFFFFF" }, size: 10 },
           fill: {
             type: "pattern",
             pattern: "solid",
@@ -824,6 +829,53 @@ async function aplicarPresentacionCorporativa(buffer) {
           },
         };
       });
+
+      for (let r = 7; r <= sheet.rowCount; r++) {
+        const row = sheet.getRow(r);
+        row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+          const headerVal = String(tableHeader.getCell(colNumber).value || "").toLowerCase();
+          const isEven = (r - 7) % 2 === 1;
+          cell.border = {
+            top: { style: "thin", color: { argb: "FFE2E8F0" } },
+            bottom: { style: "thin", color: { argb: "FFE2E8F0" } },
+            left: { style: "thin", color: { argb: "FFE2E8F0" } },
+            right: { style: "thin", color: { argb: "FFE2E8F0" } },
+          };
+          if (isEven) {
+            cell.fill = {
+              type: "pattern",
+              pattern: "solid",
+              fgColor: { argb: "FFF8FAFC" },
+            };
+          }
+          if (
+            headerVal.includes("sin igv") ||
+            headerVal.includes("con igv") ||
+            headerVal.includes("importe") ||
+            headerVal.includes("precio") ||
+            headerVal.includes("valor")
+          ) {
+            cell.numFmt = "#,##0.00";
+            cell.alignment = { horizontal: "right", vertical: "middle" };
+          } else if (headerVal.includes("fecha")) {
+            cell.alignment = { horizontal: "center", vertical: "middle" };
+          } else if (
+            headerVal === "ot" ||
+            headerVal === "placa" ||
+            headerVal === "moneda" ||
+            headerVal === "estado" ||
+            headerVal === "días cerrada" ||
+            headerVal === "días pendiente"
+          ) {
+            cell.alignment = { horizontal: "center", vertical: "middle" };
+          }
+        });
+      }
+
+      sheet.autoFilter = {
+        from: { row: 6, column: 1 },
+        to: { row: Math.max(6, sheet.rowCount), column: sheet.columnCount },
+      };
     }
   });
   return Buffer.from(await workbook.xlsx.writeBuffer());
@@ -1801,6 +1853,8 @@ export async function generarReporteFacturacion({
     areasDiarias,
     comparacionAnual,
     aperturadas,
+    pendientesCerradas,
+    pendientesReprocesos,
     otDelMes,
     unidadesAtendidas,
     facturacionPorClienteMes,
@@ -2055,6 +2109,86 @@ export async function generarReporteFacturacion({
     `,
       params,
     ),
+    // Órdenes de trabajo culminadas en taller pero aún pendientes de facturar o liquidar, desglosadas por sede.
+    query(
+      `
+      SELECT
+        local_nombre AS Sede,
+        nro_orden AS OT,
+        DATE_FORMAT(MIN(STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d')), '%d/%m/%Y') AS 'Fecha apertura',
+        DATE_FORMAT(MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')), '%d/%m/%Y') AS 'Fecha cierre',
+        DATEDIFF(LEAST(CURDATE(), LAST_DAY(:start)), MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d'))) AS 'Días cerrada',
+        COALESCE(NULLIF(TRIM(MAX(cliente_nombre)), ''), 'Sin cliente') AS Cliente,
+        COALESCE(NULLIF(TRIM(MAX(placa)), ''), 'Sin placa') AS Placa,
+        COALESCE(NULLIF(TRIM(MAX(marca)), ''), '-') AS Marca,
+        COALESCE(NULLIF(TRIM(MAX(modelo)), ''), '-') AS Modelo,
+        COALESCE(NULLIF(TRIM(MAX(asesor)), ''), 'Sin asesor') AS Asesor,
+        COALESCE(NULLIF(TRIM(MAX(grupo_servicio)), ''), '-') AS 'Grupo servicio',
+        COALESCE(NULLIF(TRIM(MAX(clase_ot)), ''), '-') AS 'Clase OT',
+        COALESCE(NULLIF(TRIM(MAX(tipo_ot)), ''), '-') AS 'Tipo OT',
+        COALESCE(NULLIF(TRIM(MAX(moneda)), ''), 'SOLES') AS Moneda,
+        ROUND(SUM(${numero("valor_venta")}), 2) AS 'Valor sin IGV',
+        ROUND(SUM(${numero("precio_venta")}), 2) AS 'Total con IGV',
+        MAX(estado) AS Estado
+      FROM orden_trabajo
+      WHERE UPPER(TRIM(estado)) = 'CERRADO'
+        AND STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d') < DATE_ADD(:start, INTERVAL 1 MONTH)
+        ${local ? "AND local_nombre = :local" : ""}
+      GROUP BY local_nombre, nro_orden
+      ORDER BY local_nombre, MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')) DESC, nro_orden
+    `,
+      params,
+    ),
+    // Órdenes de reproceso pendientes (aperturadas o cerradas), clasificadas en Mecánica y B&P por sede.
+    query(
+      `
+      SELECT
+        local_nombre AS Sede,
+        CASE
+          WHEN UPPER(TRIM(grupo_servicio)) LIKE '%B&P%' OR UPPER(TRIM(tipo_ot)) LIKE '%B&P%'
+            OR UPPER(TRIM(grupo_servicio)) LIKE '%CARROCER%' OR UPPER(TRIM(tipo_ot)) LIKE '%CARROCER%'
+            THEN 'Reproceso Taller B&P'
+          ELSE 'Reproceso Taller Mecánica'
+        END AS 'Taller reproceso',
+        nro_orden AS OT,
+        MAX(estado) AS Estado,
+        DATE_FORMAT(MIN(STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d')), '%d/%m/%Y') AS 'Fecha apertura',
+        DATE_FORMAT(MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')), '%d/%m/%Y') AS 'Fecha cierre',
+        DATEDIFF(
+          LEAST(CURDATE(), LAST_DAY(:start)),
+          COALESCE(MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')), MIN(STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d')))
+        ) AS 'Días pendiente',
+        COALESCE(NULLIF(TRIM(MAX(cliente_nombre)), ''), 'Sin cliente') AS Cliente,
+        COALESCE(NULLIF(TRIM(MAX(placa)), ''), 'Sin placa') AS Placa,
+        COALESCE(NULLIF(TRIM(MAX(marca)), ''), '-') AS Marca,
+        COALESCE(NULLIF(TRIM(MAX(modelo)), ''), '-') AS Modelo,
+        COALESCE(NULLIF(TRIM(MAX(asesor)), ''), 'Sin asesor') AS Asesor,
+        COALESCE(NULLIF(TRIM(MAX(grupo_servicio)), ''), '-') AS 'Grupo servicio',
+        COALESCE(NULLIF(TRIM(MAX(tipo_ot)), ''), '-') AS 'Tipo OT',
+        COALESCE(NULLIF(TRIM(MAX(moneda)), ''), 'SOLES') AS Moneda,
+        ROUND(SUM(${numero("valor_venta")}), 2) AS 'Valor sin IGV',
+        ROUND(SUM(${numero("precio_venta")}), 2) AS 'Total con IGV'
+      FROM orden_trabajo
+      WHERE (UPPER(TRIM(grupo_servicio)) LIKE '%REPROCESO%' OR UPPER(TRIM(tipo_ot)) LIKE '%REPROCESO%')
+        AND UPPER(TRIM(estado)) IN ('APERTURADO', 'CERRADO')
+        AND STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d') < DATE_ADD(:start, INTERVAL 1 MONTH)
+        ${local ? "AND local_nombre = :local" : ""}
+      GROUP BY local_nombre, nro_orden,
+        CASE
+          WHEN UPPER(TRIM(grupo_servicio)) LIKE '%B&P%' OR UPPER(TRIM(tipo_ot)) LIKE '%B&P%'
+            OR UPPER(TRIM(grupo_servicio)) LIKE '%CARROCER%' OR UPPER(TRIM(tipo_ot)) LIKE '%CARROCER%'
+            THEN 'Reproceso Taller B&P'
+          ELSE 'Reproceso Taller Mecánica'
+        END
+      ORDER BY
+        local_nombre,
+        \`Taller reproceso\`,
+        MAX(estado),
+        MIN(STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d')) DESC,
+        nro_orden
+    `,
+      params,
+    ),
     // OT del mes: solo las que ABRIERON dentro del mes elegido (sin importar
     // el mes en que se cierren), para que el ticket promedio nunca arrastre OT
     // de otro mes. Y solo estado APERTURADO/CERRADO: FACTURADO, LIQUIDADO y
@@ -2166,6 +2300,16 @@ export async function generarReporteFacturacion({
   agregarHoja(libro, "Documentos", documentos);
   agregarHoja(libro, "NC y anulaciones", incidencias);
   agregarPendientesAperturados(libro, aperturadas);
+  const formatearPendientes = (filas) =>
+    filas.map((f) => ({
+      ...f,
+      ...(f["Valor sin IGV"] !== undefined ? { "Valor sin IGV": Number(f["Valor sin IGV"] || 0) } : {}),
+      ...(f["Total con IGV"] !== undefined ? { "Total con IGV": Number(f["Total con IGV"] || 0) } : {}),
+      ...(f["Días cerrada"] !== undefined && f["Días cerrada"] !== null ? { "Días cerrada": Number(f["Días cerrada"]) } : {}),
+      ...(f["Días pendiente"] !== undefined && f["Días pendiente"] !== null ? { "Días pendiente": Number(f["Días pendiente"]) } : {}),
+    }));
+  agregarHoja(libro, "Pendientes cerradas", formatearPendientes(pendientesCerradas));
+  agregarHoja(libro, "Pendientes en reprocesos", formatearPendientes(pendientesReprocesos));
   agregarOtDelMes(libro, otDelMes, { month, local });
   agregarUnidadesAtendidas(libro, unidadesAtendidas, { month, local });
 

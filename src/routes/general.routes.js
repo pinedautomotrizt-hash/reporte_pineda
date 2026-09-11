@@ -22,6 +22,10 @@ import {
   getAsesoresConfiguracion,
   upsertAsesorConfiguracion,
 } from "../controllers/asesorConfiguracion.controllers.js";
+import {
+  getListaMaestraAlmacen,
+  getResumenCategoriasAlmacen,
+} from "../controllers/almacen.controllers.js";
 
 // 50MB cubre con margen los reportes mas grandes que se han subido hasta ahora (~13.5MB).
 const upload = multer({ dest: "uploads/", limits: { fileSize: 50 * 1024 * 1024 } });
@@ -88,6 +92,10 @@ router.get("/dashboard/empresas/:empresa", getEmpresaDetalle);
 // dar de alta/editar un asesor sigue siendo exclusivo de ADMIN.
 router.get("/configuracion/asesores", getAsesoresConfiguracion);
 router.post("/configuracion/asesores", requireRole("ADMIN"), upsertAsesorConfiguracion);
+
+// Almacén: Consulta de lista maestra de codificación
+router.get("/almacen/lista-maestra", getListaMaestraAlmacen);
+router.get("/almacen/resumen-categorias", getResumenCategoriasAlmacen);
 
 // Exportación independiente: no agrega lógica de archivos al dashboard general.
 router.get("/reportes/facturacion/excel", exportarReporteFacturacion);
