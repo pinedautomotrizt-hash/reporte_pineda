@@ -228,7 +228,7 @@ function agregarPendientesAperturados(libro, filas) {
         celda.z = "#,##0.00";
     });
   });
-  XLSX.utils.book_append_sheet(libro, hoja, "Pendientes");
+  XLSX.utils.book_append_sheet(libro, hoja, "Pendientes aperturadas");
 }
 
 // OT del mes: a diferencia de "Pendientes" (que arrastra TODO lo que sigue
@@ -802,6 +802,7 @@ async function aplicarPresentacionCorporativa(buffer) {
       "Documentos",
       "NC y anulaciones",
       "Pendientes cerradas",
+      "Pendientes reprocesos",
       "Pendientes en reprocesos",
     ];
     if (hojasConFiltro.includes(sheet.name)) {
@@ -830,24 +831,33 @@ async function aplicarPresentacionCorporativa(buffer) {
         };
       });
 
+      // Identificar columna de días para evaluar alerta (> 8 días en cerradas y reprocesos)
+      let colDias = null;
+      for (let c = 1; c <= sheet.columnCount; c++) {
+        const h = String(tableHeader.getCell(c).value || "").toLowerCase();
+        if (h === "días cerrada" || h === "días pendiente" || h.includes("días")) {
+          colDias = c;
+          break;
+        }
+      }
+
+      const esHojaPendienteAlerta =
+        sheet.name === "Pendientes cerradas" ||
+        sheet.name === "Pendientes reprocesos" ||
+        sheet.name === "Pendientes en reprocesos";
+
       for (let r = 7; r <= sheet.rowCount; r++) {
         const row = sheet.getRow(r);
+        const diasVal = colDias ? Number(row.getCell(colDias).value || 0) : 0;
+        const esRojo = esHojaPendienteAlerta && diasVal > 8;
+
         row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
           const headerVal = String(tableHeader.getCell(colNumber).value || "").toLowerCase();
           const isEven = (r - 7) % 2 === 1;
-          cell.border = {
-            top: { style: "thin", color: { argb: "FFE2E8F0" } },
-            bottom: { style: "thin", color: { argb: "FFE2E8F0" } },
-            left: { style: "thin", color: { argb: "FFE2E8F0" } },
-            right: { style: "thin", color: { argb: "FFE2E8F0" } },
-          };
-          if (isEven) {
-            cell.fill = {
-              type: "pattern",
-              pattern: "solid",
-              fgColor: { argb: "FFF8FAFC" },
-            };
-          }
+
+          let alignment = { horizontal: "left", vertical: "middle" };
+          let numFmt = undefined;
+
           if (
             headerVal.includes("sin igv") ||
             headerVal.includes("con igv") ||
@@ -855,20 +865,36 @@ async function aplicarPresentacionCorporativa(buffer) {
             headerVal.includes("precio") ||
             headerVal.includes("valor")
           ) {
-            cell.numFmt = "#,##0.00";
-            cell.alignment = { horizontal: "right", vertical: "middle" };
+            numFmt = "#,##0.00";
+            alignment = { horizontal: "right", vertical: "middle" };
           } else if (headerVal.includes("fecha")) {
-            cell.alignment = { horizontal: "center", vertical: "middle" };
+            alignment = { horizontal: "center", vertical: "middle" };
           } else if (
             headerVal === "ot" ||
             headerVal === "placa" ||
             headerVal === "moneda" ||
             headerVal === "estado" ||
-            headerVal === "días cerrada" ||
-            headerVal === "días pendiente"
+            headerVal.includes("días")
           ) {
-            cell.alignment = { horizontal: "center", vertical: "middle" };
+            alignment = { horizontal: "center", vertical: "middle" };
           }
+
+          cell.style = {
+            font: esRojo
+              ? { color: { argb: "FF991B1B" }, bold: colNumber === colDias, size: 10 }
+              : { color: { argb: "FF0F172A" }, size: 10 },
+            fill: esRojo
+              ? { type: "pattern", pattern: "solid", fgColor: { argb: "FFFECACA" } }
+              : { type: "pattern", pattern: "solid", fgColor: { argb: isEven ? "FFF8FAFC" : "FFFFFFFF" } },
+            border: {
+              top: { style: "thin", color: { argb: esRojo ? "FFFCA5A5" : "FFE2E8F0" } },
+              bottom: { style: "thin", color: { argb: esRojo ? "FFFCA5A5" : "FFE2E8F0" } },
+              left: { style: "thin", color: { argb: esRojo ? "FFFCA5A5" : "FFE2E8F0" } },
+              right: { style: "thin", color: { argb: esRojo ? "FFFCA5A5" : "FFE2E8F0" } },
+            },
+            alignment,
+          };
+          if (numFmt) cell.numFmt = numFmt;
         });
       }
 
@@ -2139,51 +2165,47 @@ export async function generarReporteFacturacion({
     `,
       params,
     ),
-    // Órdenes de reproceso pendientes (aperturadas o cerradas), clasificadas en Mecánica y B&P por sede.
+    // Órdenes de reproceso pendientes (aperturadas o cerradas), con la misma estructura de pendientes cerradas.
     query(
       `
       SELECT
         local_nombre AS Sede,
-        CASE
-          WHEN UPPER(TRIM(grupo_servicio)) LIKE '%B&P%' OR UPPER(TRIM(tipo_ot)) LIKE '%B&P%'
-            OR UPPER(TRIM(grupo_servicio)) LIKE '%CARROCER%' OR UPPER(TRIM(tipo_ot)) LIKE '%CARROCER%'
-            THEN 'Reproceso Taller B&P'
-          ELSE 'Reproceso Taller Mecánica'
-        END AS 'Taller reproceso',
         nro_orden AS OT,
-        MAX(estado) AS Estado,
         DATE_FORMAT(MIN(STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d')), '%d/%m/%Y') AS 'Fecha apertura',
         DATE_FORMAT(MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')), '%d/%m/%Y') AS 'Fecha cierre',
-        DATEDIFF(
-          LEAST(CURDATE(), LAST_DAY(:start)),
-          COALESCE(MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')), MIN(STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d')))
-        ) AS 'Días pendiente',
+        CASE
+          WHEN UPPER(TRIM(MAX(estado))) = 'LIQUIDADO' THEN
+            DATEDIFF(
+              COALESCE(MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')), MAX(STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d'))),
+              MIN(STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d'))
+            )
+          ELSE
+            DATEDIFF(
+              LEAST(CURDATE(), LAST_DAY(:start)),
+              COALESCE(MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')), MIN(STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d')))
+            )
+        END AS 'Días cerrada',
         COALESCE(NULLIF(TRIM(MAX(cliente_nombre)), ''), 'Sin cliente') AS Cliente,
         COALESCE(NULLIF(TRIM(MAX(placa)), ''), 'Sin placa') AS Placa,
         COALESCE(NULLIF(TRIM(MAX(marca)), ''), '-') AS Marca,
         COALESCE(NULLIF(TRIM(MAX(modelo)), ''), '-') AS Modelo,
         COALESCE(NULLIF(TRIM(MAX(asesor)), ''), 'Sin asesor') AS Asesor,
         COALESCE(NULLIF(TRIM(MAX(grupo_servicio)), ''), '-') AS 'Grupo servicio',
+        COALESCE(NULLIF(TRIM(MAX(clase_ot)), ''), '-') AS 'Clase OT',
         COALESCE(NULLIF(TRIM(MAX(tipo_ot)), ''), '-') AS 'Tipo OT',
         COALESCE(NULLIF(TRIM(MAX(moneda)), ''), 'SOLES') AS Moneda,
         ROUND(SUM(${numero("valor_venta")}), 2) AS 'Valor sin IGV',
-        ROUND(SUM(${numero("precio_venta")}), 2) AS 'Total con IGV'
+        ROUND(SUM(${numero("precio_venta")}), 2) AS 'Total con IGV',
+        MAX(estado) AS Estado
       FROM orden_trabajo
       WHERE (UPPER(TRIM(grupo_servicio)) LIKE '%REPROCESO%' OR UPPER(TRIM(tipo_ot)) LIKE '%REPROCESO%')
-        AND UPPER(TRIM(estado)) IN ('APERTURADO', 'CERRADO')
+        AND UPPER(TRIM(estado)) IN ('APERTURADO', 'CERRADO', 'LIQUIDADO')
         AND STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d') < DATE_ADD(:start, INTERVAL 1 MONTH)
         ${local ? "AND local_nombre = :local" : ""}
-      GROUP BY local_nombre, nro_orden,
-        CASE
-          WHEN UPPER(TRIM(grupo_servicio)) LIKE '%B&P%' OR UPPER(TRIM(tipo_ot)) LIKE '%B&P%'
-            OR UPPER(TRIM(grupo_servicio)) LIKE '%CARROCER%' OR UPPER(TRIM(tipo_ot)) LIKE '%CARROCER%'
-            THEN 'Reproceso Taller B&P'
-          ELSE 'Reproceso Taller Mecánica'
-        END
+      GROUP BY local_nombre, nro_orden
       ORDER BY
         local_nombre,
-        \`Taller reproceso\`,
-        MAX(estado),
+        FIELD(MAX(estado), 'APERTURADO', 'CERRADO', 'LIQUIDADO'),
         MIN(STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d')) DESC,
         nro_orden
     `,
@@ -2309,7 +2331,7 @@ export async function generarReporteFacturacion({
       ...(f["Días pendiente"] !== undefined && f["Días pendiente"] !== null ? { "Días pendiente": Number(f["Días pendiente"]) } : {}),
     }));
   agregarHoja(libro, "Pendientes cerradas", formatearPendientes(pendientesCerradas));
-  agregarHoja(libro, "Pendientes en reprocesos", formatearPendientes(pendientesReprocesos));
+  agregarHoja(libro, "Pendientes reprocesos", formatearPendientes(pendientesReprocesos));
   agregarOtDelMes(libro, otDelMes, { month, local });
   agregarUnidadesAtendidas(libro, unidadesAtendidas, { month, local });
 
