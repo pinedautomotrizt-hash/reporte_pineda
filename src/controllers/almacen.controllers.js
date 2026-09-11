@@ -1,4 +1,4 @@
-import db from "../db.js";
+import { pool as db } from "../db.js";
 
 /**
  * Controller para consultar la Lista Maestra de Almacén desde la vista relacional v_lista_maestra_almacen
