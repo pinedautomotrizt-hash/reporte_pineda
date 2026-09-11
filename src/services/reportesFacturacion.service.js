@@ -2208,9 +2208,8 @@ export async function generarReporteFacturacion({
       GROUP BY local_nombre, nro_orden
       ORDER BY
         local_nombre,
-        \`Días cerrada\` DESC,
-        FIELD(MAX(estado), 'APERTURADO', 'CERRADO', 'LIQUIDADO', 'FACTURADO', 'FACTURADO INT'),
-        nro_orden
+        MIN(STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d')) DESC,
+        nro_orden DESC
     `,
       params,
     ),
