@@ -2161,11 +2161,14 @@ export async function generarReporteFacturacion({
         AND STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d') < DATE_ADD(:start, INTERVAL 1 MONTH)
         ${local ? "AND local_nombre = :local" : ""}
       GROUP BY local_nombre, nro_orden
-      ORDER BY local_nombre, MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')) DESC, nro_orden
+      ORDER BY local_nombre, \`Días cerrada\` DESC, nro_orden
     `,
       params,
     ),
-    // Órdenes de reproceso pendientes (aperturadas o cerradas), con la misma estructura de pendientes cerradas.
+    // Órdenes de reproceso pendientes (aperturadas, cerradas, liquidadas o ya
+    // facturadas), con la misma estructura de pendientes cerradas. Se incluye
+    // FACTURADO/FACTURADO INT porque, a diferencia de "Pendientes cerradas",
+    // aquí interesa ver el reproceso completo aunque ya se haya facturado.
     query(
       `
       SELECT
@@ -2174,7 +2177,7 @@ export async function generarReporteFacturacion({
         DATE_FORMAT(MIN(STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d')), '%d/%m/%Y') AS 'Fecha apertura',
         DATE_FORMAT(MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')), '%d/%m/%Y') AS 'Fecha cierre',
         CASE
-          WHEN UPPER(TRIM(MAX(estado))) = 'LIQUIDADO' THEN
+          WHEN UPPER(TRIM(MAX(estado))) IN ('LIQUIDADO', 'FACTURADO', 'FACTURADO INT') THEN
             DATEDIFF(
               COALESCE(MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')), MAX(STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d'))),
               MIN(STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d'))
@@ -2199,14 +2202,14 @@ export async function generarReporteFacturacion({
         MAX(estado) AS Estado
       FROM orden_trabajo
       WHERE (UPPER(TRIM(grupo_servicio)) LIKE '%REPROCESO%' OR UPPER(TRIM(tipo_ot)) LIKE '%REPROCESO%')
-        AND UPPER(TRIM(estado)) IN ('APERTURADO', 'CERRADO', 'LIQUIDADO')
+        AND UPPER(TRIM(estado)) IN ('APERTURADO', 'CERRADO', 'LIQUIDADO', 'FACTURADO', 'FACTURADO INT')
         AND STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d') < DATE_ADD(:start, INTERVAL 1 MONTH)
         ${local ? "AND local_nombre = :local" : ""}
       GROUP BY local_nombre, nro_orden
       ORDER BY
         local_nombre,
-        FIELD(MAX(estado), 'APERTURADO', 'CERRADO', 'LIQUIDADO'),
-        MIN(STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d')) DESC,
+        \`Días cerrada\` DESC,
+        FIELD(MAX(estado), 'APERTURADO', 'CERRADO', 'LIQUIDADO', 'FACTURADO', 'FACTURADO INT'),
         nro_orden
     `,
       params,
