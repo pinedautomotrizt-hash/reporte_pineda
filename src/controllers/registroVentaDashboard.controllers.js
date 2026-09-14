@@ -1100,7 +1100,7 @@ const getProyeccionAnual = async (req, res, next) => {
       ${saleDate} >= :desde
       AND ${validDocument}
     `;
-    const [rows, unidades] = await Promise.all([
+    const [rows, unidades, reprocesos] = await Promise.all([
       query(
         `
         SELECT
@@ -1133,8 +1133,28 @@ const getProyeccionAnual = async (req, res, next) => {
         `,
         { desde: "2025-01-01" },
       ),
+      // Monto de reprocesos por sede y año de apertura de la OT, para ver qué
+      // porcentaje de la facturación de cada año representan. Mismo criterio
+      // y estados que la hoja "Pendientes reprocesos" del Excel; los
+      // liquidados se cierran en S/ 0 (se absorben internamente).
+      query(
+        `
+          SELECT
+            local_nombre,
+            YEAR(${otDate}) AS anio,
+            COUNT(DISTINCT nro_orden) AS ots,
+            SUM(${amount("valor_venta")}) AS monto
+          FROM orden_trabajo
+          WHERE (UPPER(TRIM(grupo_servicio)) LIKE '%REPROCESO%' OR UPPER(TRIM(tipo_ot)) LIKE '%REPROCESO%')
+            AND UPPER(TRIM(estado)) IN ('APERTURADO', 'CERRADO', 'LIQUIDADO', 'FACTURADO', 'FACTURADO INT')
+            AND ${otDate} >= :desde
+          GROUP BY local_nombre, YEAR(${otDate})
+          ORDER BY local_nombre, anio
+        `,
+        { desde: "2025-01-01" },
+      ),
     ]);
-    res.json({ filas: rows, unidades, metas: METAS_ANUALES });
+    res.json({ filas: rows, unidades, reprocesos, metas: METAS_ANUALES });
   } catch (error) {
     next(error);
   }
