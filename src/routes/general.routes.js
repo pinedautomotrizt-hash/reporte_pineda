@@ -26,6 +26,7 @@ import {
   getListaMaestraAlmacen,
   getResumenCategoriasAlmacen,
 } from "../controllers/almacen.controllers.js";
+import getRetencionClientes from "../controllers/retencion.controllers.js";
 
 // 50MB cubre con margen los reportes mas grandes que se han subido hasta ahora (~13.5MB).
 const upload = multer({ dest: "uploads/", limits: { fileSize: 50 * 1024 * 1024 } });
@@ -83,6 +84,7 @@ router.get("/dashboard/facturacion", getRegistroVentaDashboard);
 router.get("/dashboard/asesores", getRegistroVentaAsesores);
 router.get("/dashboard/resumen-mensual", getRegistroVentaResumenMensual);
 router.get("/dashboard/proyeccion-anual", getProyeccionAnual);
+router.get("/dashboard/retencion", getRetencionClientes);
 router.get("/dashboard/asesor-personal", getAsesorPersonalDashboard);
 router.get("/dashboard/empresas", getEmpresasResumen);
 router.get("/dashboard/empresas/:empresa", getEmpresaDetalle);
