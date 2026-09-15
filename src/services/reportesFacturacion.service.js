@@ -802,6 +802,7 @@ async function aplicarPresentacionCorporativa(buffer) {
       "Documentos",
       "NC y anulaciones",
       "Pendientes cerradas",
+      "Liquidadas del mes",
       "Pendientes reprocesos",
       "Pendientes en reprocesos",
     ];
@@ -1881,6 +1882,7 @@ export async function generarReporteFacturacion({
     aperturadas,
     pendientesCerradas,
     pendientesReprocesos,
+    liquidadasMes,
     otDelMes,
     unidadesAtendidas,
     facturacionPorClienteMes,
@@ -2213,6 +2215,42 @@ export async function generarReporteFacturacion({
     `,
       params,
     ),
+    // OT liquidadas dentro del mes del reporte (por fecha de cierre), con la
+    // misma estructura de pendientes cerradas. "Días en taller" es un tiempo
+    // fijo: lo que tardó la OT desde que se abrió hasta que se cerró.
+    query(
+      `
+      SELECT
+        local_nombre AS Sede,
+        nro_orden AS OT,
+        DATE_FORMAT(MIN(STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d')), '%d/%m/%Y') AS 'Fecha apertura',
+        DATE_FORMAT(MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')), '%d/%m/%Y') AS 'Fecha cierre',
+        DATEDIFF(
+          MAX(STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d')),
+          MIN(STR_TO_DATE(NULLIF(TRIM(fec_apertura), ''), '%Y-%m-%d'))
+        ) AS 'Días en taller',
+        COALESCE(NULLIF(TRIM(MAX(cliente_nombre)), ''), 'Sin cliente') AS Cliente,
+        COALESCE(NULLIF(TRIM(MAX(placa)), ''), 'Sin placa') AS Placa,
+        COALESCE(NULLIF(TRIM(MAX(marca)), ''), '-') AS Marca,
+        COALESCE(NULLIF(TRIM(MAX(modelo)), ''), '-') AS Modelo,
+        COALESCE(NULLIF(TRIM(MAX(asesor)), ''), 'Sin asesor') AS Asesor,
+        COALESCE(NULLIF(TRIM(MAX(grupo_servicio)), ''), '-') AS 'Grupo servicio',
+        COALESCE(NULLIF(TRIM(MAX(clase_ot)), ''), '-') AS 'Clase OT',
+        COALESCE(NULLIF(TRIM(MAX(tipo_ot)), ''), '-') AS 'Tipo OT',
+        COALESCE(NULLIF(TRIM(MAX(moneda)), ''), 'SOLES') AS Moneda,
+        ROUND(SUM(${numero("valor_venta")}), 2) AS 'Valor sin IGV',
+        ROUND(SUM(${numero("precio_venta")}), 2) AS 'Total con IGV',
+        MAX(estado) AS Estado
+      FROM orden_trabajo
+      WHERE UPPER(TRIM(estado)) = 'LIQUIDADO'
+        AND STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d') >= :start
+        AND STR_TO_DATE(NULLIF(TRIM(fec_cierre), ''), '%Y-%m-%d') < DATE_ADD(:start, INTERVAL 1 MONTH)
+        ${local ? "AND local_nombre = :local" : ""}
+      GROUP BY local_nombre, nro_orden
+      ORDER BY local_nombre, \`Días en taller\` DESC, nro_orden
+    `,
+      params,
+    ),
     // OT del mes: solo las que ABRIERON dentro del mes elegido (sin importar
     // el mes en que se cierren), para que el ticket promedio nunca arrastre OT
     // de otro mes. Y solo estado APERTURADO/CERRADO: FACTURADO, LIQUIDADO y
@@ -2331,8 +2369,10 @@ export async function generarReporteFacturacion({
       ...(f["Total con IGV"] !== undefined ? { "Total con IGV": Number(f["Total con IGV"] || 0) } : {}),
       ...(f["Días cerrada"] !== undefined && f["Días cerrada"] !== null ? { "Días cerrada": Number(f["Días cerrada"]) } : {}),
       ...(f["Días pendiente"] !== undefined && f["Días pendiente"] !== null ? { "Días pendiente": Number(f["Días pendiente"]) } : {}),
+      ...(f["Días en taller"] !== undefined && f["Días en taller"] !== null ? { "Días en taller": Number(f["Días en taller"]) } : {}),
     }));
   agregarHoja(libro, "Pendientes cerradas", formatearPendientes(pendientesCerradas));
+  agregarHoja(libro, "Liquidadas del mes", formatearPendientes(liquidadasMes));
   agregarHoja(libro, "Pendientes reprocesos", formatearPendientes(pendientesReprocesos));
   agregarOtDelMes(libro, otDelMes, { month, local });
   agregarUnidadesAtendidas(libro, unidadesAtendidas, { month, local });

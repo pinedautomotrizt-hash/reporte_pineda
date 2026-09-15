@@ -574,7 +574,14 @@ const getRegistroVentaAsesores = async (req, res, next) => {
       AND ${validDocument}
       ${whereLocal}
     `;
-    const [rows, mostrador] = await Promise.all([
+    // Mismo mes y sede, pero sin ninguna regla de estado: sirve para cuadrar
+    // contra la suma directa del Excel "Registro de Venta por Local".
+    const periodoSinEstado = `
+      ${saleDate} >= :start
+      AND ${saleDate} < DATE_ADD(:start, INTERVAL 1 MONTH)
+      ${whereLocal}
+    `;
+    const [rows, mostrador, sinEstado] = await Promise.all([
       // Facturacion diaria por asesor, sede y moneda: alimenta la tabla "Avance diario" del resumen mensual.
       query(`
         SELECT
@@ -605,6 +612,30 @@ const getRegistroVentaAsesores = async (req, res, next) => {
         `,
         params,
       ),
+      // Suma completa por sede, sin filtrar estado SUNAT, anulados, Mostrador
+      // ni Pagos varios. Cada comprobante se cuenta una vez (por si se
+      // reimportó) y las notas de crédito restan con el signo que trae el
+      // export, igual que al sumar el Excel.
+      query(
+        `
+          SELECT
+            local_nombre,
+            SUM(sin_igv) AS sin_igv,
+            COUNT(DISTINCT nro_documento) AS comprobantes
+          FROM (
+            SELECT
+              nro_documento,
+              local_nombre,
+              MAX(${netSaleAmount}) AS sin_igv
+            FROM registro_venta
+            WHERE ${periodoSinEstado}
+            GROUP BY nro_documento, local_nombre
+          ) documentos
+          GROUP BY local_nombre
+          ORDER BY local_nombre
+        `,
+        params,
+      ),
     ]);
 
     res.json({
@@ -613,6 +644,11 @@ const getRegistroVentaAsesores = async (req, res, next) => {
         rows: mostrador,
         sin_igv: mostrador.reduce((sum, row) => sum + Number(row.sin_igv || 0), 0),
         comprobantes: mostrador.reduce((sum, row) => sum + Number(row.comprobantes || 0), 0),
+      },
+      sinEstado: {
+        porLocal: sinEstado,
+        sin_igv: sinEstado.reduce((sum, row) => sum + Number(row.sin_igv || 0), 0),
+        comprobantes: sinEstado.reduce((sum, row) => sum + Number(row.comprobantes || 0), 0),
       },
     });
   } catch (error) {
