@@ -108,9 +108,11 @@ function parseKpiFilters(req) {
   // soloFlota viene activo por defecto: es el universo donde el historial de
   // reemplazos esta completo (ver nota en config/kpiRepuestos.js).
   const soloFlota = req.query.soloFlota !== "false";
+  const empresa =
+    req.query.empresa && req.query.empresa !== "Todas" ? String(req.query.empresa).trim() : null;
   const desde = /^\d{4}-\d{2}-\d{2}$/.test(req.query.desde || "") ? req.query.desde : null;
   const hasta = /^\d{4}-\d{2}-\d{2}$/.test(req.query.hasta || "") ? req.query.hasta : null;
-  return { local, marca, modelo, soloFlota, desde, hasta };
+  return { local, marca, modelo, soloFlota, empresa, desde, hasta };
 }
 
 async function traerEventos(filtros) {
@@ -128,6 +130,10 @@ async function traerEventos(filtros) {
   if (filtros.modelo) {
     condiciones.push("UPPER(TRIM(o.modelo)) = :modelo");
     params.modelo = filtros.modelo.toUpperCase();
+  }
+  if (filtros.empresa) {
+    condiciones.push("TRIM(o.cliente_nombre) = :empresa");
+    params.empresa = filtros.empresa;
   }
   if (filtros.soloFlota) {
     const lista = KPI_GRUPOS_FLOTA.map((grupo, indice) => {
@@ -308,10 +314,26 @@ export async function getKpiRepuestos(req, res, next) {
       };
     });
 
+    // Catalogo para el selector: solo las empresas que aportan mediciones, para
+    // no ofrecer filtros que devuelven la vista vacia.
+    const empresas = [...new Set(validos.map((i) => i.cliente).filter(Boolean))].sort();
+
+    // Comparacion entre flotas: cada una usa sus vehiculos distinto, asi que el
+    // promedio conjunto esconde diferencias que importan para comprar.
+    const porEmpresa = resumirPor(validos, (i) => i.cliente || "SIN CLIENTE", (cliente) => ({ cliente }))
+      .map((fila) => ({
+        ...fila,
+        placas: new Set(
+          validos.filter((i) => (i.cliente || "SIN CLIENTE") === fila.cliente).map((i) => i.placa),
+        ).size,
+      }));
+
     res.json({
       filtros,
       limites: KPI_LIMITES,
       resumen,
+      empresas,
+      porEmpresa,
       totales: {
         intervalos: validos.length,
         descartados: descartados.length,
