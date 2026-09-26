@@ -27,6 +27,10 @@ import {
   getResumenCategoriasAlmacen,
 } from "../controllers/almacen.controllers.js";
 import getRetencionClientes from "../controllers/retencion.controllers.js";
+import {
+  getKpiRepuestos,
+  getKpiRepuestoDetalle,
+} from "../controllers/kpi.controllers.js";
 
 // 50MB cubre con margen los reportes mas grandes que se han subido hasta ahora (~13.5MB).
 const upload = multer({ dest: "uploads/", limits: { fileSize: 50 * 1024 * 1024 } });
@@ -94,6 +98,11 @@ router.get("/dashboard/empresas/:empresa", getEmpresaDetalle);
 // dar de alta/editar un asesor sigue siendo exclusivo de ADMIN.
 router.get("/configuracion/asesores", getAsesoresConfiguracion);
 router.post("/configuracion/asesores", requireRole("ADMIN"), upsertAsesorConfiguracion);
+
+// KPI: vida util (MTTF) de los repuestos de desgaste, medida en kilometros
+// recorridos entre reemplazos consecutivos de la misma pieza en la misma placa.
+router.get("/dashboard/kpi/repuestos", getKpiRepuestos);
+router.get("/dashboard/kpi/repuestos/:repuesto", getKpiRepuestoDetalle);
 
 // Almacén: Consulta de lista maestra de codificación
 router.get("/almacen/lista-maestra", getListaMaestraAlmacen);
