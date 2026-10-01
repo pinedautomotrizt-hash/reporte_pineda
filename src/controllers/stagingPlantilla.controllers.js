@@ -5,6 +5,7 @@ import { parseSemicolonCsv } from "../utils/csv.js";
 import { parseDetalleFacturaOtExcel, parseDetalleFacturaOtCsv } from "../utils/detalleFacturaOtExcel.js";
 import { parseTabularExcel } from "../utils/tabularExcel.js";
 import { HttpError } from "../utils/httpError.js";
+import { resolverAsesora } from "../config/carteraAsesoras.js";
 import { readFile, unlink } from "fs/promises";
 
 // Convierte las fechas recibidas por CSV al formato común utilizado en la base.
@@ -113,6 +114,29 @@ const createPlantillaStaging = async (req, res, next) => {
         );
       }
       await bulkInsert(config.table, columns, rows, connection, { upsert: Boolean(config.upsert) });
+      // La asesora responsable no viene en el archivo: se resuelve por cartera
+      // de clientes. Va aqui, dentro de la misma transaccion que la carga, para
+      // que no queden filas importadas sin responsable si algo falla despues.
+      if (config.resolverAsesora) {
+        const [filas] = await connection.query(
+          `SELECT sm_id, local_nombre, cliente_nombre, ultimo_asesor FROM \`${config.table}\``,
+        );
+        // Se agrupan los ids por asesora resuelta para hacer un UPDATE por
+        // asesora (son dos o tres) en vez de uno por vehiculo.
+        const porAsesora = new Map();
+        for (const fila of filas) {
+          const asesora = resolverAsesora(fila.local_nombre, fila.cliente_nombre, fila.ultimo_asesor);
+          const clave = asesora ?? "";
+          if (!porAsesora.has(clave)) porAsesora.set(clave, []);
+          porAsesora.get(clave).push(fila.sm_id);
+        }
+        for (const [clave, ids] of porAsesora) {
+          await connection.query(
+            `UPDATE \`${config.table}\` SET asesora_asignada = ? WHERE sm_id IN (?)`,
+            [clave || null, ids],
+          );
+        }
+      }
       // Queda en la misma transaccion que la data: si algo de arriba falla y
       // hace rollback, tampoco se registra el import en el historial.
       await connection.execute(

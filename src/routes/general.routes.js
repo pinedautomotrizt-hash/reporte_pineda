@@ -10,6 +10,12 @@ import getDashboardSeries, { getModelosPorMarca, getPendientesAperturados } from
 import getEmpresasResumen, { getEmpresaDetalle } from "../controllers/empresas.controllers.js";
 import exportarReporteFacturacion from "../controllers/reportesFacturacion.controllers.js";
 import { login, refresh, me, logout } from "../controllers/auth.controllers.js";
+import {
+  getSeguimientoAgenda,
+  getSeguimientoHistorial,
+  getSeguimientoMantenimiento,
+  updateSeguimientoGestion,
+} from "../controllers/seguimiento.controllers.js";
 import { requireAuth, requireRole } from "../middleware/auth.middleware.js";
 import {
   getRegistroVentaAsesores,
@@ -64,9 +70,11 @@ router.use((req, res, next) => {
     }
   }
   if (req.user?.rol === "ASESOR_INDIVIDUAL") {
-    const permitido = req.path === "/dashboard/asesor-personal" || req.path === "/dashboard/locales";
+    const permitido = req.path === "/dashboard/asesor-personal"
+      || req.path === "/dashboard/locales"
+      || req.path.startsWith("/dashboard/seguimiento");
     if (!permitido) {
-      return res.status(403).json({ message: "Tu usuario solo tiene acceso al módulo Asesor." });
+      return res.status(403).json({ message: "Tu usuario solo tiene acceso a tus módulos." });
     }
   }
   next();
@@ -103,6 +111,13 @@ router.post("/configuracion/asesores", requireRole("ADMIN"), upsertAsesorConfigu
 // recorridos entre reemplazos consecutivos de la misma pieza en la misma placa.
 router.get("/dashboard/kpi/repuestos", getKpiRepuestos);
 router.get("/dashboard/kpi/repuestos/:repuesto", getKpiRepuestoDetalle);
+
+// Seguimiento de mantenimientos: cada asesora gestiona su cartera. El filtro por
+// asesora lo impone el controlador segun el rol, no el cliente.
+router.get("/dashboard/seguimiento", getSeguimientoMantenimiento);
+router.get("/dashboard/seguimiento/agenda", getSeguimientoAgenda);
+router.patch("/dashboard/seguimiento/:id", updateSeguimientoGestion);
+router.get("/dashboard/seguimiento/:id/historial", getSeguimientoHistorial);
 
 // Almacén: Consulta de lista maestra de codificación
 router.get("/almacen/lista-maestra", getListaMaestraAlmacen);

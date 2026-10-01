@@ -1,5 +1,46 @@
 
 export const stagingImports = {
+  seguimiento_mantenimiento: {
+    label: "Seguimiento de Mantenimientos",
+    table: "seguimiento_mantenimiento",
+    format: "xlsx",
+    skipLines: 5,
+    // El reporte es acumulativo y el ERP va marcando ATENDIDO sobre filas
+    // previas, asi que se hace upsert por (local + placa + fecha propuesta).
+    // Nada de replacePeriod: borraria el seguimiento de lo que no venga en
+    // el archivo de ese dia.
+    upsert: true,
+    // La sede se declara una sola vez, en la fila 2 del reporte.
+    localFromHeader: [1, 2],
+    dateColumn: "fec_servicio_prop",
+    // Estado vacio = pendiente: tiene que quedar NULL, no cadena vacia.
+    emptyAsNull: true,
+    // Tras cargar, resuelve asesora_asignada con las reglas de cartera.
+    resolverAsesora: true,
+    columns: [
+      "local_nombre",
+      "placa",
+      "marca",
+      "modelo",
+      "version",
+      "cliente_documento",
+      "cliente_nombre",
+      "contacto",
+      "telefono",
+      "fec_penul_servicio",
+      "fec_ult_servicio",
+      "ultimo_asesor",
+      "recomendacion",
+      "servicio_prop_km",
+      "fec_servicio_prop",
+      "estado",
+      "fec_atencion",
+      "vehiculo_alquilado",
+      "contacto_alquiler",
+      "ref_contacto",
+    ],
+  },
+
   detalle_factura_ot: {
     label: "Detalle de Facturas por OT",
     table: "detalle_factura_ot",
