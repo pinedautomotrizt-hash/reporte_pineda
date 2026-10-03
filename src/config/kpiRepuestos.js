@@ -172,6 +172,16 @@ export const KPI_LIMITES = Object.freeze({
   intervaloMinimo: 2000,
   intervaloMaximo: 200000,
   muestraMinima: 20,
+  // Un intervalo por debajo de esta fraccion de la mediana del propio repuesto
+  // no se cuenta como vida util: una pastilla que duro 2.000 km cuando lo normal
+  // son 14.000 no se gasto, volvio por un problema (garantia, mal montaje,
+  // re-trabajo). Dejarla dentro arrastra la cifra y hace parecer que la pieza
+  // rinde menos de lo que rinde.
+  //
+  // Se descarta el INTERVALO, no el vehiculo: medido sobre el historial, excluir
+  // las placas con muchos cambios empeoraba el resultado, porque esas suelen ser
+  // unidades que simplemente recorren mas kilometros.
+  fraccionReincidencia: 0.4,
 });
 
 // Grupos de cliente que se consideran flota: son los vehiculos cuyo historial

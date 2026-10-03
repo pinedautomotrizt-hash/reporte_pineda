@@ -1190,7 +1190,22 @@ const getProyeccionAnual = async (req, res, next) => {
         { desde: "2025-01-01" },
       ),
     ]);
-    res.json({ filas: rows, unidades, reprocesos, metas: METAS_ANUALES });
+    // Hasta que dia de cada sede hay datos cargados. La proyeccion del mes en
+    // curso divide por los dias REALMENTE cubiertos, no por los del calendario:
+    // la importacion es manual y casi siempre va uno o dos dias atras, asi que
+    // usar la fecha de hoy reparte lo facturado entre dias que todavia no se
+    // cargaron y hunde la proyeccion.
+    const cobertura = await query(
+      `
+        SELECT local_nombre,
+               MAX(${otDate}) AS ultima_fecha
+          FROM orden_trabajo
+         WHERE ${otDate} IS NOT NULL
+         GROUP BY local_nombre
+      `,
+    );
+
+    res.json({ filas: rows, unidades, reprocesos, cobertura, metas: METAS_ANUALES });
   } catch (error) {
     next(error);
   }

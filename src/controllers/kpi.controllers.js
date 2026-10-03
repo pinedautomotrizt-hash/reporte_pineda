@@ -24,6 +24,7 @@ const MOTIVOS = Object.freeze({
   RETROCEDE: "El odómetro bajó respecto de la OT anterior",
   MUY_CORTO: "Intervalo demasiado corto: garantía, siniestro o error de tipeo",
   MUY_LARGO: "Intervalo demasiado largo: probablemente hubo un cambio fuera del taller",
+  REINCIDENCIA: "Duró mucho menos de lo normal para esta pieza: re-trabajo, garantía o mal montaje",
 });
 
 // --------------------------------------------------------------- estadistica
@@ -436,7 +437,48 @@ function calcularIntervalos(eventos, ultimoOdometro = new Map()) {
     }
   });
 
-  return { validos, descartados, observaciones };
+  // ---------------------------------------------------- segunda pasada
+  //
+  // La reincidencia solo se puede detectar cuando ya estan todos los intervalos:
+  // el umbral es relativo a la mediana del propio repuesto, que no se conoce
+  // hasta terminar. Se descarta el intervalo, no el vehiculo.
+  //
+  // Importante: aplica solo a las FALLAS. Una observacion censurada corta no es
+  // anomala -- significa que la pieza lleva poco tiempo puesta, nada mas.
+  const umbrales = new Map();
+  const kmPorRepuesto = new Map();
+  validos.forEach((intervalo) => {
+    if (!kmPorRepuesto.has(intervalo.repuestoId)) kmPorRepuesto.set(intervalo.repuestoId, []);
+    kmPorRepuesto.get(intervalo.repuestoId).push(intervalo.km);
+  });
+  kmPorRepuesto.forEach((kms, repuestoId) => {
+    const ordenados = [...kms].sort((a, b) => a - b);
+    const mediana = percentil(ordenados, 0.5);
+    umbrales.set(repuestoId, mediana * KPI_LIMITES.fraccionReincidencia);
+  });
+
+  const esReincidencia = (repuestoId, km) => {
+    const umbral = umbrales.get(repuestoId);
+    return umbral ? km < umbral : false;
+  };
+
+  const sostenidos = [];
+  validos.forEach((intervalo) => {
+    if (esReincidencia(intervalo.repuestoId, intervalo.km)) {
+      descartados.push({ ...intervalo, motivo: MOTIVOS.REINCIDENCIA });
+    } else {
+      sostenidos.push(intervalo);
+    }
+  });
+
+  observaciones.forEach((lista, repuestoId) => {
+    observaciones.set(
+      repuestoId,
+      lista.filter((o) => !(o.fallo && esReincidencia(repuestoId, o.km))),
+    );
+  });
+
+  return { validos: sostenidos, descartados, observaciones };
 }
 
 function resumirPor(intervalos, obtenerClave, etiquetar = (clave) => ({ clave })) {
