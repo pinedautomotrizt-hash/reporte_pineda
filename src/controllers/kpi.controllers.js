@@ -62,6 +62,110 @@ function estadisticos(valores) {
   };
 }
 
+// ------------------------------------------------- supervivencia (Kaplan-Meier)
+//
+// El promedio de intervalos solo puede mirar piezas que YA se reemplazaron dos
+// veces en el mismo vehiculo, y eso sesga el resultado hacia los vehiculos que
+// mas gastan: la camioneta que quema pastillas cada 8.000 km aporta cinco
+// intervalos, y la que lleva 60.000 km con las mismas aporta cero.
+//
+// Kaplan-Meier incorpora las observaciones incompletas (censuradas), que son
+// las dos que el promedio tira a la basura:
+//   - la pieza cambiada por mantenimiento programado: no fallo, "duro al menos X"
+//   - la pieza instalada que sigue rodando hoy: "lleva X km y sigue viva"
+//
+// Devuelve la curva de supervivencia S(km) = probabilidad de que la pieza siga
+// viva a esos kilometros, de la que salen B10 y la mediana de supervivencia.
+
+function kaplanMeier(observaciones) {
+  const n = observaciones.length;
+  if (!n) return { curva: [], nFallas: 0, nCensurados: 0 };
+
+  const ordenadas = [...observaciones].sort((a, b) => a.km - b.km);
+  const curva = [{ km: 0, supervivencia: 1, enRiesgo: n, fallas: 0 }];
+
+  let enRiesgo = n;
+  let supervivencia = 1;
+  let i = 0;
+
+  while (i < ordenadas.length) {
+    const km = ordenadas[i].km;
+    let fallas = 0;
+    let censurados = 0;
+    // Todas las observaciones con el mismo kilometraje se procesan juntas.
+    while (i < ordenadas.length && ordenadas[i].km === km) {
+      if (ordenadas[i].fallo) fallas += 1;
+      else censurados += 1;
+      i += 1;
+    }
+    if (fallas > 0 && enRiesgo > 0) {
+      supervivencia *= 1 - fallas / enRiesgo;
+      curva.push({ km, supervivencia, enRiesgo, fallas });
+    }
+    // Los censurados salen del grupo en riesgo sin contar como falla: esa es
+    // justamente la informacion que el promedio no sabe aprovechar.
+    enRiesgo -= fallas + censurados;
+  }
+
+  return {
+    curva,
+    nFallas: ordenadas.filter((o) => o.fallo).length,
+    nCensurados: ordenadas.filter((o) => !o.fallo).length,
+  };
+}
+
+// Kilometraje al que ha fallado una fraccion dada de las piezas.
+// Devuelve null cuando la curva nunca baja hasta ahi: con el historial
+// disponible ese punto todavia no se alcanzo, y afirmarlo seria inventarlo.
+function vidaB(curva, fraccionFallada) {
+  const objetivo = 1 - fraccionFallada;
+  const punto = curva.find((p) => p.supervivencia <= objetivo);
+  return punto ? Math.round(punto.km) : null;
+}
+
+// Para una pieza de mantenimiento programado, Kaplan-Meier no aplica: casi
+// todos sus cambios son preventivos y entrarian como censurados, dejando una
+// curva que nunca baja. Lo que se quiere saber ahi es otra cosa -- cada cuantos
+// kilometros se cambia de verdad -- y eso es la mediana simple de intervalos.
+function intervaloServicio(valores) {
+  const stats = estadisticos(valores);
+  return {
+    nFallas: stats.n,
+    nCensurados: 0,
+    kmB10: stats.b10,
+    kmMediana: stats.mediana,
+    curva: [],
+  };
+}
+
+// Calcula la vida util de un subconjunto con el metodo que corresponda a la
+// pieza. Se usa para el total y para cada corte (modelo, empresa).
+function vidaUtilDe(repuesto, observaciones, intervalos) {
+  return repuesto.naturaleza === "programado"
+    ? intervaloServicio(intervalos)
+    : supervivencia(observaciones);
+}
+
+function supervivencia(observaciones) {
+  const { curva, nFallas, nCensurados } = kaplanMeier(observaciones);
+  if (!curva.length) {
+    return { nFallas: 0, nCensurados: 0, kmB10: null, kmMediana: null, curva: [] };
+  }
+  return {
+    nFallas,
+    nCensurados,
+    // B10: con este numero se programa el preventivo y se arma el stock.
+    kmB10: vidaB(curva, 0.1),
+    kmMediana: vidaB(curva, 0.5),
+    // La curva se envia compactada: la vista solo dibuja los escalones.
+    curva: curva.map((p) => ({
+      km: Math.round(p.km),
+      s: Number(p.supervivencia.toFixed(4)),
+      enRiesgo: p.enRiesgo,
+    })),
+  };
+}
+
 // ------------------------------------------------------------ clasificacion
 
 const enMayuscula = (valor) => String(valor || "").toUpperCase();
@@ -181,6 +285,7 @@ async function traerEventos(filtros) {
            d.fec_apertura AS fecha,
            d.codigo       AS codigo,
            d.descripcion  AS descripcion,
+           d.tipo_ot      AS tipoOt,
            d.total_con_igv AS importe,
            ot.km, ot.marca, ot.modelo, ot.placa, ot.local_nombre, ot.cliente
       FROM detalle_factura_ot d
@@ -193,12 +298,49 @@ async function traerEventos(filtros) {
   return query(sql, params);
 }
 
+// Ultimo odometro conocido de cada placa, con la fecha de esa visita.
+//
+// Es lo que permite medir la pieza que sigue en servicio: si el vehiculo volvio
+// al taller despues del ultimo cambio, sabemos que la pieza llego al menos
+// hasta ese kilometraje. Se exige visita POSTERIOR a proposito: del vehiculo
+// que dejo de venir no sabemos nada, y suponer que su pieza sigue viva inflaria
+// el resultado.
+async function traerUltimoOdometro(filtros) {
+  const params = {};
+  const condiciones = [`TRIM(o.placa) <> ''`, `${kmExpr} IS NOT NULL`];
+  if (filtros.local) {
+    condiciones.push("o.local_nombre = :local");
+    params.local = filtros.local;
+  }
+  const filas = await query(
+    `SELECT TRIM(o.placa) AS placa,
+            MAX(${kmExpr})      AS km,
+            MAX(o.fec_apertura) AS fecha
+       FROM orden_trabajo o
+      WHERE ${condiciones.join(" AND ")}
+      GROUP BY TRIM(o.placa)`,
+    params,
+  );
+  return new Map(filas.map((fila) => [fila.placa, fila]));
+}
+
 // -------------------------------------------------------------- calculo core
 
 // Agrupa por placa + repuesto + variante y encadena eventos consecutivos.
 // Devuelve intervalos validos y descartados (con su motivo) por separado.
-function calcularIntervalos(eventos) {
+// Un cambio hecho dentro de un mantenimiento programado no es una falla: la
+// pieza todavia servia. Para Kaplan-Meier ese intervalo es censurado.
+const esPreventivo = (tipoOt) => /PERIODICO|PREVENTIV/.test(enMayuscula(tipoOt));
+
+function calcularIntervalos(eventos, ultimoOdometro = new Map()) {
   const series = new Map();
+  // Observaciones para la curva de supervivencia, por repuesto.
+  const observaciones = new Map();
+  const anotar = (repuestoId, km, fallo, contexto) => {
+    if (!(km >= KPI_LIMITES.intervaloMinimo && km <= KPI_LIMITES.intervaloMaximo)) return;
+    if (!observaciones.has(repuestoId)) observaciones.set(repuestoId, []);
+    observaciones.get(repuestoId).push({ km, fallo, ...contexto });
+  };
 
   eventos.forEach((evento) => {
     const repuesto = clasificarLinea(evento.descripcion);
@@ -263,11 +405,38 @@ function calcularIntervalos(eventos) {
         descartados.push({ ...base, km, motivo: MOTIVOS.MUY_LARGO });
       } else {
         validos.push({ ...base, km });
+        // El intervalo cuenta como falla salvo que lo haya cerrado un
+        // mantenimiento programado: ahi la pieza se cambio sin haberse acabado.
+        anotar(repuesto.id, km, !esPreventivo(fin.tipoOt), {
+          marca: inicio.marca,
+          modelo: inicio.modelo,
+          cliente: inicio.cliente,
+          placa: inicio.placa,
+        });
       }
+    }
+
+    // La pieza instalada en el ultimo cambio: si el vehiculo volvio despues,
+    // sabemos que llego al menos hasta ese kilometraje sin que la cambiaran.
+    const ultimo = ordenados[ordenados.length - 1];
+    const visita = ultimoOdometro.get(String(ultimo?.placa || "").trim());
+    const kmUltimo = Number(ultimo?.km);
+    const kmVisita = Number(visita?.km);
+    if (
+      kmUltimo >= KPI_LIMITES.kmMinimoValido
+      && kmVisita > kmUltimo
+      && new Date(visita.fecha).getTime() > new Date(ultimo.fecha).getTime()
+    ) {
+      anotar(repuesto.id, kmVisita - kmUltimo, false, {
+        marca: ultimo.marca,
+        modelo: ultimo.modelo,
+        cliente: ultimo.cliente,
+        placa: ultimo.placa,
+      });
     }
   });
 
-  return { validos, descartados };
+  return { validos, descartados, observaciones };
 }
 
 function resumirPor(intervalos, obtenerClave, etiquetar = (clave) => ({ clave })) {
@@ -287,8 +456,11 @@ function resumirPor(intervalos, obtenerClave, etiquetar = (clave) => ({ clave })
 export async function getKpiRepuestos(req, res, next) {
   try {
     const filtros = parseKpiFilters(req);
-    const eventos = await traerEventos(filtros);
-    const { validos, descartados } = calcularIntervalos(eventos);
+    const [eventos, ultimoOdometro] = await Promise.all([
+      traerEventos(filtros),
+      traerUltimoOdometro(filtros),
+    ]);
+    const { validos, descartados, observaciones } = calcularIntervalos(eventos, ultimoOdometro);
 
     const porRepuesto = new Map();
     validos.forEach((intervalo) => {
@@ -299,6 +471,9 @@ export async function getKpiRepuestos(req, res, next) {
     const resumen = KPI_REPUESTOS.map((repuesto) => {
       const intervalos = porRepuesto.get(repuesto.id) || [];
       const stats = estadisticos(intervalos.map((i) => i.km));
+      const vidaUtil = repuesto.naturaleza === "programado"
+        ? intervaloServicio(intervalos.map((i) => i.km))
+        : supervivencia(observaciones.get(repuesto.id) || []);
       const placas = new Set(intervalos.map((i) => i.placa)).size;
       return {
         id: repuesto.id,
@@ -309,10 +484,78 @@ export async function getKpiRepuestos(req, res, next) {
         descartados: descartados.filter((d) => d.repuestoId === repuesto.id).length,
         // La vista muestra el numero igual, pero advierte cuando no hay muestra
         // suficiente para sostenerlo. Un MTTF sobre 1 caso no es un promedio.
-        confiable: stats.n >= KPI_LIMITES.muestraMinima,
         ...stats,
+        // Kaplan-Meier sobre fallas + observaciones censuradas. Es la cifra que
+        // de verdad estima la vida util; `mttf` queda como referencia.
+        km: vidaUtil,
+        // La curva se sostiene en las FALLAS observadas: las piezas que siguen
+        // en servicio aportan informacion, pero no confirman ninguna vida util.
+        confiable: vidaUtil.nFallas >= KPI_LIMITES.muestraMinima,
+        // El frontend necesita saber que pregunta responde la cifra: vida util
+        // de la pieza, o cada cuanto la cambia el taller.
+        naturaleza: repuesto.naturaleza,
       };
     });
+
+    // Vista por modelo: es la que miran los duenos de flota, porque la pregunta
+    // que se hacen no es "cuanto dura una pastilla" sino "cuanto me dura a MI,
+    // en las unidades que tengo". Dos modelos del mismo taller pueden diferir
+    // al doble, y eso cambia que unidad conviene comprar.
+    const porModelo = (() => {
+      const modelos = new Map();
+
+      const registrar = (clave, marca, modelo) => {
+        if (!modelos.has(clave)) {
+          modelos.set(clave, { marca, modelo, placas: new Set(), piezas: {} });
+        }
+        return modelos.get(clave);
+      };
+
+      KPI_REPUESTOS.forEach((repuesto) => {
+        const obs = observaciones.get(repuesto.id) || [];
+        const intervalos = porRepuesto.get(repuesto.id) || [];
+
+        // Se agrupa por modelo y se recalcula con el mismo metodo del total:
+        // promediar los promedios de cada modelo daria otro numero distinto.
+        const porClave = new Map();
+        obs.forEach((o) => {
+          const clave = `${o.marca || "SIN MARCA"}||${o.modelo || "SIN MODELO"}`;
+          if (!porClave.has(clave)) porClave.set(clave, { obs: [], intervalos: [], o });
+          porClave.get(clave).obs.push(o);
+        });
+        intervalos.forEach((i) => {
+          const clave = `${i.marca || "SIN MARCA"}||${i.modelo || "SIN MODELO"}`;
+          if (!porClave.has(clave)) porClave.set(clave, { obs: [], intervalos: [], o: i });
+          porClave.get(clave).intervalos.push(i.km);
+        });
+
+        porClave.forEach((grupo, clave) => {
+          const [marca, modelo] = clave.split("||");
+          const fila = registrar(clave, marca, modelo);
+          grupo.obs.forEach((o) => fila.placas.add(o.placa));
+          const vida = vidaUtilDe(repuesto, grupo.obs, grupo.intervalos);
+          if (vida.nFallas > 0) {
+            fila.piezas[repuesto.id] = {
+              kmMediana: vida.kmMediana,
+              kmB10: vida.kmB10,
+              n: vida.nFallas,
+              confiable: vida.nFallas >= KPI_LIMITES.muestraMinima,
+            };
+          }
+        });
+      });
+
+      return [...modelos.values()]
+        .map((fila) => ({
+          marca: fila.marca,
+          modelo: fila.modelo,
+          placas: fila.placas.size,
+          medidas: Object.keys(fila.piezas).length,
+          piezas: fila.piezas,
+        }))
+        .filter((fila) => fila.medidas > 0)
+        .sort((a, b) => b.placas - a.placas);
+    })();
 
     // Catalogo para el selector: solo las empresas que aportan mediciones, para
     // no ofrecer filtros que devuelven la vista vacia.
@@ -334,6 +577,7 @@ export async function getKpiRepuestos(req, res, next) {
       resumen,
       empresas,
       porEmpresa,
+      porModelo,
       totales: {
         intervalos: validos.length,
         descartados: descartados.length,
@@ -354,12 +598,18 @@ export async function getKpiRepuestoDetalle(req, res, next) {
     }
 
     const filtros = parseKpiFilters(req);
-    const eventos = await traerEventos(filtros);
-    const { validos, descartados } = calcularIntervalos(eventos);
+    const [eventos, ultimoOdometro] = await Promise.all([
+      traerEventos(filtros),
+      traerUltimoOdometro(filtros),
+    ]);
+    const { validos, descartados, observaciones } = calcularIntervalos(eventos, ultimoOdometro);
 
     const mios = validos.filter((i) => i.repuestoId === repuesto.id);
     const miosDescartados = descartados.filter((i) => i.repuestoId === repuesto.id);
     const stats = estadisticos(mios.map((i) => i.km));
+    const vidaUtil = repuesto.naturaleza === "programado"
+      ? intervaloServicio(mios.map((i) => i.km))
+      : supervivencia(observaciones.get(repuesto.id) || []);
 
     // Codigos realmente usados para esta pieza, con cuantas veces se instalo
     // cada uno. Es lo que permite comparar original contra alternativo.
@@ -386,10 +636,21 @@ export async function getKpiRepuestoDetalle(req, res, next) {
     });
 
     res.json({
-      repuesto: { id: repuesto.id, label: repuesto.label, zona: repuesto.zona, vidaRef: repuesto.vidaRef },
+      repuesto: {
+        id: repuesto.id,
+        label: repuesto.label,
+        zona: repuesto.zona,
+        vidaRef: repuesto.vidaRef,
+        naturaleza: repuesto.naturaleza,
+      },
       filtros,
       limites: KPI_LIMITES,
-      resumen: { ...stats, confiable: stats.n >= KPI_LIMITES.muestraMinima },
+      resumen: {
+        ...stats,
+        km: vidaUtil,
+        confiable: vidaUtil.nFallas >= KPI_LIMITES.muestraMinima,
+        naturaleza: repuesto.naturaleza,
+      },
       porModelo: resumirPor(mios, (i) => `${i.marca || "SIN MARCA"}||${i.modelo || "SIN MODELO"}`, (clave) => {
         const [marca, modelo] = clave.split("||");
         return { marca, modelo };

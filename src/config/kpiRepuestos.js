@@ -1,125 +1,180 @@
-// Catalogo de repuestos sobre los que se mide vida util (MTTF) en el modulo KPI.
+// Catalogo de repuestos sobre los que se mide vida util en el modulo KPI.
+//
+// La lista salio de medir TODO el catalogo facturado y quedarse solo con lo que
+// sostiene un calculo: se exigio un minimo de 20 reemplazos encadenados sobre la
+// misma placa. Lo que no llegaba a eso se retiro, porque mostrar una cifra con
+// dos o cuatro casos invita a decidir compras sobre ruido.
 //
 // Cada entrada define:
-//   id       clave estable que usa el frontend (no cambiar: viaja en la URL).
-//   label    nombre para mostrar.
-//   zona     pieza del despiece del vehiculo a la que pertenece.
-//   patrones LIKE que identifican la pieza en detalle_factura_ot.descripcion.
-//   excluir  LIKE que descartan falsos positivos del patron anterior.
-//   variante campo opcional: separa delantero/posterior cuando aplica, porque
-//            el desgaste de un eje no es comparable con el del otro.
-//   vidaRef  vida util de referencia del fabricante, en km. Solo sirve para
-//            contrastar contra lo medido; no entra en ningun calculo.
+//   id        clave estable que usa el frontend (no cambiar: viaja en la URL).
+//   label     nombre para mostrar.
+//   zona      pieza del despiece del vehiculo a la que pertenece.
+//   naturaleza  "desgaste"   la pieza se cambia cuando se acaba -> es vida util
+//               "programado" se cambia porque toca el servicio -> es intervalo
+//                            de mantenimiento, NO vida util. Son cosas distintas
+//                            y mezclarlas haria que ninguna de las dos signifique
+//                            algo (ver nota al final).
+//   patrones  LIKE que identifican la pieza en detalle_factura_ot.descripcion.
+//   excluir   LIKE que descartan falsos positivos del patron anterior.
+//   variante  separa delantero/posterior cuando aplica, porque el desgaste de un
+//             eje no es comparable con el del otro.
+//   vidaRef   referencia del fabricante en km. Solo para contrastar; no entra en
+//             ningun calculo.
 //
 // Los patrones se comparan en mayusculas contra la descripcion de la linea.
 export const KPI_REPUESTOS = Object.freeze([
+  // ----------------------------------------------- piezas de desgaste (MTTF)
   {
     id: "pastillas-freno",
     label: "Pastillas de freno",
     zona: "frenos",
+    naturaleza: "desgaste",
     patrones: ["%PASTILLA%"],
     excluir: [],
     variante: true,
     vidaRef: 40000,
   },
   {
-    id: "disco-freno",
-    label: "Disco de freno",
+    id: "zapatas-freno",
+    label: "Zapatas de freno",
     zona: "frenos",
-    patrones: ["%DISCO%FRENO%"],
-    excluir: ["%EMBRAGUE%"],
-    variante: true,
-    vidaRef: 70000,
+    naturaleza: "desgaste",
+    patrones: ["%ZAPATA%"],
+    excluir: [],
+    variante: false,
+    vidaRef: 60000,
   },
   {
     id: "amortiguador",
     label: "Amortiguador",
     zona: "suspension",
+    naturaleza: "desgaste",
     patrones: ["%AMORTIGUA%"],
     excluir: [],
     variante: true,
     vidaRef: 80000,
   },
   {
-    id: "rotula",
-    label: "Rótula",
-    zona: "suspension",
-    patrones: ["%ROTULA%"],
-    excluir: [],
-    variante: false,
-    vidaRef: 90000,
-  },
-  {
-    id: "bomba-agua",
-    label: "Bomba de agua",
-    zona: "motor",
-    patrones: ["%BOMBA%AGUA%"],
-    excluir: [],
-    variante: false,
-    vidaRef: 100000,
-  },
-  {
-    id: "correa-distribucion",
-    label: "Correa de distribución",
-    zona: "motor",
-    patrones: ["%DISTRIBUCION%", "%CORREA%DENTADA%"],
-    excluir: ["%TAPA%"],
-    variante: false,
-    vidaRef: 90000,
-  },
-  {
-    id: "bomba-combustible",
-    label: "Bomba de combustible",
-    zona: "combustible",
-    patrones: ["%BOMBA%COMBUSTIBLE%", "%BOMBA%GASOLINA%"],
-    excluir: [],
-    variante: false,
-    vidaRef: 120000,
-  },
-  {
     id: "bateria",
     label: "Batería",
     zona: "electrico",
+    naturaleza: "desgaste",
+    // Los bornes y cables se cambian solos, sin tocar la bateria.
     patrones: ["%BATERIA%"],
     excluir: ["%BORNE%", "%CABLE%"],
     variante: false,
     vidaRef: 60000,
   },
   {
-    id: "embrague",
-    label: "Embrague",
-    zona: "transmision",
-    patrones: ["%EMBRAGUE%"],
-    excluir: ["%BOMBA%", "%CANERIA%"],
+    id: "bujias",
+    label: "Bujías",
+    zona: "motor",
+    naturaleza: "desgaste",
+    patrones: ["%BUJIA%"],
+    excluir: ["%CABLE%"],
     variante: false,
-    vidaRef: 120000,
+    vidaRef: 40000,
+  },
+  {
+    id: "faja-accesorios",
+    label: "Faja de accesorios",
+    zona: "motor",
+    naturaleza: "desgaste",
+    // El templador es otra pieza: se cambia aparte y con otra frecuencia.
+    patrones: ["%FAJA%ACCESORIO%", "%CORREA%ACCESORIO%"],
+    excluir: ["%TEMPLADOR%", "%TENSOR%"],
+    variante: false,
+    vidaRef: 60000,
+  },
+  {
+    id: "plumillas",
+    label: "Plumillas",
+    zona: "electrico",
+    naturaleza: "desgaste",
+    patrones: ["%PLUMILLA%"],
+    excluir: [],
+    variante: false,
+    vidaRef: 20000,
+  },
+
+  // ------------------------------------- mantenimiento programado (intervalo)
+  {
+    id: "filtro-aceite",
+    label: "Filtro de aceite",
+    zona: "motor",
+    naturaleza: "programado",
+    patrones: ["%FILTRO%ACEITE%", "%FLTRO%ACEITE%"],
+    excluir: ["%TAPA%", "%LLAVE%"],
+    variante: false,
+    vidaRef: 10000,
+  },
+  {
+    id: "filtro-aire",
+    label: "Filtro de aire",
+    zona: "motor",
+    naturaleza: "programado",
+    patrones: ["%FILTRO%AIRE%"],
+    excluir: ["%ACONDICIONADO%", "%A/C%", "%CABINA%"],
+    variante: false,
+    vidaRef: 20000,
+  },
+  {
+    id: "filtro-cabina",
+    label: "Filtro de cabina",
+    zona: "electrico",
+    naturaleza: "programado",
+    patrones: ["%FILTRO%CABINA%", "%FILTRO%A/C%", "%FILTRO%AIRE ACONDICIONADO%"],
+    excluir: [],
+    variante: false,
+    vidaRef: 20000,
+  },
+  {
+    id: "filtro-combustible",
+    label: "Filtro de combustible",
+    zona: "combustible",
+    naturaleza: "programado",
+    patrones: ["%FILTRO%COMBUSTIBLE%", "%FILTRO%PETROLEO%", "%FILTRO%GASOLINA%"],
+    excluir: [],
+    variante: false,
+    vidaRef: 30000,
   },
 ]);
 
+// Retirados del catalogo por no sostener el calculo (reemplazos encadenados
+// medidos sobre el historial completo, septiembre 2026):
+//   rotula 4 · disco de freno 2 · terminal de direccion 1
+//   embrague 15 · correa de distribucion 18   (bajo el minimo de 20)
+//   bomba de agua 0 · bomba de combustible 0  (ninguna fallo todavia)
+// Volver a incluirlos cuando acumulen historial: basta con agregarlos aqui.
+
 export const KPI_REPUESTOS_POR_ID = Object.freeze(
-  Object.fromEntries(KPI_REPUESTOS.map((r) => [r.id, r])),
+  Object.fromEntries(KPI_REPUESTOS.map((repuesto) => [repuesto.id, repuesto])),
 );
 
-// Reglas de saneamiento del odometro. Un intervalo fuera de estos limites no
-// se descarta en silencio: se reporta aparte con su motivo, para que el taller
-// pueda corregir la captura en recepcion.
+// Por que "desgaste" y "programado" no se promedian juntos:
+// una pastilla se cambia cuando se acaba, asi que el kilometraje entre cambios
+// es su vida util. Un filtro de aceite se cambia porque toca el servicio, asi
+// que ese mismo numero mide la politica de mantenimiento del taller, no cuanto
+// aguanta el filtro. Son dos preguntas distintas y el modulo las separa.
+export const KPI_NATURALEZAS = Object.freeze({
+  desgaste: {
+    label: "Vida útil",
+    detalle: "La pieza se cambia cuando se acaba",
+  },
+  programado: {
+    label: "Intervalo de servicio",
+    detalle: "Se cambia por plan de mantenimiento, no por falla",
+  },
+});
+
 export const KPI_LIMITES = Object.freeze({
-  // Lecturas por debajo de esto son el relleno que graba el ERP cuando nadie
-  // anoto el odometro (se ven muchos "1" y "0"), no un vehiculo nuevo.
   kmMinimoValido: 100,
-  // Un cambio a los pocos kilometros no es desgaste: es garantia, siniestro o
-  // un error de digitacion.
   intervaloMinimo: 2000,
-  // Por arriba, un salto asi grande casi siempre significa que en el medio
-  // hubo un cambio que no se registro en el taller.
   intervaloMaximo: 200000,
-  // Debajo de esta cantidad de intervalos el promedio no representa nada y la
-  // vista lo advierte en vez de mostrar el numero a secas.
   muestraMinima: 20,
 });
 
-// Grupos de cliente que se consideran "flota": vuelven siempre al mismo taller,
-// por lo que su historial de reemplazos esta completo y el intervalo medido es
-// real. En particulares se pierden los cambios hechos fuera y el resultado sale
-// inflado, por eso el modulo trabaja sobre flota por defecto.
+// Grupos de cliente que se consideran flota: son los vehiculos cuyo historial
+// de mantenimiento esta completo en el taller, que es la condicion para poder
+// encadenar reemplazos sin huecos.
 export const KPI_GRUPOS_FLOTA = Object.freeze(["FLOTAS"]);
