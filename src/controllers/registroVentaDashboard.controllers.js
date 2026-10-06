@@ -289,7 +289,7 @@ const getRegistroVentaDashboard = async (req, res, next) => {
       ${whereLocal}
     `;
 
-    const [porMoneda, porDia, porLocal, porDocumento, porPago, porAsesor, porMonedaAnterior, mostrador, porLocalMismoMes, porEmisor] =
+    const [porMoneda, porDia, porLocal, porDocumento, porPago, porAsesor, porMonedaAnterior, mostrador, porLocalMismoMes, porEmisor, porEmisorDia] =
       await Promise.all([
         // Totales del mes por moneda: base para el resumen principal y la comparativa mensual.
         query(
@@ -459,6 +459,39 @@ const getRegistroVentaDashboard = async (req, res, next) => {
           `,
           params,
         ),
+        // Detalle diario de quien emite el comprobante, para hacerle seguimiento:
+        // cuanto factura y cuantas OT distintas facturo cada dia.
+        //
+        // La OT se cuenta desde operacion_relacionada, que trae el numero con
+        // prefijo ("OT-8200002517") mientras orden_trabajo lo guarda sin el. No
+        // hace falta cruzar la tabla: basta contar los numeros distintos.
+        query(
+          `
+            SELECT
+              fecha_documento AS fecha,
+              local_nombre,
+              asesor,
+              SUM(sin_igv) AS sin_igv,
+              COUNT(DISTINCT nro_documento) AS comprobantes,
+              COUNT(DISTINCT ot) AS ots
+            FROM (
+              SELECT
+                nro_documento,
+                local_nombre,
+                COALESCE(NULLIF(TRIM(asesor), ''), 'Sin asesor') AS asesor,
+                MAX(${saleDate}) AS fecha_documento,
+                MAX(${accountingAmount(netSaleAmount)}) AS sin_igv,
+                NULLIF(REPLACE(TRIM(MAX(operacion_relacionada)), 'OT-', ''), '') AS ot
+              FROM registro_venta
+              WHERE ${period}
+                AND ${advisorSalesOnly}
+              GROUP BY nro_documento, local_nombre, COALESCE(NULLIF(TRIM(asesor), ''), 'Sin asesor')
+            ) documentos
+            GROUP BY fecha_documento, local_nombre, asesor
+            ORDER BY fecha_documento, local_nombre, asesor
+          `,
+          params,
+        ),
       ]);
 
     const buildComparativo = (moneda) => {
@@ -555,6 +588,7 @@ const getRegistroVentaDashboard = async (req, res, next) => {
       porAsesor,
       porLocalMismoMes,
       porEmisor,
+      porEmisorDia,
       mostrador: mostrador[0] || { sin_igv: 0, con_igv: 0, comprobantes: 0 },
       comparativoMesAnterior,
     });
